@@ -5,6 +5,13 @@
       "title": "SIDIA",
       "desc": "Sistem Informasi Sinau Digital Unesa",
       "host": "sindig.unesa.ac.id",
+      "keywords": [
+        "sinau digital",
+        "e-learning",
+        "pembelajaran",
+        "kuliah daring",
+        "lms"
+      ],
       "icon": "/app-icons/sindig.unesa.ac.id.png",
       "origin": "https://sindig.unesa.ac.id",
       "prefix": "//"
@@ -75,6 +82,17 @@
       "title": "MELISA",
       "desc": "",
       "host": "melisa.unesa.ac.id",
+      "keywords": [
+        "magang",
+        "mbkm",
+        "merdeka",
+        "kampus merdeka",
+        "internship",
+        "magang mahasiswa",
+        "praktik kerja lapangan",
+        "pkl",
+        "pertukaran mahasiswa"
+      ],
       "icon": "/app-icons/melisa.unesa.ac.id.png",
       "origin": "https://melisa.unesa.ac.id",
       "prefix": "/sso/"
@@ -102,6 +120,12 @@
       "title": "SIM UKT",
       "desc": "sistem informasi manajemen ukt mahasiswa",
       "host": "ukt.unesa.ac.id",
+      "keywords": [
+        "ukt",
+        "uang kuliah tunggal",
+        "tagihan",
+        "pembayaran kuliah"
+      ],
       "icon": "/app-icons/ukt.unesa.ac.id.png",
       "origin": "https://ukt.unesa.ac.id",
       "prefix": "/sso/"
@@ -227,6 +251,13 @@
       "title": "e-Konseling",
       "desc": "Aplikasi Konseling",
       "host": "konseling.unesa.ac.id",
+      "keywords": [
+        "konseling",
+        "bimbingan konseling",
+        "bk",
+        "psikolog",
+        "kesehatan mental"
+      ],
       "icon": "/app-icons/konseling.unesa.ac.id.png",
       "origin": "https://konseling.unesa.ac.id",
       "prefix": "/sso/"
@@ -318,6 +349,7 @@
       "id": "mail.google.com",
       "title": "Gmail",
       "host": "mail.google.com",
+      "keywords": ["email", "surel", "mail", "kotak masuk"],
       "icon": "/app-icons/mail.google.com.png",
       "url": "https://mail.google.com/mail/?authuser=0"
     },

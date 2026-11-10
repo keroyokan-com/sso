@@ -21,6 +21,13 @@ const APPS = [
     title: 'MELISA',
     desc: 'Merdeka Belajar Kampus Merdeka',
     host: 'melisa.unesa.ac.id',
+    keywords: [
+      'magang',
+      'mbkm',
+      'merdeka',
+      'kampus merdeka',
+      'internship',
+    ],
   },
   {
     id: 'ukt.unesa.ac.id',
@@ -75,6 +82,48 @@ test('magang alias surfaces MELISA', () => {
   const results = searchApps(APPS, 'magang');
   assert.deepEqual(titles(results), ['MELISA']);
   assert.ok(ALIASES.magang.includes('melisa.unesa.ac.id'));
+});
+
+test('alias prefixes mag and maga surface MELISA', () => {
+  for (const query of ['mag', 'maga']) {
+    assert.equal(searchApps(APPS, query)[0]?.title, 'MELISA', query);
+  }
+});
+
+test('magang and mbkm surface MELISA first', () => {
+  for (const query of ['magang', 'mbkm']) {
+    assert.equal(searchApps(APPS, query)[0]?.title, 'MELISA', query);
+  }
+});
+
+test('two-letter queries do not trigger alias prefix matching', () => {
+  const bare = { ...melisa, keywords: [] };
+  assert.equal(scoreApp(bare, 'ma'), null);
+});
+
+test('exact title matches outrank alias prefix matches', () => {
+  const apps = [
+    ...APPS,
+    {
+      id: 'magang.unesa.ac.id',
+      title: 'MAGANG',
+      desc: '',
+      host: 'magang.unesa.ac.id',
+    },
+  ];
+
+  assert.equal(searchApps(apps, 'magang')[0].title, 'MAGANG');
+  assert.equal(searchApps(apps, 'mag')[0].title, 'MAGANG');
+});
+
+test('catalog keywords surface MELISA for internship terms', () => {
+  assert.equal(searchApps(APPS, 'internship')[0].title, 'MELISA');
+  assert.equal(searchApps(APPS, 'kampus merdeka')[0].title, 'MELISA');
+});
+
+test('keyword matches outrank fuzzy matches', () => {
+  assert.ok(scoreApp(melisa, 'internship') > scoreApp(melisa, 'mehlisa'));
+  assert.ok(scoreApp(melisa, 'mag') > scoreApp(melisa, 'mehlisa'));
 });
 
 test('MELISA and melisa both return MELISA first', () => {

@@ -9,6 +9,8 @@
  * small and explicit: it only covers vocabulary the catalog does not already
  * contain. `magang` points at MELISA because MELISA hosts Merdeka Belajar
  * Kampus Merdeka (MBKM) internships even though its title/desc do not say so.
+ * Alias keys also match as prefixes once the query is at least
+ * MIN_ALIAS_PREFIX characters long, so `mag` and `maga` find `magang`.
  */
 
 const SCORE = {
@@ -18,6 +20,7 @@ const SCORE = {
   titleCompactPrefix: 840,
   titleTokenPrefix: 800,
   alias: 750,
+  aliasPrefix: 740,
   fieldExact: 700,
   fieldPrefix: 690,
   fieldToken: 680,
@@ -28,6 +31,7 @@ const SCORE = {
 
 const FUZZY_PENALTY = 20;
 const MIN_FUZZY_TOKEN = 4;
+const MIN_ALIAS_PREFIX = 3;
 
 /**
  * Lowercase, strip diacritics (NFD), turn punctuation/symbols into spaces,
@@ -239,14 +243,24 @@ export function scoreApp(app, query) {
     }
   }
 
-  for (const token of qTokens) {
-    const targets = ALIAS_INDEX.get(token);
-    if (!targets) continue;
-    const identifiers = [normalize(app.id), host].filter(Boolean);
-    if (identifiers.some((identifier) => targets.includes(identifier))) {
-      offer(SCORE.alias);
-      break;
+  const identifiers = [normalize(app.id), host].filter(Boolean);
+  const aliasCandidates = [...new Set([q, ...qTokens])];
+
+  for (const candidate of aliasCandidates) {
+    let matched = false;
+    for (const [key, targets] of ALIAS_INDEX) {
+      const exact = candidate === key;
+      const prefix =
+        !exact &&
+        candidate.length >= MIN_ALIAS_PREFIX &&
+        key.startsWith(candidate);
+      if (!exact && !prefix) continue;
+      if (identifiers.some((identifier) => targets.includes(identifier))) {
+        offer(exact ? SCORE.alias : SCORE.aliasPrefix);
+        matched = true;
+      }
     }
+    if (matched) break;
   }
 
   for (const field of fields) {
