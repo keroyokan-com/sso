@@ -51,6 +51,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Port header, logo, theme, name editing, footer, toasts.
 - Reuse `styles.css` tokens; split component styles.
 - Theme boot script before paint (no flash).
+- Done 2026-11-10: Svelte shell at `/next/` with header, name editing, theme, search shortcuts, menu popover, footer link state, and toasts; 68 Playwright checks plus an independent 390/1280 pass.
 
 ### 3. Dashboard components
 
