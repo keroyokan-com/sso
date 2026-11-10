@@ -1,0 +1,12 @@
+name = "sso-lite-preview"
+main = "worker/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "SSO_KV"
+id = "86c39297faa24db2807a4fe21c1d2a2b"
