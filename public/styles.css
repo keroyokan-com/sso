@@ -84,6 +84,29 @@ body {
   background: var(--bg);
 }
 
+@media (max-width: 720px) {
+  body {
+    transition: background-color 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  #app {
+    transform-origin: left top;
+    transition:
+      transform 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+      border-radius 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  #app.drawer-open {
+    transform: translateX(-16px) scale(0.98);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  body.drawer-open-bg {
+    background: #000;
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: var(--on-accent);

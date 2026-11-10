@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { Drawer } from 'vaul-svelte';
   import {
     SECTION_DEFS,
@@ -17,12 +17,23 @@
   let listEl = $state(null);
   let drag = $state(null);
   let announcement = $state('');
+  let isMobile = $state(false);
 
   const rows = $derived(
     settingsState.order
       .map((id) => ({ id, def: SECTION_DEFS.find((entry) => entry.id === id) }))
       .filter((row) => row.def)
   );
+
+  onMount(() => {
+    const query = matchMedia('(max-width: 720px)');
+    const update = () => {
+      isMobile = query.matches;
+    };
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  });
 
   function close() {
     if (settingsOpen()) closeSettings();
@@ -146,6 +157,24 @@
   $effect(() => {
     if (!settingsOpen()) drag = null;
   });
+
+  $effect(() => {
+    const open = settingsOpen();
+    const mobile = isMobile;
+    const app = document.getElementById('app');
+    const body = document.body;
+    if (!app || !body) return;
+
+    if (open && mobile) {
+      app.classList.add('drawer-open');
+      body.classList.add('drawer-open-bg');
+    }
+
+    return () => {
+      app.classList.remove('drawer-open');
+      body.classList.remove('drawer-open-bg');
+    };
+  });
 </script>
 
 <Drawer.Root
@@ -154,7 +183,7 @@
   direction="right"
   autoFocus={true}
   dismissible={true}
-  shouldScaleBackground={true}
+  shouldScaleBackground={!isMobile}
 >
   <Drawer.Portal>
     <Drawer.Overlay class="settings-overlay" />
