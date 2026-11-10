@@ -132,6 +132,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Port link-token store and guest fallback; no API changes required.
 - Keep cookie/local flows working; local `npm start` unchanged.
 - Ensure the SPA works when `/api/state` fails (guest/catalog).
+- [x] Modes and API parity: per-app link store, guest catalog cache, cookie/local `/api/state` and `/api/refresh`, connecting poll, expired banner, local `/go/` links ([#7](https://github.com/keroyokan-com/sso/issues/7)).
 - [ ] Redesign `/connect` as a stepper; simplify `link-guide.svg` to the page palette, focus on Copy link address + SIDIA, and cut repetitive copy ([#17](https://github.com/keroyokan-com/sso/issues/17)).
 - [ ] Connect approach tabs with platform-aware instructions: Link/Cookie folder tabs, mobile/desktop step copy, cookie form in its tab ([#25](https://github.com/keroyokan-com/sso/issues/25)).
 

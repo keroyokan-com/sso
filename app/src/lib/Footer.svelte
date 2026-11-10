@@ -15,6 +15,7 @@
   const statusText = $derived.by(() => {
     if (dashboard.connecting) return 'Menghubungkan…';
     if (!dashboard.ready) return 'Memuat…';
+    if (dashboard.expired) return 'Sesi habis';
     if (dashboard.mode === 'link') return 'Link aktif';
     if (dashboard.mode === 'guest') return 'Mode tamu';
     if (dashboard.authenticated) return 'Sesi aktif';
@@ -24,10 +25,12 @@
   const needsAttention = $derived(
     dashboard.connecting ||
       !dashboard.ready ||
+      dashboard.expired ||
       (!dashboard.authenticated && dashboard.mode !== 'guest')
   );
 
   const syncText = $derived.by(() => {
+    if (dashboard.expired) return '';
     if (dashboard.mode === 'link' && dashboard.updatedAt) {
       return `Link · ${relativeTime(dashboard.updatedAt, now)}`;
     }
@@ -37,11 +40,13 @@
   });
 
   const actionLabel = $derived(
-    dashboard.mode === 'link'
-      ? 'Ganti link'
-      : dashboard.mode === 'guest'
-        ? 'Hubungkan'
-        : 'Refresh'
+    dashboard.expired
+      ? 'Sambungkan'
+      : dashboard.mode === 'link'
+        ? 'Ganti link'
+        : dashboard.mode === 'guest'
+          ? 'Hubungkan'
+          : 'Refresh'
   );
 </script>
 
@@ -56,7 +61,15 @@
       <span id="syncText">{syncText}</span>
     {/if}
   </div>
-  <button id="refreshBtn" class="ghost-btn" type="button" onclick={refreshDashboard}>
+  <button
+    id="refreshBtn"
+    class="ghost-btn"
+    class:spinning={dashboard.refreshing}
+    type="button"
+    disabled={dashboard.refreshing}
+    aria-busy={dashboard.refreshing}
+    onclick={refreshDashboard}
+  >
     <svg><use href="#i-refresh" /></svg>
     <span id="refreshLabel">{actionLabel}</span>
   </button>

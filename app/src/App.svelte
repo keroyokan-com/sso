@@ -8,12 +8,18 @@
   import FolderRow from './lib/FolderRow.svelte';
   import FolderDialog from './lib/FolderDialog.svelte';
   import AppSection from './lib/AppSection.svelte';
-  import { dashboard, initDashboard, toggleFavorite } from './lib/dashboard.svelte.js';
+  import {
+    cancelConnect,
+    connectDashboard,
+    dashboard,
+    initDashboard,
+    syncStoredLinks,
+    toggleFavorite,
+  } from './lib/dashboard.svelte.js';
   import { buildFolders } from './lib/dashboard-data.js';
   import { settingsState } from './lib/settingsStore.svelte.js';
   import { searchApps } from './lib/search.mjs';
   import { showToast } from './lib/toast.svelte.js';
-  import { refreshLinks } from './lib/links.svelte.js';
 
   let searchBar;
   let sections = $state({
@@ -46,6 +52,7 @@
   const hasApps = $derived(dashboard.apps.length + dashboard.google.length > 0);
   const showBanner = $derived(
     dashboard.connecting ||
+      (dashboard.ready && dashboard.expired) ||
       (dashboard.ready && dashboard.mode === 'guest') ||
       (dashboard.ready && Boolean(dashboard.error)) ||
       (dashboard.ready && !dashboard.authenticated && hasApps)
@@ -156,7 +163,7 @@
     initDashboard();
 
     const onStorage = (event) => {
-      if (!event.key || event.key === 'sso.links') refreshLinks();
+      if (!event.key || event.key === 'sso.links' || event.key === 'sso.link') syncStoredLinks();
     };
     window.addEventListener('storage', onStorage);
     window.addEventListener('keydown', onKeydown);
@@ -182,6 +189,21 @@
           <strong>Menunggu login di jendela Chrome.</strong>
           Selesaikan login Google, halaman ini lanjut sendiri.
         </span>
+        <button class="btn" type="button" onclick={cancelConnect}>Batal</button>
+      </div>
+    {:else if dashboard.expired}
+      <div class="banner">
+        <span class="dot amber" aria-hidden="true"></span>
+        <span class="grow">
+          {#if dashboard.mode === 'link'}
+            <strong>Link kedaluwarsa.</strong>
+            Sambungkan ulang untuk membuka layanan.
+          {:else}
+            <strong>Sesi habis.</strong>
+            Sambungkan ulang untuk membuka layanan.
+          {/if}
+        </span>
+        <button class="btn" type="button" onclick={connectDashboard}>Sambungkan</button>
       </div>
     {:else if dashboard.mode === 'guest'}
       <div class="banner">
@@ -196,13 +218,13 @@
       <div class="banner">
         <span class="dot red" aria-hidden="true"></span>
         <span class="grow"><strong>Login gagal.</strong> {dashboard.error}</span>
-        <a class="btn" href="/connect.html">Coba lagi</a>
+        <button class="btn" type="button" onclick={connectDashboard}>Coba lagi</button>
       </div>
     {:else if !dashboard.authenticated && hasApps}
       <div class="banner">
         <span class="dot amber" aria-hidden="true"></span>
         <span class="grow"><strong>Sesi habis.</strong> Sambungkan ulang untuk membuka layanan.</span>
-        <a class="btn" href="/connect.html">Sambungkan</a>
+        <button class="btn" type="button" onclick={connectDashboard}>Sambungkan</button>
       </div>
     {/if}
   </div>

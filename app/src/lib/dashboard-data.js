@@ -72,9 +72,14 @@ export const FOLDER_DEFS = [
 
 export function buildServiceLink(app, stored) {
   if (app.url) return app.url;
-  const token = stored?.newest?.token;
-  if (token && app.origin && app.prefix) {
-    return `${app.origin}${app.prefix}${stored.email}/${token}`;
+
+  const entry = stored?.links?.[app.host] || stored?.links?.[app.id];
+  if (entry?.url) return entry.url;
+
+  const token = entry?.token || stored?.newest?.token;
+  const email = entry?.email || stored?.newest?.email || stored?.email;
+  if (token && app.origin && app.prefix && email) {
+    return `${app.origin}${app.prefix}${email}/${token}`;
   }
   if (app.origin) return app.origin + '/';
   return null;
