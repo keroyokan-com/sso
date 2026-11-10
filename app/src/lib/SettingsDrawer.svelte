@@ -18,6 +18,7 @@
   let drag = $state(null);
   let announcement = $state('');
   let isMobile = $state(false);
+  let vaulOpen = $state(settingsOpen());
 
   const rows = $derived(
     settingsState.order
@@ -40,8 +41,13 @@
   }
 
   function onOpenChange(open) {
-    if (!open && settingsOpen()) closeSettings();
+    if (!open) closeSettings();
   }
+
+  $effect(() => {
+    const next = settingsOpen();
+    if (vaulOpen !== next) vaulOpen = next;
+  });
 
   function onCloseAutoFocus(event) {
     event.preventDefault();
@@ -178,7 +184,7 @@
 </script>
 
 <Drawer.Root
-  open={settingsOpen()}
+  bind:open={vaulOpen}
   onOpenChange={onOpenChange}
   direction="right"
   autoFocus={true}
