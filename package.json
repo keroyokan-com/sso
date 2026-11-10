@@ -18,6 +18,8 @@
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
+    "@dnd-kit-svelte/core": "^0.0.11",
+    "@dnd-kit-svelte/sortable": "^0.0.11",
     "bits-ui": "^1.8.0",
     "motion": "^14.10.1",
     "playwright-core": "^1.65.0",
