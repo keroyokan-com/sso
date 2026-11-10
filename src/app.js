@@ -15,6 +15,7 @@ const SECTION_DEFS = [
 ];
 const CHEVRON =
   '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const APP_ICON_PATH = /^\/app-icons\/([^/]+)\.png$/;
 
 const el = {
   search: document.getElementById('search'),
@@ -925,16 +926,19 @@ function folderTile(app, kind) {
   if (kind === 'mini') cell.dataset.appId = app.id;
 
   if (app.icon) {
-    const img = document.createElement('img');
-    img.src = app.icon;
-    img.alt = '';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    img.className = kind === 'large' ? 'folder-tile' : 'folder-mini-tile';
-    img.addEventListener('error', () => cell.replaceChildren(folderLetter(app.title, kind)), {
-      once: true,
-    });
-    cell.appendChild(img);
+    const large = kind === 'large';
+    const size = large ? 46 : 21;
+    cell.appendChild(
+      iconImage(app, {
+        className: large ? 'folder-tile' : 'folder-mini-tile',
+        width: size,
+        height: size,
+        sizes: `${size}px`,
+        loading: 'eager',
+        fetchPriority: large ? 'high' : null,
+        onError: () => cell.replaceChildren(folderLetter(app.title, kind)),
+      })
+    );
   } else {
     cell.appendChild(folderLetter(app.title, kind));
   }
@@ -947,6 +951,51 @@ function folderLetter(title, kind) {
   letter.className = kind === 'large' ? 'folder-letter' : 'folder-letter folder-letter-mini';
   letter.textContent = (title.match(/[a-z0-9]/i) || ['?'])[0].toUpperCase();
   return letter;
+}
+
+function appIconSources(src) {
+  const match = APP_ICON_PATH.exec(src || '');
+  if (!match) return null;
+  const name = match[1];
+  return {
+    avif: `/app-icons/48/${name}.avif 48w, /app-icons/96/${name}.avif 96w`,
+    webp: `/app-icons/48/${name}.webp 48w, /app-icons/96/${name}.webp 96w`,
+    png: src,
+  };
+}
+
+function iconImage(app, options) {
+  const sources = appIconSources(app.icon);
+  const img = document.createElement('img');
+  img.src = sources ? sources.png : app.icon;
+  img.alt = '';
+  img.width = options.width;
+  img.height = options.height;
+  img.sizes = options.sizes;
+  img.loading = options.loading;
+  img.decoding = 'async';
+  if (options.className) img.className = options.className;
+  if (options.fetchPriority) img.setAttribute('fetchpriority', options.fetchPriority);
+  if (options.onError) img.addEventListener('error', options.onError, { once: true });
+
+  if (!sources) return img;
+
+  const picture = document.createElement('picture');
+  picture.style.display = 'contents';
+
+  for (const [type, srcset] of [
+    ['image/avif', sources.avif],
+    ['image/webp', sources.webp],
+  ]) {
+    const source = document.createElement('source');
+    source.type = type;
+    source.srcset = srcset;
+    source.sizes = options.sizes;
+    picture.appendChild(source);
+  }
+
+  picture.appendChild(img);
+  return picture;
 }
 
 function resetFolderOverlay() {
@@ -997,15 +1046,15 @@ function openFolder(folderId, trigger) {
 
     const icon = link.querySelector('.folder-app-icon');
     if (app.icon) {
-      const img = document.createElement('img');
-      img.src = app.icon;
-      img.alt = '';
-      img.loading = 'eager';
-      img.decoding = 'async';
-      img.addEventListener('error', () => icon.replaceChildren(folderLetter(app.title, 'large')), {
-        once: true,
-      });
-      icon.appendChild(img);
+      icon.appendChild(
+        iconImage(app, {
+          width: 56,
+          height: 56,
+          sizes: '56px',
+          loading: 'eager',
+          onError: () => icon.replaceChildren(folderLetter(app.title, 'large')),
+        })
+      );
     } else {
       icon.appendChild(folderLetter(app.title, 'large'));
     }
@@ -1323,15 +1372,15 @@ function makeCard(app) {
 
   const iconBox = node.querySelector('.app-icon');
   if (app.icon) {
-    const img = document.createElement('img');
-    img.src = app.icon;
-    img.alt = '';
-    img.width = 24;
-    img.height = 24;
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    img.addEventListener('error', () => setLetter(iconBox, app.title), { once: true });
-    iconBox.appendChild(img);
+    iconBox.appendChild(
+      iconImage(app, {
+        width: 38,
+        height: 38,
+        sizes: '38px',
+        loading: 'lazy',
+        onError: () => setLetter(iconBox, app.title),
+      })
+    );
   } else {
     setLetter(iconBox, app.title);
   }
