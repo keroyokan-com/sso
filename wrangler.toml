@@ -1,0 +1,14 @@
+name = "sso-lite"
+main = "worker/index.js"
+compatibility_date = "2026-11-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[triggers]
+crons = ["*/40 * * * *"]
+
+[[kv_namespaces]]
+binding = "SSO_KV"
+id = "9c94ee39fc084a85b3f4687151926863"

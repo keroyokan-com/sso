@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>FAQ — sso by keroyokan</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0b0b'/%3E%3Crect x='8' y='8' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='18' y='8' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='8' y='18' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='18' y='18' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3C/svg%3E">
+<script>
+try {
+  var savedTheme = localStorage.getItem('sso.theme');
+  if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.dataset.theme = 'dark';
+  }
+} catch (e) {}
+</script>
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .faq-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 28px 72px;
+  }
+
+  .faq-page h1 {
+    font-size: 30px;
+  }
+
+  .lead {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .faq-list {
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .faq-item {
+    padding: 0 18px;
+    background: var(--surface);
+    border: 0;
+    border-radius: var(--r-lg);
+  }
+
+  .faq-item summary {
+    list-style: none;
+    padding: 16px 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: "+";
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .faq-item[open] summary::after {
+    content: "−";
+  }
+
+  .faq-item p {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  .faq-item p:last-child {
+    padding-bottom: 16px;
+  }
+
+  .faq-item a {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 520px) {
+    .faq-page {
+      padding: 36px 20px 56px;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="/" aria-label="SSO Lite">
+      <span class="brand-logo" aria-hidden="true"></span>
+    </a>
+    <a class="ghost-btn" href="/">Kembali</a>
+  </div>
+</header>
+
+<main class="faq-page">
+  <h1>FAQ</h1>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Apa itu sso by keroyokan?</summary>
+      <p>Launcher ringan untuk layanan UNESA. Fokusnya cuma satu: buka layanan kampus dengan cepat.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Apakah ini resmi dari UNESA?</summary>
+      <p>Tidak. Ini proyek independen, tidak berafiliasi dengan UNESA.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Apakah data saya disimpan di server?</summary>
+      <p>Tidak. Link dan token disimpan di browser kamu (localStorage). Cookie hanya dipakai kalau kamu memilih mode cookie, dan disimpan di server yang kamu jalankan sendiri.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Kenapa harus tempel link SSO?</summary>
+      <p>Dashboard SSO memberi satu token global per render untuk semua layanan. Satu link yang masih baru bisa membuka banyak layanan sekaligus; tidak perlu copy link per aplikasi.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Kenapa link cepat kedaluwarsa?</summary>
+      <p>Token SSO berumur pendek. Kalau ada layanan yang minta login lagi, buka dashboard SSO, copy satu link baru, lalu tempel di halaman Hubungkan. Satu link baru cukup untuk semua.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Bisa self-host?</summary>
+      <p>Bisa. Itu salah satu tujuan proyek ini. Repo berisi Worker, server lokal, dan panduan deploy. Kalau tidak percaya instance hosted, jalankan sendiri.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Bagaimana cara deploy ke Cloudflare atau Vercel?</summary>
+      <p>Lihat dokumentasi deploy button: <a href="https://developers.cloudflare.com/workers/platform/deploy-buttons/" target="_blank" rel="noopener">Cloudflare Workers</a> dan <a href="https://vercel.com/docs/deploy-button" target="_blank" rel="noopener">Vercel</a>. Tombol deploy akan ditambahkan ke README saat port Svelte siap.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Apakah gratis?</summary>
+      <p>Ya, dan open source selamanya.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Bagaimana cara menghapus data saya?</summary>
+      <p>Buka halaman Hubungkan lalu gunakan tombol Putuskan akun, atau hapus data situs lewat pengaturan browser. Semua state ada di perangkat kamu.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>Ada bug atau ide?</summary>
+      <p>Buka issue di repo proyek. Sertakan langkah reproduksi dan versi yang kamu pakai.</p>
+    </details>
+  </div>
+</main>
+</body>
+</html>

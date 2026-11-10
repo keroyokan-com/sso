@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>sso by keroyokan</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0b0b'/%3E%3Crect x='8' y='8' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='18' y='8' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='8' y='18' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='18' y='18' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3C/svg%3E">
+<script>
+try {
+  var savedTheme = localStorage.getItem('sso.theme');
+  if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.dataset.theme = 'dark';
+  }
+} catch (e) {}
+</script>
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .connect-page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 28px 72px;
+  }
+
+  .connect-page h1 {
+    font-size: 30px;
+  }
+
+  .lead {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .panel {
+    margin-top: 22px;
+    padding: 20px;
+    background: var(--surface);
+    border: 0;
+    border-radius: var(--r-lg);
+  }
+
+  .panel h2 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .link-guide {
+    margin: 0 0 18px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #121820;
+  }
+
+  .link-guide img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .steps {
+    margin: 0 0 18px;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .steps li + li {
+    margin-top: 7px;
+  }
+
+  .steps a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .steps strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 92px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 9px;
+    background: var(--surface-2);
+    color: var(--text);
+    font: 12.5px/1.55 var(--font);
+    resize: vertical;
+    caret-color: var(--accent);
+  }
+
+  textarea::placeholder {
+    color: var(--faint);
+    opacity: 1;
+  }
+
+  textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .status {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  .status.error {
+    color: var(--red);
+  }
+
+  .current-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .current-who {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13.5px;
+    overflow-wrap: anywhere;
+  }
+
+  .muted {
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+
+  .fine {
+    margin: 22px 0 0;
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--faint);
+  }
+
+  .advanced {
+    margin-top: 22px;
+  }
+
+  .advanced summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 6px 0;
+    font-size: 12px;
+    color: var(--faint);
+    user-select: none;
+  }
+
+  .advanced summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .advanced summary::before {
+    content: "+ ";
+  }
+
+  .advanced[open] summary::before {
+    content: "− ";
+  }
+
+  .advanced .panel {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 520px) {
+    .connect-page {
+      padding: 36px 20px 56px;
+    }
+
+    .current-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="/" aria-label="SSO Lite">
+      <span class="brand-logo" aria-hidden="true"></span>
+    </a>
+    <a class="ghost-btn" href="/">Kembali</a>
+  </div>
+</header>
+
+<main class="connect-page">
+  <h1>Hubungkan akun</h1>
+
+  <div id="current" class="panel" hidden>
+    <div class="current-row">
+      <div>
+        <h2>Terhubung</h2>
+        <p class="current-who" id="currentWho"></p>
+      </div>
+      <button id="disconnectBtn" class="btn" type="button" hidden>Putuskan akun</button>
+    </div>
+  </div>
+
+  <form id="linkForm" class="panel" novalidate>
+    <h2>Tempel link SSO</h2>
+    <figure class="link-guide"><img src="/link-guide.svg" width="480" height="420" alt="Menu klik kanan Chrome: pilih Copy link address." loading="lazy" decoding="async"></figure>
+    <ol class="steps">
+      <li>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">sso.unesa.ac.id/dashboard</a> dan login.</li>
+      <li>Di HP, tekan lama salah satu aplikasi (mis. SIDIA); di desktop, klik kanan. Lalu pilih <strong>Copy link address</strong>.</li>
+      <li>Tempel link-nya di bawah, lalu klik Hubungkan.</li>
+    </ol>
+
+    <label for="linkInput">Link aplikasi</label>
+    <p class="muted">Satu link cukup untuk semua app. Kalau ada app yang minta login, tempel link baru dari dashboard.</p>
+    <textarea id="linkInput" rows="3" placeholder="https://sindig.unesa.ac.id//..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+
+    <div class="form-row">
+      <button class="btn primary" type="submit" id="linkSubmit">Hubungkan via link</button>
+      <span class="status" id="linkStatus" role="status"></span>
+    </div>
+
+    <p class="fine">Link hanya disimpan di browser ini, bukan di server. Jangan bagikan link ini ke orang lain.</p>
+  </form>
+
+  <details class="advanced">
+    <summary>Cookie (desktop / advanced)</summary>
+    <form id="cookieForm" class="panel" novalidate>
+      <h2>Ambil cookie sesi</h2>
+      <ol class="steps">
+        <li>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">sso.unesa.ac.id/dashboard</a> dan pastikan sudah login.</li>
+        <li>Buka DevTools (F12) → tab <strong>Network</strong>, lalu refresh halaman.</li>
+        <li>Klik request <strong>dashboard</strong> (tipe document).</li>
+        <li>Di bagian <strong>Request Headers</strong>, copy seluruh nilai header <strong>cookie</strong>.</li>
+        <li>Paste di bawah, lalu klik Hubungkan.</li>
+      </ol>
+
+      <label for="cookieInput">Cookie header</label>
+      <textarea id="cookieInput" rows="4" placeholder="laravel_session=...; XSRF-TOKEN=..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+
+      <div class="form-row">
+        <button class="btn primary" type="submit" id="submitBtn">Hubungkan via cookie</button>
+        <span class="status" id="status" role="status"></span>
+      </div>
+    </form>
+  </details>
+
+  <div id="localBox" class="panel" hidden>
+    <h2>Mode lokal</h2>
+    <p class="muted">Buka jendela Chrome untuk login otomatis (khusus server lokal).</p>
+    <button class="btn" type="button" id="localLogin">Buka jendela login</button>
+  </div>
+
+  <p class="fine">Link disimpan di browser ini saja. Cookie (opsi advanced) disimpan di server hanya untuk mengambil daftar layanan, dan bisa diputus kapan saja. SSO Lite bukan layanan resmi UNESA.</p>
+</main>
+
+<script src="/connect.js" defer></script>
+</body>
+</html>

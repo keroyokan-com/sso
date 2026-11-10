@@ -1,0 +1,356 @@
+{
+  "apps": [
+    {
+      "id": "sindig.unesa.ac.id",
+      "title": "SIDIA",
+      "desc": "Sistem Informasi Sinau Digital Unesa",
+      "host": "sindig.unesa.ac.id",
+      "icon": "/app-icons/sindig.unesa.ac.id.png",
+      "origin": "https://sindig.unesa.ac.id",
+      "prefix": "//"
+    },
+    {
+      "id": "neoyudisium.unesa.ac.id",
+      "title": "neoYUDISIUM",
+      "desc": "Sistem Informasi Pendaftaran Yudisium",
+      "host": "neoyudisium.unesa.ac.id",
+      "icon": "/app-icons/neoyudisium.unesa.ac.id.png",
+      "origin": "https://neoyudisium.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "journal.unesa.ac.id",
+      "title": "Journal UNESA",
+      "desc": "Jurnal Universitas Negeri Surabaya",
+      "host": "journal.unesa.ac.id",
+      "icon": "/app-icons/journal.unesa.ac.id.png",
+      "url": "https://journal.unesa.ac.id/"
+    },
+    {
+      "id": "iopac.unesa.ac.id",
+      "title": "OPAC Integrated",
+      "desc": "Online Public Access Catalogue",
+      "host": "iopac.unesa.ac.id",
+      "icon": "/app-icons/iopac.unesa.ac.id.png",
+      "url": "http://iopac.unesa.ac.id/"
+    },
+    {
+      "id": "digilib.unesa.ac.id",
+      "title": "Unggah Karya Akhir",
+      "desc": "",
+      "host": "digilib.unesa.ac.id",
+      "icon": "/app-icons/digilib.unesa.ac.id.png",
+      "origin": "https://digilib.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "pusbatep.unesa.ac.id",
+      "title": "TEP",
+      "desc": "Test of English Proficiency (TEP)",
+      "host": "pusbatep.unesa.ac.id",
+      "icon": "/app-icons/pusbatep.unesa.ac.id.png",
+      "origin": "https://pusbatep.unesa.ac.id",
+      "prefix": "/landing-page/sso/"
+    },
+    {
+      "id": "apps-lib.unesa.ac.id",
+      "title": "Lobby Perpus",
+      "desc": "Pilih Jadwal",
+      "host": "apps-lib.unesa.ac.id",
+      "icon": "/app-icons/apps-lib.unesa.ac.id.png",
+      "origin": "https://apps-lib.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "simlppm.unesa.ac.id",
+      "title": "SIM LPPM",
+      "desc": "Sistem Informasi Manajemen Lembaga Penelitian dan Pengabdian Masyarakat",
+      "host": "simlppm.unesa.ac.id",
+      "icon": "/app-icons/simlppm.unesa.ac.id.png",
+      "origin": "https://simlppm.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "melisa.unesa.ac.id",
+      "title": "MELISA",
+      "desc": "",
+      "host": "melisa.unesa.ac.id",
+      "icon": "/app-icons/melisa.unesa.ac.id.png",
+      "origin": "https://melisa.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "siani.unesa.ac.id",
+      "title": "SIANI",
+      "desc": "Sistem Informasi Antrian Ijazah",
+      "host": "siani.unesa.ac.id",
+      "icon": "/app-icons/siani.unesa.ac.id.png",
+      "origin": "https://siani.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "vmsul.unesa.ac.id",
+      "title": "Kartu Perpus Elektronik",
+      "desc": "",
+      "host": "vmsul.unesa.ac.id",
+      "icon": "/app-icons/vmsul.unesa.ac.id.png",
+      "origin": "https://vmsul.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "ukt.unesa.ac.id",
+      "title": "SIM UKT",
+      "desc": "sistem informasi manajemen ukt mahasiswa",
+      "host": "ukt.unesa.ac.id",
+      "icon": "/app-icons/ukt.unesa.ac.id.png",
+      "origin": "https://ukt.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "simpromas.unesa.ac.id",
+      "title": "SIMPROMAS",
+      "desc": "Sistem Informasi Manajemen Prosiding Mahasiswa",
+      "host": "simpromas.unesa.ac.id",
+      "icon": "/app-icons/simpromas.unesa.ac.id.png",
+      "origin": "http://simpromas.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "lsp.unesa.ac.id",
+      "title": "LSP",
+      "desc": "Lembaga Sertifikasi Profesi Pihak Pertama",
+      "host": "lsp.unesa.ac.id",
+      "icon": "/app-icons/lsp.unesa.ac.id.png",
+      "origin": "https://lsp.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "bebaslab.unesa.ac.id",
+      "title": "BEBASLAB",
+      "desc": "Sistem Bebaslab UNESA",
+      "host": "bebaslab.unesa.ac.id",
+      "icon": "/app-icons/bebaslab.unesa.ac.id.png",
+      "origin": "https://bebaslab.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "sijuna.unesa.ac.id",
+      "title": "SIJUNA",
+      "desc": "Sistem Informasi Journal",
+      "host": "sijuna.unesa.ac.id",
+      "icon": "/app-icons/sijuna.unesa.ac.id.png",
+      "origin": "https://sijuna.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "siolos.unesa.ac.id",
+      "title": "SIOLOS",
+      "desc": "Sistem Informasi One Lecture One Scopus",
+      "host": "siolos.unesa.ac.id",
+      "icon": "/app-icons/siolos.unesa.ac.id.png",
+      "origin": "https://siolos.unesa.ac.id",
+      "prefix": "/landing-page/sso/"
+    },
+    {
+      "id": "tracerstudy.unesa.ac.id",
+      "title": "TRACER STUDY",
+      "desc": "Sistem Informasi Monitoring Alumni",
+      "host": "tracerstudy.unesa.ac.id",
+      "icon": "/app-icons/tracerstudy.unesa.ac.id.png",
+      "url": "https://tracerstudy.unesa.ac.id/"
+    },
+    {
+      "id": "e-layanan.unesa.ac.id",
+      "title": "e-Layanan",
+      "desc": "e-Layanan UNESA",
+      "host": "e-layanan.unesa.ac.id",
+      "icon": "/app-icons/e-layanan.unesa.ac.id.png",
+      "origin": "http://e-layanan.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "unesa.me",
+      "title": "UNESA.ME",
+      "desc": "Aplikasi Shorter URL",
+      "host": "unesa.me",
+      "icon": "/app-icons/unesa.me.png",
+      "origin": "https://unesa.me",
+      "prefix": "/sso.php/"
+    },
+    {
+      "id": "umc.unesa.ac.id",
+      "title": "UMC",
+      "desc": "Sistem Informasi Klinik Unesa",
+      "host": "umc.unesa.ac.id",
+      "icon": "/app-icons/umc.unesa.ac.id.png",
+      "origin": "https://umc.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "siyapa.unesa.ac.id",
+      "title": "SIYAPA",
+      "desc": "Sistem Informasi Layanan dan Pengaduan",
+      "host": "siyapa.unesa.ac.id",
+      "icon": "/app-icons/siyapa.unesa.ac.id.png",
+      "origin": "https://siyapa.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "dashboard.unesa.ac.id",
+      "title": "UNESA Dashboard Sistem",
+      "desc": "",
+      "host": "dashboard.unesa.ac.id",
+      "icon": "/app-icons/dashboard.unesa.ac.id.png",
+      "origin": "https://dashboard.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "edunesamall.unesa.ac.id",
+      "title": "EDUNESA",
+      "desc": "Sistem Edukasi UNESA",
+      "host": "edunesamall.unesa.ac.id",
+      "icon": "/app-icons/edunesamall.unesa.ac.id.png",
+      "origin": "https://edunesamall.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "jdih.unesa.ac.id",
+      "title": "JDIH",
+      "desc": "JDIH Unesa",
+      "host": "jdih.unesa.ac.id",
+      "icon": "/app-icons/jdih.unesa.ac.id.png",
+      "origin": "https://jdih.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "konseling.unesa.ac.id",
+      "title": "e-Konseling",
+      "desc": "Aplikasi Konseling",
+      "host": "konseling.unesa.ac.id",
+      "icon": "/app-icons/konseling.unesa.ac.id.png",
+      "origin": "https://konseling.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "e-audit.unesa.ac.id",
+      "title": "SIAUDI",
+      "desc": "Sistem Informasi Audit Internal Unesa",
+      "host": "e-audit.unesa.ac.id",
+      "icon": "/app-icons/e-audit.unesa.ac.id.png",
+      "origin": "https://e-audit.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "simarko.unesa.ac.id",
+      "title": "SIMARKO",
+      "desc": "Sistem Informasi Manajemen Risiko",
+      "host": "simarko.unesa.ac.id",
+      "icon": "/app-icons/simarko.unesa.ac.id.png",
+      "origin": "https://simarko.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "internetaccess.unesa.ac.id",
+      "title": "Internet Access",
+      "desc": "Akses internet UNESA",
+      "host": "internetaccess.unesa.ac.id",
+      "icon": "/app-icons/internetaccess.unesa.ac.id.png",
+      "origin": "https://internetaccess.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "sipena2.unesa.ac.id",
+      "title": "SIPENA",
+      "desc": "Sistem Informasi Penilaian Non Akademik",
+      "host": "sipena2.unesa.ac.id",
+      "icon": "/app-icons/sipena2.unesa.ac.id.png",
+      "origin": "https://sipena2.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "pkkmb.unesa.ac.id",
+      "title": "PKKMB",
+      "desc": "",
+      "host": "pkkmb.unesa.ac.id",
+      "icon": "/app-icons/pkkmb.unesa.ac.id.png",
+      "origin": "https://pkkmb.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "pemira.unesa.ac.id",
+      "title": "PEMIRA",
+      "desc": "Pemira",
+      "host": "pemira.unesa.ac.id",
+      "icon": "/app-icons/pemira.unesa.ac.id.png",
+      "origin": "https://pemira.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "simpelmawa.unesa.ac.id",
+      "title": "SIMPELMAWA",
+      "desc": "Sistem Informasi Pelaporan Mahasiswa",
+      "host": "simpelmawa.unesa.ac.id",
+      "icon": "/app-icons/simpelmawa.unesa.ac.id.png",
+      "origin": "https://simpelmawa.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "simpkm.unesa.ac.id",
+      "title": "SIMPKM",
+      "desc": "Sistem Informasi Manajemen Program Kreativitas Mahasiswa",
+      "host": "simpkm.unesa.ac.id",
+      "icon": "/app-icons/simpkm.unesa.ac.id.png",
+      "origin": "https://simpkm.unesa.ac.id",
+      "prefix": "/sso/"
+    },
+    {
+      "id": "simpmw.unesa.ac.id",
+      "title": "SIMPMW",
+      "desc": "",
+      "host": "simpmw.unesa.ac.id",
+      "icon": "/app-icons/simpmw.unesa.ac.id.png",
+      "origin": "https://simpmw.unesa.ac.id",
+      "prefix": "/sso/"
+    }
+  ],
+  "google": [
+    {
+      "id": "mail.google.com",
+      "title": "Gmail",
+      "host": "mail.google.com",
+      "icon": "/app-icons/mail.google.com.png",
+      "url": "https://mail.google.com/mail/?authuser=0"
+    },
+    {
+      "id": "drive.google.com",
+      "title": "Drive",
+      "host": "drive.google.com",
+      "icon": "/app-icons/drive.google.com.png",
+      "url": "https://drive.google.com/?authuser=0"
+    },
+    {
+      "id": "meet.google.com",
+      "title": "Meet",
+      "host": "meet.google.com",
+      "icon": "/app-icons/meet.google.com.png",
+      "url": "https://meet.google.com/?hs=197&pli=1&authuser=0"
+    },
+    {
+      "id": "classroom.google.com",
+      "title": "Classroom",
+      "host": "classroom.google.com",
+      "icon": "/app-icons/classroom.google.com.png",
+      "url": "https://classroom.google.com/u/0/"
+    }
+  ],
+  "info": [
+    {
+      "title": "Pembatasan Google Drive",
+      "url": "https://sso.unesa.ac.id/img/unesastory/60f5bbc71c97be78488e33b7f0daf1e6.jpg"
+    },
+    {
+      "title": "Sosialisasi Ketentuan Mutasi Mahasiswa",
+      "url": "https://sso.unesa.ac.id/img/unesastory/SOSIALISASI_MUTASI.pdf"
+    }
+  ]
+}

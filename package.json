@@ -1,0 +1,21 @@
+{
+  "name": "sso-lite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Launcher ringan untuk SSO UNESA",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm run build && node server.js",
+    "build": "esbuild src/app.js --bundle --format=iife --target=es2020 --minify --outfile=public/app.js",
+    "deploy": "npm run build && npx wrangler deploy"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "motion": "^14.10.1",
+    "playwright-core": "^1.65.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

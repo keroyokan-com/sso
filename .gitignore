@@ -1,0 +1,15 @@
+node_modules/
+data/
+.test-profile/
+.impeccable/
+.npm/
+.wrangler/
+.dev.vars
+design-review/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

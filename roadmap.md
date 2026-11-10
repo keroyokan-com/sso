@@ -1,0 +1,164 @@
+# Roadmap, Svelte SPA port
+
+## Goal
+
+Keep the current SSO Lite dashboard but give it a true SPA feel: no full document reloads, instant settings, sortable sections, optimized images, and the same light/dark monochrome design.
+
+## Why
+
+The current settings page is a separate HTML document, so opening it reloads CSS, fonts, JS, and the document — hence the ~1s pause. A framework alone would not fix that; moving settings into the app shell does. This port also gives us a cleaner component model for the growing UI (folders, favorites, accordion, settings).
+
+## Current stack
+
+- Vanilla HTML/CSS/JS; `src/app.js` bundled with esbuild to `public/app.js`.
+- Motion (`motion` 14) for the folder overlay fly/spring.
+- Node server + Playwright for local login/scraping.
+- Cloudflare Worker + Workers KV + static assets, cron, Wrangler.
+- Local state: `localStorage` (`sso.theme`, `sso.name`, `sso.favs`, `sso.links`, `sso.sections`).
+
+## Target stack
+
+- **Svelte 5 + Vite SPA** (no SvelteKit/SSR).
+- **SortableJS** for settings reordering (smallest dependency) or the existing zero-dependency pointer sort. `dnd-kit-svelte` only if we decide keyboard-heavy a11y DnD is worth the extra weight.
+- **Motion** stays for folder overlay animation.
+- **sharp** (build-only) for image derivatives: 48/96px WebP + AVIF, plus `srcset`/`sizes`.
+- Existing backend unchanged: `server.js` + `lib/sso.js` local, `worker/index.js` + KV remote, same `/api/state`, `/api/connect`, `/go`, cron.
+- No CSS framework; reuse the design tokens in `styles.css`.
+
+## Non-goals
+
+- No SSR/hydration, no Next/Remix, no database changes.
+- No change to the SSO token/link behavior.
+- No redesign of the visual language.
+
+## Phases
+
+### 0. Baseline
+
+- Record Lighthouse (mobile) for `/`, `/connect`, `/settings`.
+- Record current bundle sizes and icon payload.
+- Capture screenshots of every section at 390px, 768px, 1280px.
+
+### 1. Scaffold
+
+- Add `svelte`, `@sveltejs/vite-plugin-svelte`, `vite`.
+- `vite.config.js` outputs to `public/` (or a `dist/` served by the Worker); keep the Worker assets binding and redirects.
+- Keep the vanilla app available at `/legacy` during the port for comparison.
+
+### 2. Shell and design tokens
+
+- Port header, logo, theme, name editing, footer, toasts.
+- Reuse `styles.css` tokens; split component styles.
+- Theme boot script before paint (no flash).
+
+### 3. Dashboard components
+
+- Search + keyboard navigation.
+- Search quality:
+  - normalize case, diacritics, punctuation, and whitespace; compact matching: `me li sa` → MELISA.
+  - typo tolerance (small edit distance): `mehlisa` → MELISA.
+  - per-app aliases/keywords: `magang` → MELISA (Merdeka Belajar Kampus Merdeka).
+  - rank exact/prefix/compact matches above fuzzy matches across title, desc, host, and keywords.
+  - tests: `mehlisa`, `me li sa`, and `magang` all surface MELISA; exact names still rank first; keep the no-results state.
+- Folder cards/row with horizontal scroll, snap, and the dynamic feathered edges (start/mid/end).
+- Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
+- Layanan kampus accordion (4 visible, Lihat semua/tampilkan lebih sedikit) and favorites.
+- Guest/link/cookie modes and the per-app link store.
+
+### 4. Settings drawer (no reload)
+
+- Replace `/settings.html` with an in-app drawer/dialog opened by the gear.
+- Sortable list (Kategori, Favorit, Layanan kampus, Google, Info UNESA) with:
+  - drag/reorder, touch and pointer,
+  - show/hide switches with the fixed contrast,
+  - reset,
+  - immediate apply and persist to `sso.sections`.
+- Remove the full-page settings navigation; keep a redirect for old links.
+- Add an EN/ID language switch (drawer and/or header), persist sso.lang, translate UI/FAQ/connect/settings.
+- Acceptance: opening settings is a same-document paint, no network navigation.
+
+### 5. Images
+
+- Build script: `sharp` produces `{48,96}` WebP/AVIF for every `app-icons/*.png`.
+- Components emit `<img srcset sizes width height loading decoding>`:
+  - eager for folder previews above the fold,
+  - lazy for the long service list and Google/hidden sections.
+- Keep SVG logo/guide; preload only the font and above-fold icons.
+- Measure icon bytes before/after.
+
+### 6. Motion
+
+- Keep folder open/close fly + spring; ensure reduced-motion fallback.
+- Use Svelte transitions for drawer/settings only where Motion isn’t needed.
+- No layout thrash on section reorder.
+
+### 7. Modes and API
+
+- Port link-token store and guest fallback; no API changes required.
+- Keep cookie/local flows working; local `npm start` unchanged.
+- Ensure the SPA works when `/api/state` fails (guest/catalog).
+
+### 8. QA
+
+- Playwright: dashboard, folder overlay, search, favorite, accordion, settings reorder/hide/reset, link mode, guest mode.
+- Visual checks at 390/768/1280; dark/light.
+- Lighthouse budget: no full-page navigation for settings; LCP < 1.5s on fast 4G; CLS ~0.
+- Keyboard/screen-reader pass for settings drag (SortableJS fallback buttons if needed).
+
+### 9. Deploy
+
+- Build SPA; deploy Worker + assets; keep cron.
+- Bump a cache-busting version for assets.
+- Smoke test the deployed link/guest/settings flows.
+
+### 10. Final: deploy badges and GitHub-connected hosting
+
+- Keep the public repo at <https://github.com/keroyokan-com/sso> on `main`; it is the template source.
+- Connect the existing Cloudflare Worker (`sso-lite`) to the repo with Workers Builds:
+  - install the Cloudflare GitHub App on the repo,
+  - build command `npm ci && npm run build`,
+  - deploy command `npx wrangler deploy`,
+  - production branch `main`.
+- Add a Vercel project for the static SPA (guest + link modes; cookie mode and `/go/` stay on the Worker or local server).
+- Put the official **Deploy to Cloudflare** and **Deploy to Vercel** badges/buttons in `README.md` directly below the title (`# sso by keroyokan`), above the description.
+- Acceptance:
+  - both badges render above the fold and link to working one-click deploy flows,
+  - a fresh fork can deploy the Worker via the Cloudflare button and the SPA via the Vercel button,
+  - a push to `main` triggers the Worker build/deploy and the deployed guest/link flows pass smoke tests,
+  - Vercel serves the SPA at the root; `/api/*` and `/go/*` are documented as Worker/local-only,
+  - the README deploy sections point at the badges instead of "will be added".
+- Manual, one-time account steps: Cloudflare GitHub App install, Workers Builds connection, and Vercel project import all require account-owner consent in the browser; Wrangler/API cannot complete the OAuth handshake.
+
+## Acceptance criteria
+
+- Settings opens instantly with no document navigation.
+- Section order/hide persists and applies on reload.
+- Favorit is its own reorderable section.
+- Mobile folder row remains left aligned, horizontally scrollable, with edge fades.
+- Search returns MELISA for `mehlisa`, `me li sa`, and `magang`, while exact matches still rank first.
+- Image payload is reduced vs current PNG-only set.
+- All existing flows (link per app, guest, cookie, folder overlay) pass.
+- EN/ID switch persists and applies to app/FAQ/connect/settings copy.
+- README shows the Deploy to Cloudflare and Deploy to Vercel badges directly below the title.
+
+## Dependencies to evaluate at implementation time
+
+- `svelte`, `vite`, `@sveltejs/vite-plugin-svelte`
+- `motion`
+- `sortablejs` (or zero-dep pointer sorter)
+- Search: custom normalization + alias map + small edit-distance scoring; add Fuse.js only if needed (smallest dependency).
+- `sharp` (dev/build only)
+- Optional: `dnd-kit-svelte` only if we need richer a11y drag.
+
+## Open questions
+
+- Keep `/connect` as a static page or move it into the SPA?
+- Keep the legacy vanilla app during migration or switch at once?
+- Do we need a tiny router for deep links (`/settings`), or is the drawer enough?
+- Image format/fallback policy (AVIF + WebP + PNG fallback?).
+- Language switch placement (header, settings, or both), and whether to translate README/roadmap too?
+- Where do search aliases/keywords live: a `keywords` field in `catalog.json`, generated from descriptions, or a manual map?
+
+## First next step
+
+Port the app shell and the settings drawer first; that removes the ~1s settings reload and validates the SPA approach before porting every component.
