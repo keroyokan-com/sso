@@ -1,5 +1,6 @@
 <script>
-  import { tick } from 'svelte';
+  import { onMount, tick } from 'svelte';
+  import { Drawer } from 'vaul-svelte';
   import {
     SECTION_DEFS,
     settingsOpen,
@@ -12,11 +13,12 @@
     toggleHidden,
   } from './settingsStore.svelte.js';
 
-  let overlayEl = $state();
-  let panelEl = $state();
-  let listEl = $state();
+  let panelEl = $state(null);
+  let listEl = $state(null);
   let drag = $state(null);
   let announcement = $state('');
+  let isMobile = $state(false);
+  let vaulOpen = $state(settingsOpen());
 
   const rows = $derived(
     settingsState.order
@@ -24,44 +26,32 @@
       .filter((row) => row.def)
   );
 
+  onMount(() => {
+    const query = matchMedia('(max-width: 720px)');
+    const update = () => {
+      isMobile = query.matches;
+    };
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  });
+
   function close() {
-    if (!settingsOpen()) return;
-    closeSettings();
-    tick().then(() => requestAnimationFrame(() => focusSettingsTrigger()));
+    if (settingsOpen()) closeSettings();
   }
 
-  function focusables() {
-    if (!panelEl) return [];
-    return [
-      ...panelEl.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      ),
-    ].filter((el) => el.getClientRects().length > 0);
+  function onOpenChange(open) {
+    if (!open) closeSettings();
   }
 
-  function onPanelKeydown(event) {
-    if (event.key !== 'Tab') return;
+  $effect(() => {
+    const next = settingsOpen();
+    if (vaulOpen !== next) vaulOpen = next;
+  });
 
-    const items = focusables();
-    if (!items.length) {
-      event.preventDefault();
-      panelEl?.focus();
-      return;
-    }
-
-    const first = items[0];
-    const last = items[items.length - 1];
-    const active = document.activeElement;
-
-    if (event.shiftKey) {
-      if (active === first || active === panelEl) {
-        event.preventDefault();
-        last.focus();
-      }
-    } else if (active === last) {
-      event.preventDefault();
-      first.focus();
-    }
+  function onCloseAutoFocus(event) {
+    event.preventDefault();
+    focusSettingsTrigger();
   }
 
   function onDragStart(id, event) {
@@ -171,62 +161,47 @@
   });
 
   $effect(() => {
-    if (!settingsOpen()) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    panelEl?.focus();
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
+    if (!settingsOpen()) drag = null;
   });
 
   $effect(() => {
-    if (!settingsOpen()) return;
+    const open = settingsOpen();
+    const mobile = isMobile;
+    const app = document.getElementById('app');
+    const body = document.body;
+    if (!app || !body) return;
 
-    const onKeydown = (event) => {
-      if (event.key !== 'Escape') return;
-      event.preventDefault();
-      close();
-    };
-
-    const onPointerDown = (event) => {
-      if (event.target === overlayEl) close();
-    };
-
-    const onFocusIn = (event) => {
-      if (panelEl && !panelEl.contains(event.target)) panelEl.focus();
-    };
-
-    window.addEventListener('keydown', onKeydown);
-    window.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('focusin', onFocusIn);
+    if (open && mobile) {
+      app.classList.add('drawer-open');
+      body.classList.add('drawer-open-bg');
+    }
 
     return () => {
-      window.removeEventListener('keydown', onKeydown);
-      window.removeEventListener('pointerdown', onPointerDown);
-      document.removeEventListener('focusin', onFocusIn);
+      app.classList.remove('drawer-open');
+      body.classList.remove('drawer-open-bg');
     };
   });
 </script>
 
-{#if settingsOpen()}
-  <div class="settings-overlay" bind:this={overlayEl}>
-    <div
+<Drawer.Root
+  bind:open={vaulOpen}
+  onOpenChange={onOpenChange}
+  direction="right"
+  autoFocus={true}
+  dismissible={true}
+  shouldScaleBackground={!isMobile}
+>
+  <Drawer.Portal>
+    <Drawer.Overlay class="settings-overlay" />
+    <Drawer.Content
       class="settings-drawer"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="settingsTitle"
-      aria-describedby="settingsDesc"
+      bind:ref={panelEl}
+      onCloseAutoFocus={onCloseAutoFocus}
       tabindex="-1"
-      bind:this={panelEl}
-      onkeydown={onPanelKeydown}
     >
       <div class="settings-head">
         <div class="settings-heading">
-          <h2 id="settingsTitle">Setelan</h2>
-          <p id="settingsDesc">Atur urutan dan tampilan bagian beranda.</p>
+          <Drawer.Title class="settings-title">Setelan</Drawer.Title>
         </div>
         <button class="icon-btn" type="button" aria-label="Tutup setelan" title="Tutup" onclick={close}>
           <svg><use href="#i-x" /></svg>
@@ -235,7 +210,7 @@
 
       <div class="settings-body">
         <p class="settings-hint">
-          Tarik gagang untuk mengurutkan. Fokuskan gagang lalu tekan <kbd>Alt</kbd> + panah atas atau bawah.
+          Tarik untuk mengurutkan. Keyboard: <kbd>Alt</kbd> + panah.
         </p>
 
         <ul class="settings-list" bind:this={listEl}>
@@ -249,19 +224,13 @@
                 onpointerdown={(event) => onDragStart(row.id, event)}
                 onkeydown={(event) => onHandleKeydown(row.id, event)}
               >
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <circle cx="6" cy="4" r="1.2" fill="currentColor" />
-                  <circle cx="10" cy="4" r="1.2" fill="currentColor" />
-                  <circle cx="6" cy="8" r="1.2" fill="currentColor" />
-                  <circle cx="10" cy="8" r="1.2" fill="currentColor" />
-                  <circle cx="6" cy="12" r="1.2" fill="currentColor" />
-                  <circle cx="10" cy="12" r="1.2" fill="currentColor" />
+                <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z" />
                 </svg>
               </button>
 
               <span class="settings-copy">
                 <span class="settings-name">{row.def.name}</span>
-                <span class="settings-desc">{row.def.desc}</span>
               </span>
 
               <label class="switch">
@@ -284,31 +253,34 @@
         <button class="btn" type="button" onclick={onReset}>Atur ulang</button>
         <button class="btn primary" type="button" onclick={close}>Selesai</button>
       </div>
-    </div>
-  </div>
-{/if}
+    </Drawer.Content>
+  </Drawer.Portal>
+</Drawer.Root>
 
 <style>
-  .settings-overlay {
+  :global(.settings-overlay) {
     position: fixed;
     inset: 0;
     z-index: 100;
-    display: flex;
-    justify-content: flex-end;
     background: rgb(0 0 0 / 0.38);
   }
 
-  .settings-drawer {
+  :global(.settings-drawer) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 101;
     display: flex;
     flex-direction: column;
     width: min(420px, calc(100% - 28px));
-    height: 100%;
     background: var(--bg);
     color: var(--text);
     border-left: 1px solid var(--line);
     box-shadow: -20px 0 60px rgb(0 0 0 / 0.22);
     overscroll-behavior: contain;
     outline: none;
+    touch-action: pan-y;
   }
 
   .settings-head {
@@ -323,18 +295,11 @@
     min-width: 0;
   }
 
-  .settings-heading h2 {
+  .settings-heading :global(.settings-title) {
     margin: 0;
     font-size: 19px;
     font-weight: 650;
     letter-spacing: -0.02em;
-  }
-
-  .settings-heading p {
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 12.5px;
-    line-height: 1.5;
   }
 
   .settings-body {
@@ -342,6 +307,7 @@
     min-height: 0;
     overflow-y: auto;
     padding: 4px 20px 20px;
+    touch-action: pan-y;
   }
 
   .settings-hint {
@@ -430,11 +396,6 @@
     letter-spacing: -0.01em;
   }
 
-  .settings-desc {
-    font-size: 11.5px;
-    color: var(--faint);
-  }
-
   .switch {
     position: relative;
     flex: none;
@@ -507,12 +468,20 @@
     border: 0;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    :global([data-vaul-drawer]),
+    :global([data-vaul-overlay]) {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
   @media (max-width: 520px) {
-    .settings-overlay {
+    :global(.settings-overlay) {
       background: rgb(0 0 0 / 0.45);
     }
 
-    .settings-drawer {
+    :global(.settings-drawer) {
       border-left: 0;
     }
 

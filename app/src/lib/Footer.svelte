@@ -31,7 +31,7 @@
     if (dashboard.mode === 'link' && dashboard.updatedAt) {
       return `Link · ${relativeTime(dashboard.updatedAt, now)}`;
     }
-    if (dashboard.mode === 'guest') return 'Katalog lokal';
+    if (dashboard.mode === 'guest') return '';
     if (dashboard.updatedAt) return `Tersinkron ${relativeTime(dashboard.updatedAt, now)}`;
     return 'Belum tersinkron';
   });
@@ -51,8 +51,10 @@
       <span class="dot" class:amber={needsAttention}></span>
       <span id="footStatusText">{statusText}</span>
     </span>
-    <span class="sep">·</span>
-    <span id="syncText">{syncText}</span>
+    {#if syncText}
+      <span class="sep">·</span>
+      <span id="syncText">{syncText}</span>
+    {/if}
   </div>
   <button id="refreshBtn" class="ghost-btn" type="button" onclick={refreshDashboard}>
     <svg><use href="#i-refresh" /></svg>

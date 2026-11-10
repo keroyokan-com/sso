@@ -21,7 +21,7 @@
     hidden: [...settingsState.hidden],
   });
   let activeFolder = $state(null);
-  let folderTrigger = null;
+  let folderTrigger = $state(null);
 
   $effect(() => {
     sections = { order: [...settingsState.order], hidden: [...settingsState.hidden] };
@@ -320,7 +320,7 @@
 </main>
 
 {#if activeFolder}
-  <FolderDialog folder={activeFolder} onclose={closeFolder} />
+  <FolderDialog folder={activeFolder} trigger={folderTrigger} onclose={closeFolder} />
 {/if}
 
 <Toast />

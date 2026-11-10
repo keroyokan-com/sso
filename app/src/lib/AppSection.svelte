@@ -14,6 +14,7 @@
   } = $props();
 
   const favSet = $derived(new Set(favorites));
+  const shown = $derived(accordion && !expanded ? apps.slice(0, 4) : apps);
 </script>
 
 <section class="section">
@@ -45,7 +46,7 @@
     {/if}
   </div>
   <div class="tiles" id={tilesId || undefined}>
-    {#each apps as app (app.id)}
+    {#each shown as app (app.id)}
       <AppCard
         {app}
         favorite={favSet.has(app.id)}
