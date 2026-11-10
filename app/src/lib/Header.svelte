@@ -1,5 +1,5 @@
 <script>
-  import { linksState } from './links.svelte.js';
+  import { dashboard } from './dashboard.svelte.js';
   import { openSettings } from './settingsStore.svelte.js';
   import SettingsDrawer from './SettingsDrawer.svelte';
   import { toggleTheme } from './theme.js';
@@ -28,8 +28,8 @@
       <span class="brand-logo" aria-hidden="true"></span>
     </a>
     <div class="top-actions">
-      {#if linksState.email}
-        <a id="emailLabel" class="email" href="/connect.html" title="Kelola akun">{linksState.email}</a>
+      {#if dashboard.email}
+        <a id="emailLabel" class="email" href="/connect.html" title="Kelola akun">{dashboard.email}</a>
       {/if}
       <button id="searchBtn" class="icon-btn" type="button" aria-label="Cari layanan" title="Cari" onclick={onsearch}>
         <svg><use href="#i-search" /></svg>
