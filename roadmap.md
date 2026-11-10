@@ -7,15 +7,15 @@ Roadmap tracker: [#11](https://github.com/keroyokan-com/sso/issues/11). Feature 
 - [x] Phase 0 — Baseline
 - [x] Phase 1 — Scaffold
 - [x] Phase 2 — Shell (menu alignment follow-up: [#2](https://github.com/keroyokan-com/sso/issues/2))
-- [x] Phase 3 — Dashboard (search follow-up: [#4](https://github.com/keroyokan-com/sso/issues/4))
+- [x] Phase 3 — Dashboard (search follow-up: [#4](https://github.com/keroyokan-com/sso/issues/4); accordion bug: [#15](https://github.com/keroyokan-com/sso/issues/15))
 - [x] Phase 4 — Settings drawer (i18n: [#6](https://github.com/keroyokan-com/sso/issues/6); drawer animation: [#5](https://github.com/keroyokan-com/sso/issues/5))
 - [x] Phase 5 — Images (Google icon bug: [#3](https://github.com/keroyokan-com/sso/issues/3))
 - [x] Search quality module (14 tests)
-- [ ] Phase 6 — Motion ([#5](https://github.com/keroyokan-com/sso/issues/5))
-- [ ] Phase 7 — Modes and API ([#7](https://github.com/keroyokan-com/sso/issues/7))
+- [ ] Phase 6 — Motion ([#5](https://github.com/keroyokan-com/sso/issues/5); swipe bug: [#16](https://github.com/keroyokan-com/sso/issues/16))
+- [ ] Phase 7 — Modes and API ([#7](https://github.com/keroyokan-com/sso/issues/7); connect onboarding: [#17](https://github.com/keroyokan-com/sso/issues/17))
 - [ ] Phase 8 — QA, accessibility, performance ([#8](https://github.com/keroyokan-com/sso/issues/8))
 - [ ] Phase 9 — Deploy the SPA ([#9](https://github.com/keroyokan-com/sso/issues/9))
-- [ ] Phase 10 — Deploy badges and GitHub-connected hosting ([#10](https://github.com/keroyokan-com/sso/issues/10))
+- [ ] Phase 10 — Deploy badges and GitHub-connected hosting ([#10](https://github.com/keroyokan-com/sso/issues/10); README/docs: [#18](https://github.com/keroyokan-com/sso/issues/18))
 
 ## Goal
 
@@ -82,6 +82,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - tests: `mehlisa`, `me li sa`, and `magang` all surface MELISA; exact names still rank first; keep the no-results state.
 - Search module landed 2026-11-10: `app/src/lib/search.mjs` + 14 Node tests (`npm run test:search`); wire it into the dashboard in this phase.
 - [ ] Search follow-up: `MAG`/`maga`/`mbkm` should surface MELISA; add alias-prefix matching and catalog keywords ([#4](https://github.com/keroyokan-com/sso/issues/4)).
+- [ ] Campus accordion: the collapsed state still renders all cards; fix and test card counts, not just `aria-expanded` ([#15](https://github.com/keroyokan-com/sso/issues/15)).
 - Done 2026-11-10: dashboard at `/next/` (guest/link modes, folders, favorites, accordion, search, image srcsets, folder dialog); search module wired; Lighthouse mobile CLS 0, A11y/BP 100.
 - Folder cards/row with horizontal scroll, snap, and the dynamic feathered edges (start/mid/end).
 - Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
@@ -123,12 +124,14 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Current gap: the Svelte folder dialog opens/closes instantly; the vanilla fly/spring is not ported yet.
 - Add the settings drawer opening animation with `vaul-svelte` (coordinate with phase 4) ([#5](https://github.com/keroyokan-com/sso/issues/5)).
 - Reduced-motion fallback; keep CLS at 0.
+- [ ] Fix the Vaul mobile swipe-close/reopen desync; keep the drawer open state in sync with the background animation ([#16](https://github.com/keroyokan-com/sso/issues/16)).
 
 ### 7. Modes and API
 
 - Port link-token store and guest fallback; no API changes required.
 - Keep cookie/local flows working; local `npm start` unchanged.
 - Ensure the SPA works when `/api/state` fails (guest/catalog).
+- [ ] Redesign `/connect` as a stepper; simplify `link-guide.svg` to the page palette, focus on Copy link address + SIDIA, and cut repetitive copy ([#17](https://github.com/keroyokan-com/sso/issues/17)).
 
 ### 8. QA
 
@@ -160,6 +163,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - Vercel serves the SPA at the root; `/api/*` and `/go/*` are documented as Worker/local-only,
   - the README deploy sections point at the badges instead of "will be added".
 - Manual, one-time account steps: Cloudflare GitHub App install, Workers Builds connection, and Vercel project import all require account-owner consent in the browser; Wrangler/API cannot complete the OAuth handshake.
+- [ ] Keep README simple; move self-hosting/deploy details to `docs/self-hosting.md` with the logo above the title, link it from README, and add desktop/mobile screenshots after all phases ([#18](https://github.com/keroyokan-com/sso/issues/18)).
 
 ## Acceptance criteria
 
