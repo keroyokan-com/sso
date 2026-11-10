@@ -191,6 +191,7 @@
     }
 
     clearAnimations();
+    document.body.classList.remove('folder-overlay-open');
 
     const origin = previewOrigin();
     const sources = sourceMap();
@@ -265,7 +266,7 @@
     const innerEl = overlayEl.querySelector('.folder-overlay-inner');
     if (innerEl) {
       track(
-        animate(innerEl, { opacity: [1, 0] }, { duration: 0.16, delay: 0.08, ease: 'easeIn' })
+        animate(innerEl, { opacity: [1, 0] }, { duration: 0.16, delay: 0.02, ease: 'easeIn' })
       );
     }
 
