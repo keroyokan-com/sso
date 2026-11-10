@@ -153,7 +153,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 
 ### 10. Final: deploy badges and GitHub-connected hosting
 
-- Done 2026-11-11: official Deploy to Cloudflare and Deploy with Vercel buttons in the README; `vercel.json` for the static SPA (`npm run build`, output `public`); self-hosting docs for the `sso-lite` Workers Builds connection (`main`, `npm ci && npm run build`, `npx wrangler deploy`, PR previews) and the Vercel static SPA; fresh desktop/mobile screenshots in `docs/screenshots/`.
+- Landed 2026-11-11: official Deploy to Cloudflare and Deploy with Vercel buttons in the README; `vercel.json` for the static SPA (`npm run build`, output `public`); self-hosting docs for the `sso-lite` Workers Builds connection (`main`, `npm ci && npm run build`, `npx wrangler deploy`, PR previews) and the Vercel static SPA; fresh desktop/mobile screenshots in `docs/screenshots/`.
 - Vercel project `sso` is deployed at <https://sso-kappa-eight.vercel.app>. Deploys on push still need the one-time Vercel GitHub App consent in the project settings.
 - Remaining manual step for #10: the GitHub repo is private, so the one-click Deploy to Cloudflare and Deploy with Vercel buttons are not usable by fresh forks until the repo is made public. The Vercel GitHub connection also needs the one-time Vercel GitHub App consent.
 - Keep the public repo at <https://github.com/keroyokan-com/sso> on `main`; it is the template source.
