@@ -3,11 +3,11 @@ const { svelte } = require('@sveltejs/vite-plugin-svelte');
 
 module.exports = defineConfig(({ command }) => ({
   root: 'app',
-  base: '/next/',
+  base: '/',
   publicDir: command === 'serve' ? '../public' : false,
   build: {
-    outDir: '../public/next',
-    emptyOutDir: true,
+    outDir: '../public',
+    emptyOutDir: false,
   },
   plugins: [svelte()],
 }));

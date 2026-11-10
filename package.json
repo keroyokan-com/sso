@@ -9,7 +9,7 @@
     "build": "npm run build:images && npm run build:client && npm run build:spa",
     "build:images": "node scripts/build-images.js",
     "build:client": "esbuild src/app.js --bundle --format=iife --target=es2020 --minify --outfile=public/app.js",
-    "build:spa": "vite build",
+    "build:spa": "node scripts/clean-spa.js && vite build",
     "dev:spa": "vite --host 127.0.0.1 --port 4174",
     "test:search": "node --test app/src/lib/search.test.mjs",
     "deploy": "npm run build && npx wrangler deploy",

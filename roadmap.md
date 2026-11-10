@@ -14,7 +14,7 @@ Roadmap tracker: [#11](https://github.com/keroyokan-com/sso/issues/11). Feature 
 - [x] Phase 6 — Motion ([#5](https://github.com/keroyokan-com/sso/issues/5); swipe bug: [#16](https://github.com/keroyokan-com/sso/issues/16))
 - [ ] Phase 7 — Modes and API ([#7](https://github.com/keroyokan-com/sso/issues/7); connect onboarding: [#17](https://github.com/keroyokan-com/sso/issues/17); tabs: [#25](https://github.com/keroyokan-com/sso/issues/25))
 - [ ] Phase 8 — QA, accessibility, performance ([#8](https://github.com/keroyokan-com/sso/issues/8))
-- [ ] Phase 9 — Deploy the SPA ([#9](https://github.com/keroyokan-com/sso/issues/9))
+- [ ] Phase 9 — Deploy the SPA ([#9](https://github.com/keroyokan-com/sso/issues/9); root promotion: [#27](https://github.com/keroyokan-com/sso/issues/27))
 - [ ] Phase 10 — Deploy badges and GitHub-connected hosting ([#10](https://github.com/keroyokan-com/sso/issues/10); README/docs: [#18](https://github.com/keroyokan-com/sso/issues/18))
 
 ## Goal
@@ -68,7 +68,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Port header, logo, theme, name editing, footer, toasts.
 - Reuse `styles.css` tokens; split component styles.
 - Theme boot script before paint (no flash).
-- Done 2026-11-10: Svelte shell at `/next/` with header, name editing, theme, search shortcuts, menu popover, footer link state, and toasts; 68 Playwright checks plus an independent 390/1280 pass.
+- Done 2026-11-10: Svelte shell (now at `/`) with header, name editing, theme, search shortcuts, menu popover, footer link state, and toasts; 68 Playwright checks plus an independent 390/1280 pass.
 - [x] Desktop header menu alignment: open under the hamburger, not at the viewport edge ([#2](https://github.com/keroyokan-com/sso/issues/2)).
 
 ### 3. Dashboard components
@@ -83,7 +83,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Search module landed 2026-11-10: `app/src/lib/search.mjs` + 14 Node tests (`npm run test:search`); wire it into the dashboard in this phase.
 - [x] Search follow-up: `MAG`/`maga`/`mbkm` should surface MELISA; add alias-prefix matching and catalog keywords ([#4](https://github.com/keroyokan-com/sso/issues/4)).
 - [x] Campus accordion: the collapsed state still renders all cards; fix and test card counts, not just `aria-expanded` ([#15](https://github.com/keroyokan-com/sso/issues/15)).
-- Done 2026-11-10: dashboard at `/next/` (guest/link modes, folders, favorites, accordion, search, image srcsets, folder dialog); search module wired; Lighthouse mobile CLS 0, A11y/BP 100.
+- Done 2026-11-10: dashboard (now at `/`) with guest/link modes, folders, favorites, accordion, search, image srcsets, and folder dialog; search module wired; Lighthouse mobile CLS 0, A11y/BP 100.
 - Folder cards/row with horizontal scroll, snap, and the dynamic feathered edges (start/mid/end).
 - Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
 - Layanan kampus accordion (4 visible, Lihat semua/tampilkan lebih sedikit) and favorites.
@@ -145,6 +145,8 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 
 ### 9. Deploy
 
+- [x] Promote the Svelte SPA to `/` and rebuild to `public/`; keep the vanilla app at `/legacy/` and redirect `/next/` to `/` with query strings preserved ([#27](https://github.com/keroyokan-com/sso/issues/27)).
+- Keep the generated root `index.html` and `assets/` in sync with `npm run build`; the build cleans only `public/assets` and leaves legacy/connect/FAQ/settings/catalog/icons/fonts untouched.
 - Build SPA; deploy Worker + assets; keep cron.
 - Bump a cache-busting version for assets.
 - Smoke test the deployed link/guest/settings flows.

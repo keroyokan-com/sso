@@ -17,6 +17,13 @@ export default {
     const path = url.pathname;
 
     try {
+      if (path === '/next' || path.startsWith('/next/')) {
+        const rest = path.slice('/next'.length);
+        return redirect((rest.startsWith('/') ? rest : '/' + rest) + url.search);
+      }
+
+      if (path === '/legacy') return redirect('/legacy/' + url.search);
+
       if (path === '/api/state') return await stateHandler(request, env);
       if (path === '/api/connect' && request.method === 'POST') return await connectHandler(request, env);
       if (path === '/api/refresh' && request.method === 'POST') return await refreshHandler(request, env);
