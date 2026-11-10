@@ -1,5 +1,6 @@
 <script>
   import { tick } from 'svelte';
+  import { Drawer } from 'vaul-svelte';
   import {
     SECTION_DEFS,
     settingsOpen,
@@ -12,9 +13,8 @@
     toggleHidden,
   } from './settingsStore.svelte.js';
 
-  let overlayEl = $state();
-  let panelEl = $state();
-  let listEl = $state();
+  let panelEl = $state(null);
+  let listEl = $state(null);
   let drag = $state(null);
   let announcement = $state('');
 
@@ -25,43 +25,16 @@
   );
 
   function close() {
-    if (!settingsOpen()) return;
-    closeSettings();
-    tick().then(() => requestAnimationFrame(() => focusSettingsTrigger()));
+    if (settingsOpen()) closeSettings();
   }
 
-  function focusables() {
-    if (!panelEl) return [];
-    return [
-      ...panelEl.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      ),
-    ].filter((el) => el.getClientRects().length > 0);
+  function onOpenChange(open) {
+    if (!open && settingsOpen()) closeSettings();
   }
 
-  function onPanelKeydown(event) {
-    if (event.key !== 'Tab') return;
-
-    const items = focusables();
-    if (!items.length) {
-      event.preventDefault();
-      panelEl?.focus();
-      return;
-    }
-
-    const first = items[0];
-    const last = items[items.length - 1];
-    const active = document.activeElement;
-
-    if (event.shiftKey) {
-      if (active === first || active === panelEl) {
-        event.preventDefault();
-        last.focus();
-      }
-    } else if (active === last) {
-      event.preventDefault();
-      first.focus();
-    }
+  function onCloseAutoFocus(event) {
+    event.preventDefault();
+    focusSettingsTrigger();
   }
 
   function onDragStart(id, event) {
@@ -171,62 +144,31 @@
   });
 
   $effect(() => {
-    if (!settingsOpen()) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    panelEl?.focus();
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  });
-
-  $effect(() => {
-    if (!settingsOpen()) return;
-
-    const onKeydown = (event) => {
-      if (event.key !== 'Escape') return;
-      event.preventDefault();
-      close();
-    };
-
-    const onPointerDown = (event) => {
-      if (event.target === overlayEl) close();
-    };
-
-    const onFocusIn = (event) => {
-      if (panelEl && !panelEl.contains(event.target)) panelEl.focus();
-    };
-
-    window.addEventListener('keydown', onKeydown);
-    window.addEventListener('pointerdown', onPointerDown);
-    document.addEventListener('focusin', onFocusIn);
-
-    return () => {
-      window.removeEventListener('keydown', onKeydown);
-      window.removeEventListener('pointerdown', onPointerDown);
-      document.removeEventListener('focusin', onFocusIn);
-    };
+    if (!settingsOpen()) drag = null;
   });
 </script>
 
-{#if settingsOpen()}
-  <div class="settings-overlay" bind:this={overlayEl}>
-    <div
+<Drawer.Root
+  open={settingsOpen()}
+  onOpenChange={onOpenChange}
+  direction="right"
+  autoFocus={true}
+  dismissible={true}
+>
+  <Drawer.Portal>
+    <Drawer.Overlay class="settings-overlay" />
+    <Drawer.Content
       class="settings-drawer"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="settingsTitle"
-      aria-describedby="settingsDesc"
+      bind:ref={panelEl}
+      onCloseAutoFocus={onCloseAutoFocus}
       tabindex="-1"
-      bind:this={panelEl}
-      onkeydown={onPanelKeydown}
     >
       <div class="settings-head">
         <div class="settings-heading">
-          <h2 id="settingsTitle">Setelan</h2>
-          <p id="settingsDesc">Atur urutan dan tampilan bagian beranda.</p>
+          <Drawer.Title class="settings-title">Setelan</Drawer.Title>
+          <Drawer.Description class="settings-desc">
+            Atur urutan dan tampilan bagian beranda.
+          </Drawer.Description>
         </div>
         <button class="icon-btn" type="button" aria-label="Tutup setelan" title="Tutup" onclick={close}>
           <svg><use href="#i-x" /></svg>
@@ -284,31 +226,34 @@
         <button class="btn" type="button" onclick={onReset}>Atur ulang</button>
         <button class="btn primary" type="button" onclick={close}>Selesai</button>
       </div>
-    </div>
-  </div>
-{/if}
+    </Drawer.Content>
+  </Drawer.Portal>
+</Drawer.Root>
 
 <style>
-  .settings-overlay {
+  :global(.settings-overlay) {
     position: fixed;
     inset: 0;
     z-index: 100;
-    display: flex;
-    justify-content: flex-end;
     background: rgb(0 0 0 / 0.38);
   }
 
-  .settings-drawer {
+  :global(.settings-drawer) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 101;
     display: flex;
     flex-direction: column;
     width: min(420px, calc(100% - 28px));
-    height: 100%;
     background: var(--bg);
     color: var(--text);
     border-left: 1px solid var(--line);
     box-shadow: -20px 0 60px rgb(0 0 0 / 0.22);
     overscroll-behavior: contain;
     outline: none;
+    touch-action: pan-y;
   }
 
   .settings-head {
@@ -323,14 +268,14 @@
     min-width: 0;
   }
 
-  .settings-heading h2 {
+  .settings-heading :global(.settings-title) {
     margin: 0;
     font-size: 19px;
     font-weight: 650;
     letter-spacing: -0.02em;
   }
 
-  .settings-heading p {
+  .settings-heading :global(.settings-desc) {
     margin: 4px 0 0;
     color: var(--muted);
     font-size: 12.5px;
@@ -342,6 +287,7 @@
     min-height: 0;
     overflow-y: auto;
     padding: 4px 20px 20px;
+    touch-action: pan-y;
   }
 
   .settings-hint {
@@ -430,7 +376,7 @@
     letter-spacing: -0.01em;
   }
 
-  .settings-desc {
+  .settings-row .settings-desc {
     font-size: 11.5px;
     color: var(--faint);
   }
@@ -507,12 +453,20 @@
     border: 0;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    :global([data-vaul-drawer]),
+    :global([data-vaul-overlay]) {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
   @media (max-width: 520px) {
-    .settings-overlay {
+    :global(.settings-overlay) {
       background: rgb(0 0 0 / 0.45);
     }
 
-    .settings-drawer {
+    :global(.settings-drawer) {
       border-left: 0;
     }
 
