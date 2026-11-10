@@ -27,6 +27,7 @@ const APPS = [
     title: 'SIM UKT',
     desc: 'Sistem Informasi Manajemen UKT',
     host: 'ukt.unesa.ac.id',
+    keywords: ['akademik'],
   },
   {
     id: 'konseling.unesa.ac.id',
@@ -61,8 +62,8 @@ test('compact removes normalized whitespace', () => {
 });
 
 test('typo mehlisa surfaces MELISA', () => {
-  const results = searchApps(APPS, 'mehlisa');
-  assert.equal(results[0].title, 'MELISA');
+  assert.equal(searchApps(APPS, 'mehlisa')[0].title, 'MELISA');
+  assert.equal(searchApps(APPS, 'melias')[0].title, 'MELISA');
 });
 
 test('spaced compact query me li sa surfaces MELISA', () => {
@@ -99,6 +100,10 @@ test('other fixture apps rank on exact title and punctuation-normalized query', 
   assert.equal(searchApps(APPS, 'SIM UKT')[0].title, 'SIM UKT');
   assert.equal(searchApps(APPS, 'E-KONSELING!')[0].title, 'e-Konseling');
   assert.equal(searchApps(APPS, 'gmail')[0].title, 'Gmail');
+});
+
+test('keywords contribute to field matching', () => {
+  assert.equal(searchApps(APPS, 'akademik')[0].title, 'SIM UKT');
 });
 
 test('diacritics in app data match plain ASCII queries', () => {

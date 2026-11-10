@@ -127,9 +127,10 @@ function boundedDistance(a, b, max) {
 
     if (rowMin > max) return max + 1;
 
+    const recycled = prevPrev;
     prevPrev = prev;
     prev = curr;
-    curr = prevPrev;
+    curr = recycled || new Array(width);
   }
 
   return prev[b.length];
