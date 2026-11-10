@@ -62,6 +62,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - per-app aliases/keywords: `magang` → MELISA (Merdeka Belajar Kampus Merdeka).
   - rank exact/prefix/compact matches above fuzzy matches across title, desc, host, and keywords.
   - tests: `mehlisa`, `me li sa`, and `magang` all surface MELISA; exact names still rank first; keep the no-results state.
+- Search module landed 2026-11-10: `app/src/lib/search.mjs` + 13 Node tests (`npm run test:search`); wire it into the dashboard in this phase.
 - Folder cards/row with horizontal scroll, snap, and the dynamic feathered edges (start/mid/end).
 - Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
 - Layanan kampus accordion (4 visible, Lihat semua/tampilkan lebih sedikit) and favorites.
