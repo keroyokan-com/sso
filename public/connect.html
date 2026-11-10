@@ -28,15 +28,8 @@ try {
     font-size: 30px;
   }
 
-  .lead {
-    margin: 10px 0 0;
-    color: var(--muted);
-    font-size: 14.5px;
-    line-height: 1.6;
-  }
-
   .panel {
-    margin-top: 22px;
+    margin-top: 18px;
     padding: 20px;
     background: var(--surface);
     border: 0;
@@ -50,40 +43,118 @@ try {
     letter-spacing: -0.01em;
   }
 
-  .link-guide {
-    margin: 0 0 18px;
-    border-radius: 14px;
-    overflow: hidden;
-    background: #121820;
+  .stepper {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  .link-guide img {
-    display: block;
-    width: 100%;
-    height: auto;
+  .stepper li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 14px;
+    padding-bottom: 22px;
   }
 
-  .steps {
-    margin: 0 0 18px;
-    padding-left: 20px;
-    color: var(--muted);
+  .stepper li:last-child {
+    padding-bottom: 0;
+  }
+
+  .stepper li:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 28px;
+    bottom: 2px;
+    width: 2px;
+    border-radius: 1px;
+    background: var(--line-strong);
+  }
+
+  .step-num {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 11.5px;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-main {
+    min-width: 0;
+    padding-top: 2px;
+  }
+
+  .step-main p {
+    margin: 0;
     font-size: 13.5px;
     line-height: 1.55;
   }
 
-  .steps li + li {
-    margin-top: 7px;
-  }
-
-  .steps a {
-    color: var(--accent);
+  .step-main a {
+    color: var(--text);
     text-decoration: underline;
+    text-decoration-color: var(--line-strong);
     text-underline-offset: 2px;
   }
 
-  .steps strong {
-    color: var(--text);
+  .step-main a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .step-main strong {
+    font-weight: 650;
+  }
+
+  .link-guide {
+    margin: 12px 0 0;
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+
+  .link-guide svg {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    stroke: none;
+    stroke-width: 1.5;
+  }
+
+  .guide-bg { fill: var(--bg); stroke: var(--line-strong); }
+  .guide-tile { fill: var(--surface); stroke: var(--line-strong); }
+  .guide-icon { fill: var(--surface-2); }
+  .guide-mark { stroke: var(--text); }
+  .guide-label { fill: var(--muted); }
+  .guide-arrow { stroke: var(--line-strong); }
+  .guide-pill { fill: var(--accent); }
+  .guide-action { fill: var(--on-accent); }
+  .guide-cursor { fill: var(--on-accent); stroke: var(--accent); }
+
+  .link-guide text {
+    font-family: var(--font);
     font-weight: 600;
+    stroke: none;
+    fill: var(--muted);
+    -webkit-text-fill-color: var(--muted);
+  }
+
+  .link-guide .guide-label {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+
+  .link-guide .guide-action {
+    font-size: 13px;
+    fill: var(--on-accent);
+    -webkit-text-fill-color: var(--on-accent);
   }
 
   label {
@@ -95,7 +166,7 @@ try {
 
   textarea {
     width: 100%;
-    min-height: 92px;
+    min-height: 88px;
     margin-top: 8px;
     padding: 10px 12px;
     border: 0;
@@ -153,15 +224,22 @@ try {
     font-size: 13.5px;
   }
 
-  .fine {
-    margin: 22px 0 0;
-    font-size: 12px;
-    line-height: 1.65;
+  .hint {
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+
+  .privacy {
+    margin: 18px 0 0;
     color: var(--faint);
+    font-size: 12px;
+    line-height: 1.6;
   }
 
   .advanced {
-    margin-top: 22px;
+    margin-top: 18px;
   }
 
   .advanced summary {
@@ -224,44 +302,61 @@ try {
     </div>
   </div>
 
-  <form id="linkForm" class="panel" novalidate>
-    <h2>Tempel link SSO</h2>
-    <figure class="link-guide"><img src="/link-guide.svg" width="480" height="420" alt="Menu klik kanan Chrome: pilih Copy link address." loading="lazy" decoding="async"></figure>
-    <ol class="steps">
-      <li>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">sso.unesa.ac.id/dashboard</a> dan login.</li>
-      <li>Di HP, tekan lama salah satu aplikasi (mis. SIDIA); di desktop, klik kanan. Lalu pilih <strong>Copy link address</strong>.</li>
-      <li>Tempel link-nya di bawah, lalu klik Hubungkan.</li>
+  <form id="linkForm" class="panel" novalidate aria-label="Hubungkan via link">
+    <ol class="stepper" role="list">
+      <li>
+        <span class="step-num" aria-hidden="true">1</span>
+        <div class="step-main">
+          <p>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">dashboard SSO</a>.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">2</span>
+        <div class="step-main">
+          <p>Tekan lama atau klik kanan SIDIA, pilih <strong>Copy link address</strong>.</p>
+          <figure class="link-guide" aria-hidden="true">
+            <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <rect class="guide-bg" x="0.5" y="0.5" width="319" height="149" rx="15.5"/>
+              <rect class="guide-tile" x="16" y="28" width="80" height="80" rx="17"/>
+              <rect class="guide-icon" x="31" y="43" width="50" height="50" rx="12"/>
+              <g class="guide-mark" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="45" y="53" width="22" height="30" rx="3"/>
+                <path d="M45 62h22M45 71h22"/>
+              </g>
+              <text class="guide-label" x="56" y="130" text-anchor="middle">SIDIA</text>
+              <g class="guide-arrow" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M108 68h30" stroke-dasharray="2 5"/>
+                <path d="M134 63l5 5-5 5"/>
+              </g>
+              <rect class="guide-pill" x="148" y="46" width="158" height="44" rx="11"/>
+              <text class="guide-action" x="164" y="73">Copy link address</text>
+              <path class="guide-cursor" d="M282 76l3.5 15 3.7-4.6 3 6.5 3.6-1.6-3-6.4 5.6-.6z" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+          </figure>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">3</span>
+        <div class="step-main">
+          <label for="linkInput">Tempel link</label>
+          <textarea id="linkInput" rows="3" placeholder="https://sindig.unesa.ac.id/..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+          <div class="form-row">
+            <button class="btn primary" type="submit" id="linkSubmit">Hubungkan</button>
+            <span class="status" id="linkStatus" role="status"></span>
+          </div>
+        </div>
+      </li>
     </ol>
-
-    <label for="linkInput">Link aplikasi</label>
-    <p class="muted">Satu link cukup untuk semua app. Kalau ada app yang minta login, tempel link baru dari dashboard.</p>
-    <textarea id="linkInput" rows="3" placeholder="https://sindig.unesa.ac.id//..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
-
-    <div class="form-row">
-      <button class="btn primary" type="submit" id="linkSubmit">Hubungkan via link</button>
-      <span class="status" id="linkStatus" role="status"></span>
-    </div>
-
-    <p class="fine">Link hanya disimpan di browser ini, bukan di server. Jangan bagikan link ini ke orang lain.</p>
   </form>
 
   <details class="advanced">
-    <summary>Cookie (desktop / advanced)</summary>
-    <form id="cookieForm" class="panel" novalidate>
-      <h2>Ambil cookie sesi</h2>
-      <ol class="steps">
-        <li>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">sso.unesa.ac.id/dashboard</a> dan pastikan sudah login.</li>
-        <li>Buka DevTools (F12) → tab <strong>Network</strong>, lalu refresh halaman.</li>
-        <li>Klik request <strong>dashboard</strong> (tipe document).</li>
-        <li>Di bagian <strong>Request Headers</strong>, copy seluruh nilai header <strong>cookie</strong>.</li>
-        <li>Paste di bawah, lalu klik Hubungkan.</li>
-      </ol>
-
+    <summary>Cookie</summary>
+    <form id="cookieForm" class="panel" novalidate aria-label="Hubungkan via cookie">
+      <p class="hint">DevTools → Network → dashboard (document) → Request Headers → cookie.</p>
       <label for="cookieInput">Cookie header</label>
       <textarea id="cookieInput" rows="4" placeholder="laravel_session=...; XSRF-TOKEN=..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
-
       <div class="form-row">
-        <button class="btn primary" type="submit" id="submitBtn">Hubungkan via cookie</button>
+        <button class="btn primary" type="submit" id="submitBtn">Hubungkan</button>
         <span class="status" id="status" role="status"></span>
       </div>
     </form>
@@ -273,7 +368,7 @@ try {
     <button class="btn" type="button" id="localLogin">Buka jendela login</button>
   </div>
 
-  <p class="fine">Link disimpan di browser ini saja. Cookie (opsi advanced) disimpan di server hanya untuk mengambil daftar layanan, dan bisa diputus kapan saja. SSO Lite bukan layanan resmi UNESA.</p>
+  <p class="privacy">Link disimpan di browser ini; cookie hanya dipakai untuk daftar layanan.</p>
 </main>
 
 <script src="/connect.js" defer></script>
