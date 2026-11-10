@@ -61,7 +61,7 @@ Use build command `npm run build` and output directory `public`.
 - Link and token: `localStorage` only, per browser.
 - Name, theme, favorites, links, section order: `localStorage` (`sso.name`, `sso.theme`, `sso.favs`, `sso.links`, `sso.link`, `sso.sections`).
 - Cookie mode: server-side only. Locally in `data/`; on Workers in `SSO_KV`.
-- No analytics and no third-party CDNs. Fonts are bundled locally, including the Phosphor icon font (added in the icon PR).
+- No analytics and no third-party CDNs. Fonts are bundled locally, including the Phosphor icon font.
 - The hosted instance is a convenience, not a guarantee. Self-host for full control.
 
 ## session notes from testing

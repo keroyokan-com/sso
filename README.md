@@ -23,7 +23,7 @@ A small, private, self-hostable launcher for UNESA's SSO dashboard. Not an offic
 
 ## privacy
 
-- No analytics or CDNs. The Phosphor icon font is bundled locally (added in the icon PR).
+- No analytics or CDNs. Fonts are bundled locally.
 - Link and token stay in `localStorage`. Cookie mode is server-side only.
 
 ## license
