@@ -1527,11 +1527,15 @@ body.folder-overlay-open .wrap {
   corner-shape: superellipse(1.9);
 }
 
+#menuBtn {
+  anchor-name: --header-menu-btn;
+}
+
 .header-menu {
   position: fixed;
   inset: auto;
-  top: 72px;
-  right: 28px;
+  top: 60px;
+  right: max(80px, calc((100vw - var(--max)) / 2 + 80px));
   margin: 0;
   z-index: 60;
   min-width: 190px;
@@ -1547,6 +1551,21 @@ body.folder-overlay-open .wrap {
 
 .header-menu:popover-open {
   display: flex;
+}
+
+@media (max-width: 720px) {
+  .header-menu {
+    right: max(72px, calc((100vw - var(--max)) / 2 + 72px));
+  }
+}
+
+@supports (position-anchor: --header-menu-btn) {
+  .header-menu {
+    position-anchor: --header-menu-btn;
+    top: anchor(bottom);
+    right: anchor(right);
+    margin-top: 8px;
+  }
 }
 
 .menu-item {

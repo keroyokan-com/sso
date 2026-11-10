@@ -1,31 +1,31 @@
 {
   "source": "public/app-icons/*.png",
   "iconCount": 39,
-  "originalBytes": 398917,
+  "originalBytes": 398445,
   "variants": {
     "48": {
       "webp": {
         "files": 39,
-        "bytes": 47994
+        "bytes": 47966
       },
       "avif": {
         "files": 39,
-        "bytes": 42454
+        "bytes": 42556
       }
     },
     "96": {
       "webp": {
         "files": 39,
-        "bytes": 102880
+        "bytes": 102788
       },
       "avif": {
         "files": 39,
-        "bytes": 81083
+        "bytes": 81093
       }
     }
   },
-  "totalVariantBytes": 274411,
-  "reductionPercent": 31.21,
+  "totalVariantBytes": 274403,
+  "reductionPercent": 31.13,
   "files": [
     {
       "file": "apps-lib.unesa.ac.id.png",
@@ -45,11 +45,11 @@
     },
     {
       "file": "classroom.google.com.png",
-      "originalBytes": 4718,
-      "webp48": 774,
-      "avif48": 808,
-      "webp96": 1134,
-      "avif96": 1104
+      "originalBytes": 5315,
+      "webp48": 782,
+      "avif48": 834,
+      "webp96": 1078,
+      "avif96": 1102
     },
     {
       "file": "dashboard.unesa.ac.id.png",
@@ -69,11 +69,11 @@
     },
     {
       "file": "drive.google.com.png",
-      "originalBytes": 4516,
-      "webp48": 1562,
-      "avif48": 1258,
-      "webp96": 2118,
-      "avif96": 1717
+      "originalBytes": 3726,
+      "webp48": 1546,
+      "avif48": 1252,
+      "webp96": 2080,
+      "avif96": 1714
     },
     {
       "file": "e-audit.unesa.ac.id.png",
@@ -142,10 +142,10 @@
     {
       "file": "lsp.unesa.ac.id.png",
       "originalBytes": 10157,
-      "webp48": 2692,
-      "avif48": 1909,
-      "webp96": 5324,
-      "avif96": 3167
+      "webp48": 2660,
+      "avif48": 1915,
+      "webp96": 5360,
+      "avif96": 3181
     },
     {
       "file": "mail.google.com.png",
@@ -157,11 +157,11 @@
     },
     {
       "file": "meet.google.com.png",
-      "originalBytes": 2376,
-      "webp48": 1118,
-      "avif48": 982,
-      "webp96": 1330,
-      "avif96": 1282
+      "originalBytes": 2097,
+      "webp48": 1130,
+      "avif48": 1058,
+      "webp96": 1296,
+      "avif96": 1283
     },
     {
       "file": "melisa.unesa.ac.id.png",
