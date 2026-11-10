@@ -87,6 +87,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - lazy for the long service list and Google/hidden sections.
 - Keep SVG logo/guide; preload only the font and above-fold icons.
 - Measure icon bytes before/after.
+- Done 2026-11-10 on the vanilla app: 156 derivatives (39 icons × 48/96 × WebP/AVIF), 274,411 B total vs 398,917 B PNG; Lighthouse total byte weight 518 → 249 KiB. Home LCP/CLS still dominated by the banner text and skeleton swap.
 
 ### 6. Motion
 
