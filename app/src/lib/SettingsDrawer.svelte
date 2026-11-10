@@ -1,6 +1,22 @@
 <script>
-  import { onMount, tick } from 'svelte';
+  import { onMount } from 'svelte';
   import { Drawer } from 'vaul-svelte';
+  import { Portal } from 'bits-ui';
+  import {
+    DndContext,
+    DragOverlay,
+    KeyboardSensor,
+    PointerSensor,
+    closestCenter,
+    useSensor,
+    useSensors,
+  } from '@dnd-kit-svelte/core';
+  import {
+    SortableContext,
+    arrayMove,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+  } from '@dnd-kit-svelte/sortable';
   import {
     SECTION_DEFS,
     settingsOpen,
@@ -9,15 +25,14 @@
     focusSettingsTrigger,
     persist,
     reset,
-    setOrder,
     toggleHidden,
   } from './settingsStore.svelte.js';
+  import SettingsSortableRow from './SettingsSortableRow.svelte';
 
-  let panelEl = $state(null);
-  let listEl = $state(null);
-  let drag = $state(null);
+  let activeId = $state(null);
   let announcement = $state('');
   let isMobile = $state(false);
+  let reducedMotion = $state(false);
   let vaulOpen = $state(settingsOpen());
 
   const rows = $derived(
@@ -25,15 +40,62 @@
       .map((id) => ({ id, def: SECTION_DEFS.find((entry) => entry.id === id) }))
       .filter((row) => row.def)
   );
+  const rowIds = $derived(rows.map((row) => row.id));
+  const activeRow = $derived(rows.find((row) => row.id === activeId) || null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const screenReaderInstructions = {
+    draggable:
+      'Untuk mengangkat, tekan Space atau Enter. Gunakan panah untuk memindah, Space untuk lepas, Esc untuk batal.',
+  };
+
+  function sectionName(id) {
+    const def = SECTION_DEFS.find((entry) => entry.id === id);
+    return def?.name || String(id);
+  }
+
+  function sectionPosition(id) {
+    return rows.findIndex((row) => row.id === id) + 1;
+  }
+
+  const announcements = {
+    onDragStart({ active }) {
+      return `${sectionName(active.id)} diangkat. Gunakan panah untuk memindah, Space untuk lepas, Esc untuk batal.`;
+    },
+    onDragOver({ active, over }) {
+      if (!over) return `${sectionName(active.id)} di luar daftar.`;
+      return `${sectionName(active.id)} berada di posisi ${sectionPosition(over.id)} dari ${rows.length}.`;
+    },
+    onDragEnd({ active, over }) {
+      if (!over) return `${sectionName(active.id)} dilepas.`;
+      return `${sectionName(active.id)} dipindah ke posisi ${sectionPosition(active.id)} dari ${rows.length}.`;
+    },
+    onDragCancel({ active }) {
+      return `Pemindahan ${sectionName(active.id)} dibatalkan.`;
+    },
+  };
 
   onMount(() => {
-    const query = matchMedia('(max-width: 720px)');
-    const update = () => {
-      isMobile = query.matches;
+    const mobileQuery = matchMedia('(max-width: 720px)');
+    const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMobile = () => {
+      isMobile = mobileQuery.matches;
     };
-    update();
-    query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
+    const updateMotion = () => {
+      reducedMotion = motionQuery.matches;
+    };
+    updateMobile();
+    updateMotion();
+    mobileQuery.addEventListener('change', updateMobile);
+    motionQuery.addEventListener('change', updateMotion);
+    return () => {
+      mobileQuery.removeEventListener('change', updateMobile);
+      motionQuery.removeEventListener('change', updateMotion);
+    };
   });
 
   function close() {
@@ -54,81 +116,30 @@
     focusSettingsTrigger();
   }
 
-  function onDragStart(id, event) {
-    if (event.pointerType === 'mouse' && event.button !== 0) return;
-    event.preventDefault();
-
-    const handle = event.currentTarget;
-    try {
-      handle.setPointerCapture(event.pointerId);
-    } catch {
-      /* ignore */
-    }
-    drag = { id, pointerId: event.pointerId };
+  function onDragStart(event) {
+    activeId = event.active.id;
     announcement = '';
   }
 
-  function moveRelative(id, targetId, after) {
-    const order = [...settingsState.order];
-    const from = order.indexOf(id);
-    if (from === -1) return;
-
-    order.splice(from, 1);
-    let index = order.indexOf(targetId);
-    if (index === -1) return;
-    if (after) index += 1;
-    if (index === from) return;
-
-    order.splice(index, 0, id);
-    settingsState.order = order;
-  }
-
-  function onDragMove(event) {
-    if (!drag || event.pointerId !== drag.pointerId) return;
-
-    const hit = document.elementFromPoint(event.clientX, event.clientY)?.closest('[data-section]');
-    if (!hit || !listEl?.contains(hit)) return;
-
-    const targetId = hit.dataset.section;
-    if (!targetId || targetId === drag.id) return;
-
-    const rect = hit.getBoundingClientRect();
-    moveRelative(drag.id, targetId, event.clientY > rect.top + rect.height / 2);
-  }
-
   function onDragEnd(event) {
-    if (!drag || event.pointerId !== drag.pointerId) return;
-    drag = null;
+    const { active, over } = event;
+    activeId = null;
+    if (!over || active.id === over.id) return;
+
+    const from = settingsState.order.indexOf(active.id);
+    const to = settingsState.order.indexOf(over.id);
+    if (from === -1 || to === -1) return;
+
+    settingsState.order = arrayMove(settingsState.order, from, to);
     persist();
   }
 
-  function onHandleKeydown(id, event) {
-    if (!event.altKey) return;
+  function onDragCancel() {
+    activeId = null;
+  }
 
-    const direction = event.key === 'ArrowUp' ? -1 : event.key === 'ArrowDown' ? 1 : 0;
-    if (!direction) return;
-
-    event.preventDefault();
-
-    const handle = event.currentTarget;
-    const order = [...settingsState.order];
-    const from = order.indexOf(id);
-    const to = from + direction;
-
-    if (from === -1 || to < 0 || to >= order.length) {
-      announcement = direction < 0 ? 'Sudah di urutan paling atas.' : 'Sudah di urutan paling bawah.';
-      return;
-    }
-
-    [order[from], order[to]] = [order[to], order[from]];
-    setOrder(order);
-    tick().then(() => {
-      const next = panelEl?.querySelector(`[data-section="${id}"] .drag-handle`);
-      (next || handle).focus();
-    });
-
-    const def = SECTION_DEFS.find((entry) => entry.id === id);
-    announcement = `${def?.name || id} dipindah ke posisi ${to + 1} dari ${order.length}.`;
+  function onEscapeKeydown(event) {
+    if (activeId != null) event.preventDefault();
   }
 
   function onToggle(id) {
@@ -144,24 +155,7 @@
   }
 
   $effect(() => {
-    if (!drag) return;
-
-    const onMove = (event) => onDragMove(event);
-    const onEnd = (event) => onDragEnd(event);
-
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onEnd);
-    window.addEventListener('pointercancel', onEnd);
-
-    return () => {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onEnd);
-      window.removeEventListener('pointercancel', onEnd);
-    };
-  });
-
-  $effect(() => {
-    if (!settingsOpen()) drag = null;
+    if (!settingsOpen()) activeId = null;
   });
 
   $effect(() => {
@@ -195,8 +189,8 @@
     <Drawer.Overlay class="settings-overlay" />
     <Drawer.Content
       class="settings-drawer"
-      bind:ref={panelEl}
       onCloseAutoFocus={onCloseAutoFocus}
+      onEscapeKeydown={onEscapeKeydown}
       tabindex="-1"
     >
       <div class="settings-head">
@@ -210,39 +204,54 @@
 
       <div class="settings-body">
         <p class="settings-hint">
-          Tarik untuk mengurutkan. Keyboard: <kbd>Alt</kbd> + panah.
+          Tarik pegangan untuk mengurutkan. Keyboard: <kbd>Space</kbd> atau <kbd>Enter</kbd> angkat,
+          panah pindah, <kbd>Esc</kbd> batal.
         </p>
 
-        <ul class="settings-list" bind:this={listEl}>
-          {#each rows as row (row.id)}
-            <li class="settings-row" class:dragging={drag?.id === row.id} data-section={row.id}>
-              <button
-                class="drag-handle"
-                type="button"
-                aria-label="Tarik untuk mengurutkan {row.def.name}"
-                aria-keyshortcuts="Alt+ArrowUp Alt+ArrowDown"
-                onpointerdown={(event) => onDragStart(row.id, event)}
-                onkeydown={(event) => onHandleKeydown(row.id, event)}
-              >
-                <i class="ph ph-dots-six-vertical" aria-hidden="true"></i>
-              </button>
-
-              <span class="settings-copy">
-                <span class="settings-name">{row.def.name}</span>
-              </span>
-
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  checked={!settingsState.hidden.includes(row.id)}
-                  aria-label="Tampilkan {row.def.name}"
-                  onchange={() => onToggle(row.id)}
+        <DndContext
+          {sensors}
+          collisionDetection={closestCenter}
+          accessibility={{ announcements, screenReaderInstructions }}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragCancel={onDragCancel}
+        >
+          <SortableContext id="settings-sections" items={rowIds} strategy={verticalListSortingStrategy}>
+            <ul class="settings-list" data-vaul-no-drag>
+              {#each rows as row (row.id)}
+                <SettingsSortableRow
+                  {row}
+                  sections={rowIds}
+                  hidden={settingsState.hidden.includes(row.id)}
+                  {reducedMotion}
+                  onToggle={onToggle}
                 />
-                <span class="switch-track" aria-hidden="true"></span>
-              </label>
-            </li>
-          {/each}
-        </ul>
+              {/each}
+            </ul>
+          </SortableContext>
+
+          <Portal to="body">
+            <DragOverlay
+              className="settings-drag-overlay"
+              transition={reducedMotion ? 'none' : undefined}
+              dropAnimation={reducedMotion ? null : undefined}
+            >
+              {#if activeRow}
+                <div class="drag-ghost" aria-hidden="true">
+                  <span class="ghost-handle">
+                    <i class="ph ph-dots-six-vertical"></i>
+                  </span>
+                  <span class="ghost-copy">
+                    <span class="ghost-name">{activeRow.def.name}</span>
+                  </span>
+                  <span class="ghost-switch" class:on={!settingsState.hidden.includes(activeRow.id)}>
+                    <span class="ghost-track"></span>
+                  </span>
+                </div>
+              {/if}
+            </DragOverlay>
+          </Portal>
+        </DndContext>
 
         <p class="sr-only" aria-live="polite" aria-atomic="true">{announcement}</p>
       </div>
@@ -334,94 +343,66 @@
     gap: 8px;
   }
 
-  .settings-row {
+  :global(.settings-drag-overlay) {
+    cursor: grabbing;
+    pointer-events: none;
+  }
+
+  .drag-ghost {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: 100%;
+    height: 100%;
     padding: 10px 12px;
+    border: 1px solid var(--line);
     border-radius: 12px;
-    background: var(--surface-2);
-    transition: opacity 0.15s ease, background 0.15s ease;
-  }
-
-  .settings-row.dragging {
-    opacity: 0.65;
     background: var(--surface);
+    box-shadow: 0 12px 30px rgb(0 0 0 / 0.16);
+    scale: 1.02;
+    cursor: grabbing;
+    pointer-events: none;
   }
 
-  .drag-handle {
+  .ghost-handle {
     flex: none;
     width: 32px;
     height: 40px;
     display: grid;
     place-items: center;
-    padding: 0;
-    border: 0;
-    border-radius: 7px;
-    background: transparent;
     color: var(--faint);
-    cursor: grab;
-    touch-action: none;
-    -webkit-user-select: none;
-    user-select: none;
   }
 
-  .drag-handle:active {
-    cursor: grabbing;
-  }
-
-  .drag-handle:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-
-  .drag-handle .ph {
+  .ghost-handle .ph {
     font-size: 18px;
     line-height: 1;
   }
 
-  .settings-copy {
+  .ghost-copy {
     flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
   }
 
-  .settings-name {
+  .ghost-name {
     font-size: 14px;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
-  .switch {
+  .ghost-switch {
     position: relative;
     flex: none;
     width: 38px;
     height: 22px;
-  }
-
-  .switch input {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    margin: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  .switch-track {
-    position: relative;
-    display: block;
-    width: 38px;
-    height: 22px;
     border-radius: 999px;
     background: var(--line-strong);
-    transition: background 0.18s ease;
   }
 
-  .switch-track::after {
-    content: '';
+  .ghost-switch.on {
+    background: var(--accent);
+  }
+
+  .ghost-track {
     position: absolute;
     top: 3px;
     left: 3px;
@@ -429,21 +410,11 @@
     height: 16px;
     border-radius: 50%;
     background: #fff;
-    transition: transform 0.18s ease, background 0.18s ease;
   }
 
-  .switch input:checked + .switch-track {
-    background: var(--accent);
-  }
-
-  .switch input:checked + .switch-track::after {
+  .ghost-switch.on .ghost-track {
     background: var(--bg);
     transform: translateX(16px);
-  }
-
-  .switch input:focus-visible + .switch-track {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
   }
 
   .settings-foot {
@@ -471,6 +442,14 @@
     :global([data-vaul-overlay]) {
       animation: none !important;
       transition: none !important;
+    }
+
+    :global(.settings-drag-overlay) {
+      transition: none !important;
+    }
+
+    .drag-ghost {
+      scale: none;
     }
   }
 

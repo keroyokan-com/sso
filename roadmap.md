@@ -104,7 +104,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Done 2026-11-10: in-app settings drawer (reorder, show/hide, reset, pointer + keyboard, live apply, focus trap); EN/ID switch still pending.
 - [x] Drawer opening animation with `vaul-svelte`; evaluate side drawer vs bottom sheet ([#5](https://github.com/keroyokan-com/sso/issues/5)).
 - [ ] EN/ID language switch, persist `sso.lang` ([#6](https://github.com/keroyokan-com/sso/issues/6)).
-- [ ] Drag/sort polish with `@dnd-kit-svelte/core` + `@dnd-kit-svelte/sortable`: drag overlay ghost, dashed "Pindah: <name>" placeholder, list animation, keyboard sensor, Vaul-safe ([#22](https://github.com/keroyokan-com/sso/issues/22)).
+- [x] Drag/sort polish with `@dnd-kit-svelte/core` + `@dnd-kit-svelte/sortable`: drag overlay ghost, dashed "Pindah: <name>" placeholder, list animation, keyboard sensor, Vaul-safe ([#22](https://github.com/keroyokan-com/sso/issues/22)).
 
 ### 5. Images
 
