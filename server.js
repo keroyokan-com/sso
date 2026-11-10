@@ -115,13 +115,19 @@ const server = http.createServer(async (req, res) => {
     }
 
     const safe = path.normalize(pathname).replace(/^([.][.][/\\])+/, '');
-    const file = path.join(PUBLIC_DIR, safe);
-    if (!file.startsWith(PUBLIC_DIR)) {
+    const target = path.join(PUBLIC_DIR, safe);
+    if (!target.startsWith(PUBLIC_DIR)) {
       res.writeHead(403);
       return res.end('Forbidden');
     }
-    if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-      return sendFile(res, file, 'no-cache');
+    if (pathname.endsWith('/')) {
+      const indexFile = path.join(target, 'index.html');
+      if (fs.existsSync(indexFile) && fs.statSync(indexFile).isFile()) {
+        return sendFile(res, indexFile, 'no-cache');
+      }
+    }
+    if (fs.existsSync(target) && fs.statSync(target).isFile()) {
+      return sendFile(res, target, 'no-cache');
     }
 
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
