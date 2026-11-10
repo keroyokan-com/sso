@@ -66,7 +66,11 @@ async function main() {
       for (const format of FORMATS) {
         const outPath = path.join(outDir, `${base}.${format.ext}`);
         await sharp(sourcePath)
-          .resize(size, size, { fit: 'contain', withoutEnlargement: true })
+          .resize(size, size, {
+            fit: 'contain',
+            withoutEnlargement: true,
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
+          })
           .toFormat(format.ext, format.options)
           .toFile(outPath);
 
