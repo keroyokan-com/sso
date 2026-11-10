@@ -153,6 +153,9 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 
 ### 10. Final: deploy badges and GitHub-connected hosting
 
+- Done 2026-11-11: official Deploy to Cloudflare and Deploy with Vercel buttons in the README; `vercel.json` for the static SPA (`npm run build`, output `public`); self-hosting docs for the `sso-lite` Workers Builds connection (`main`, `npm ci && npm run build`, `npx wrangler deploy`, PR previews) and the Vercel static SPA; fresh desktop/mobile screenshots in `docs/screenshots/`.
+- Vercel project `sso` is deployed at <https://sso-kappa-eight.vercel.app>. Deploys on push still need the one-time Vercel GitHub App consent in the project settings.
+- Remaining manual step for #10: the GitHub repo is private, so the one-click Deploy to Cloudflare and Deploy with Vercel buttons are not usable by fresh forks until the repo is made public. The Vercel GitHub connection also needs the one-time Vercel GitHub App consent.
 - Keep the public repo at <https://github.com/keroyokan-com/sso> on `main`; it is the template source.
 - Connect the existing Cloudflare Worker (`sso-lite`) to the repo with Workers Builds:
   - install the Cloudflare GitHub App on the repo,
@@ -168,7 +171,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - Vercel serves the SPA at the root; `/api/*` and `/go/*` are documented as Worker/local-only,
   - the README deploy sections point at the badges instead of "will be added".
 - Manual, one-time account steps: Cloudflare GitHub App install, Workers Builds connection, and Vercel project import all require account-owner consent in the browser; Wrangler/API cannot complete the OAuth handshake.
-- [ ] Keep README simple; move self-hosting/deploy details to `docs/self-hosting.md` with the logo above the title, link it from README, and add desktop/mobile screenshots after all phases ([#18](https://github.com/keroyokan-com/sso/issues/18)).
+- [x] Keep README simple; move self-hosting/deploy details to `docs/self-hosting.md` with the logo above the title, link it from README, and add desktop/mobile screenshots after all phases ([#18](https://github.com/keroyokan-com/sso/issues/18)).
 
 ## Acceptance criteria
 

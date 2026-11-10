@@ -1,6 +1,15 @@
 # sso by keroyokan
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/keroyokan-com/sso)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/keroyokan-com/sso)
+
 A small, private, self-hostable launcher for UNESA's SSO dashboard. Not an official UNESA service.
+
+## screenshots
+
+| desktop | mobile |
+| --- | --- |
+| ![desktop dashboard](docs/screenshots/dashboard-desktop.webp) | ![mobile dashboard](docs/screenshots/dashboard-mobile.webp) |
 
 ## what it does
 
@@ -8,12 +17,6 @@ A small, private, self-hostable launcher for UNESA's SSO dashboard. Not an offic
 - Search, keyboard shortcuts, folders, and favorites
 - Reorder or hide sections, light or dark
 - Guest, link, and cookie modes
-
-## urls
-
-- `/` - Svelte app
-- `/legacy/` - vanilla app
-- `/next/` - redirects to `/`
 
 ## three ways in
 
@@ -26,6 +29,8 @@ A small, private, self-hostable launcher for UNESA's SSO dashboard. Not an offic
 - [Self-hosting](docs/self-hosting.md)
 - [Roadmap](roadmap.md)
 - [FAQ](public/faq.html)
+- [Source](https://github.com/keroyokan-com/sso)
+- [Issues](https://github.com/keroyokan-com/sso/issues)
 
 ## privacy
 
