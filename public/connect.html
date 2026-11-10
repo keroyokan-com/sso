@@ -43,6 +43,160 @@ try {
     letter-spacing: -0.01em;
   }
 
+  .approach {
+    margin-top: 22px;
+  }
+
+  .approach-tabs {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .approach-tab {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 52px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 0;
+    background: var(--surface-2);
+    color: var(--muted);
+    font: 600 13px/1 var(--font);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .approach-tab:first-child {
+    border-top-left-radius: var(--r-lg);
+  }
+
+  .approach-tab:last-child {
+    border-top-right-radius: var(--r-lg);
+  }
+
+  .approach-tab:hover {
+    color: var(--text);
+  }
+
+  .approach-tab[aria-selected="true"] {
+    z-index: 1;
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .approach-tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -3px;
+  }
+
+  .tab-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 15px;
+    opacity: 0.72;
+  }
+
+  .approach-tab[aria-selected="true"] .tab-icons {
+    opacity: 1;
+  }
+
+  .tab-hint {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .approach-tab[aria-selected="false"] .tab-hint {
+    color: var(--faint);
+  }
+
+  .approach-tab[aria-selected="true"]::before,
+  .approach-tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+  }
+
+  .approach-tab[aria-selected="true"]::before {
+    left: -14px;
+    background: radial-gradient(circle at 0 0, transparent 0 13.5px, var(--surface) 14px);
+  }
+
+  .approach-tab[aria-selected="true"]::after {
+    right: -14px;
+    background: radial-gradient(circle at 100% 0, transparent 0 13.5px, var(--surface) 14px);
+  }
+
+  .approach-tab:first-child[aria-selected="true"]::before,
+  .approach-tab:last-child[aria-selected="true"]::after {
+    content: none;
+  }
+
+  .panel.approach-panel {
+    margin-top: 0;
+    border-radius: 0 0 var(--r-lg) var(--r-lg) !important;
+  }
+
+  .platform-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+  }
+
+  .platform-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 10px;
+    background: var(--surface-2);
+  }
+
+  .platform-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 11px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--muted);
+    font: 600 12px/1 var(--font);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .platform-option i {
+    font-size: 14px;
+  }
+
+  .platform-option:hover {
+    color: var(--text);
+  }
+
+  .platform-option[aria-checked="true"] {
+    background: color-mix(in srgb, var(--surface) 93%, #ffffff 7%);
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--line-strong);
+  }
+
+  .platform-option:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
   .stepper {
     list-style: none;
     margin: 0;
@@ -100,13 +254,14 @@ try {
 
   .step-main a {
     color: var(--text);
-    text-decoration: underline;
-    text-decoration-color: var(--line-strong);
-    text-underline-offset: 2px;
+    text-decoration: underline wavy var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-skip-ink: none;
   }
 
   .step-main a:hover {
-    text-decoration-color: currentColor;
+    color: var(--muted);
   }
 
   .step-main strong {
@@ -137,6 +292,24 @@ try {
   .guide-pill { fill: var(--accent); }
   .guide-action { fill: var(--on-accent); }
   .guide-cursor { fill: var(--on-accent); stroke: var(--accent); }
+
+  .guide-touch {
+    fill: var(--accent);
+    fill-opacity: 0.06;
+    stroke: var(--accent);
+    stroke-opacity: 0.4;
+    stroke-width: 1.5;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  .approach-panel[data-platform="mobile"] .guide-touch {
+    opacity: 1;
+  }
+
+  .approach-panel[data-platform="mobile"] .guide-cursor {
+    opacity: 0;
+  }
 
   .link-guide text {
     font-family: var(--font);
@@ -231,6 +404,10 @@ try {
     line-height: 1.55;
   }
 
+  .cookie-mobile-note {
+    display: none;
+  }
+
   .privacy {
     margin: 18px 0 0;
     color: var(--faint);
@@ -238,33 +415,14 @@ try {
     line-height: 1.6;
   }
 
-  .advanced {
-    margin-top: 18px;
-  }
+  @media (max-width: 720px) {
+    .cookie-hint {
+      display: none;
+    }
 
-  .advanced summary {
-    cursor: pointer;
-    list-style: none;
-    padding: 6px 0;
-    font-size: 12px;
-    color: var(--faint);
-    user-select: none;
-  }
-
-  .advanced summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .advanced summary::before {
-    content: "+ ";
-  }
-
-  .advanced[open] summary::before {
-    content: "− ";
-  }
-
-  .advanced .panel {
-    margin-top: 10px;
+    .cookie-mobile-note {
+      display: block;
+    }
   }
 
   @media (max-width: 520px) {
@@ -275,6 +433,23 @@ try {
     .current-row {
       flex-direction: column;
       align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .approach-tab {
+      gap: 5px;
+      padding: 0 8px;
+      font-size: 12.5px;
+    }
+
+    .tab-icons {
+      gap: 1px;
+      font-size: 14px;
+    }
+
+    .tab-hint {
+      font-size: 10.5px;
     }
   }
 </style>
@@ -302,65 +477,94 @@ try {
     </div>
   </div>
 
-  <form id="linkForm" class="panel" novalidate aria-label="Hubungkan via link">
-    <ol class="stepper" role="list">
-      <li>
-        <span class="step-num" aria-hidden="true">1</span>
-        <div class="step-main">
-          <p>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">dashboard SSO</a>.</p>
-        </div>
-      </li>
-      <li>
-        <span class="step-num" aria-hidden="true">2</span>
-        <div class="step-main">
-          <p>Tekan lama atau klik kanan SIDIA, pilih <strong>Copy link address</strong>.</p>
-          <figure class="link-guide" aria-hidden="true">
-            <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" focusable="false">
-              <rect class="guide-bg" x="0.5" y="0.5" width="319" height="149" rx="15.5"/>
-              <rect class="guide-tile" x="16" y="28" width="80" height="80" rx="17"/>
-              <rect class="guide-icon" x="31" y="43" width="50" height="50" rx="12"/>
-              <g class="guide-mark" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="45" y="53" width="22" height="30" rx="3"/>
-                <path d="M45 62h22M45 71h22"/>
-              </g>
-              <text class="guide-label" x="56" y="130" text-anchor="middle">SIDIA</text>
-              <g class="guide-arrow" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M108 68h30" stroke-dasharray="2 5"/>
-                <path d="M134 63l5 5-5 5"/>
-              </g>
-              <rect class="guide-pill" x="148" y="46" width="158" height="44" rx="11"/>
-              <text class="guide-action" x="164" y="73">Copy link address</text>
-              <path class="guide-cursor" d="M282 76l3.5 15 3.7-4.6 3 6.5 3.6-1.6-3-6.4 5.6-.6z" stroke-width="1.2" stroke-linejoin="round"/>
-            </svg>
-          </figure>
-        </div>
-      </li>
-      <li>
-        <span class="step-num" aria-hidden="true">3</span>
-        <div class="step-main">
-          <label for="linkInput">Tempel link</label>
-          <textarea id="linkInput" rows="3" placeholder="https://sindig.unesa.ac.id/..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
-          <div class="form-row">
-            <button class="btn primary" type="submit" id="linkSubmit">Hubungkan</button>
-            <span class="status" id="linkStatus" role="status"></span>
-          </div>
-        </div>
-      </li>
-    </ol>
-  </form>
+  <div class="approach">
+    <div class="approach-tabs" role="tablist" aria-label="Cara menghubungkan">
+      <button class="approach-tab" type="button" role="tab" id="tabLink" aria-selected="true" aria-controls="panelLink" tabindex="0">
+        <span class="tab-icons" aria-hidden="true"><i class="ph ph-desktop"></i><i class="ph ph-device-mobile"></i></span>
+        <span>Link <span class="tab-hint">(disarankan)</span></span>
+      </button>
+      <button class="approach-tab" type="button" role="tab" id="tabCookie" aria-selected="false" aria-controls="panelCookie" tabindex="-1">
+        <span class="tab-icons" aria-hidden="true"><i class="ph ph-desktop"></i></span>
+        <span>Cookie</span>
+      </button>
+    </div>
 
-  <details class="advanced">
-    <summary>Cookie</summary>
-    <form id="cookieForm" class="panel" novalidate aria-label="Hubungkan via cookie">
-      <p class="hint">DevTools → Network → dashboard (document) → Request Headers → cookie.</p>
-      <label for="cookieInput">Cookie header</label>
-      <textarea id="cookieInput" rows="4" placeholder="laravel_session=...; XSRF-TOKEN=..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
-      <div class="form-row">
-        <button class="btn primary" type="submit" id="submitBtn">Hubungkan</button>
-        <span class="status" id="status" role="status"></span>
+    <section class="panel approach-panel" id="panelLink" role="tabpanel" aria-labelledby="tabLink" data-platform="desktop">
+      <div class="platform-row">
+        <div class="platform-switch" id="platformSwitch" role="radiogroup" aria-label="Jenis perangkat">
+          <button class="platform-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-platform="mobile">
+            <i class="ph ph-device-mobile" aria-hidden="true"></i>
+            <span>Ponsel</span>
+          </button>
+          <button class="platform-option" type="button" role="radio" aria-checked="true" tabindex="0" data-platform="desktop">
+            <i class="ph ph-desktop" aria-hidden="true"></i>
+            <span>Desktop</span>
+          </button>
+        </div>
       </div>
-    </form>
-  </details>
+
+      <form id="linkForm" novalidate aria-label="Hubungkan via link">
+        <ol class="stepper" role="list">
+          <li>
+            <span class="step-num" aria-hidden="true">1</span>
+            <div class="step-main">
+              <p>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">dashboard SSO</a>.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">2</span>
+            <div class="step-main">
+              <p><span id="stepAction">Klik kanan</span> SIDIA, pilih <strong>Copy link address</strong>.</p>
+              <figure class="link-guide" aria-hidden="true">
+                <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                  <rect class="guide-bg" x="0.5" y="0.5" width="319" height="149" rx="15.5"/>
+                  <rect class="guide-tile" x="16" y="28" width="80" height="80" rx="17"/>
+                  <rect class="guide-icon" x="31" y="43" width="50" height="50" rx="12"/>
+                  <g class="guide-mark" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="45" y="53" width="22" height="30" rx="3"/>
+                    <path d="M45 62h22M45 71h22"/>
+                  </g>
+                  <circle class="guide-touch" cx="56" cy="68" r="26"/>
+                  <text class="guide-label" x="56" y="130" text-anchor="middle">SIDIA</text>
+                  <g class="guide-arrow" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M108 68h30" stroke-dasharray="2 5"/>
+                    <path d="M134 63l5 5-5 5"/>
+                  </g>
+                  <rect class="guide-pill" x="148" y="46" width="158" height="44" rx="11"/>
+                  <text class="guide-action" x="164" y="73">Copy link address</text>
+                  <path class="guide-cursor" d="M282 76l3.5 15 3.7-4.6 3 6.5 3.6-1.6-3-6.4 5.6-.6z" stroke-width="1.2" stroke-linejoin="round"/>
+                </svg>
+              </figure>
+            </div>
+          </li>
+          <li>
+            <span class="step-num" aria-hidden="true">3</span>
+            <div class="step-main">
+              <label for="linkInput">Tempel link</label>
+              <textarea id="linkInput" rows="3" placeholder="https://sindig.unesa.ac.id/..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+              <div class="form-row">
+                <button class="btn primary" type="submit" id="linkSubmit">Hubungkan</button>
+                <span class="status" id="linkStatus" role="status"></span>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </form>
+    </section>
+
+    <section class="panel approach-panel" id="panelCookie" role="tabpanel" aria-labelledby="tabCookie" hidden>
+      <form id="cookieForm" novalidate aria-label="Hubungkan via cookie">
+        <p class="hint cookie-hint">DevTools → Network → dashboard (document) → Request Headers → cookie.</p>
+        <p class="hint cookie-mobile-note">Khusus desktop: ambil cookie lewat DevTools di browser desktop.</p>
+        <label for="cookieInput">Cookie header</label>
+        <textarea id="cookieInput" rows="4" placeholder="laravel_session=...; XSRF-TOKEN=..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+        <div class="form-row">
+          <button class="btn primary" type="submit" id="submitBtn">Hubungkan</button>
+          <span class="status" id="status" role="status"></span>
+        </div>
+      </form>
+    </section>
+  </div>
 
   <div id="localBox" class="panel" hidden>
     <h2>Mode lokal</h2>

@@ -31,6 +31,14 @@
   content: "\eae2";
 }
 
+.ph-desktop::before {
+  content: "\e560";
+}
+
+.ph-device-mobile::before {
+  content: "\e1e0";
+}
+
 :root {
   --bg: #ffffff;
   --surface: #f4f4f4;
