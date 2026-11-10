@@ -52,7 +52,7 @@ The repo is already connected to Workers Builds on the existing `sso-lite` Worke
 5. Deploy command: `npx wrangler deploy`.
 6. Keep the `SSO_KV` binding and cron trigger in `wrangler.toml`.
 
-Non-production branches build PR previews on the same `sso-lite` Worker, at `https://<branch>-sso-lite.kwgtacc1.workers.dev`. PR previews do not use a separate `sso-lite-preview` Worker. `wrangler.preview.toml` remains a manual preview config without cron; Workers Builds does not use it.
+Non-production branches build PR previews on the same `sso-lite` Worker, at `https://<branch>-sso-lite.kwgtacc1.workers.dev` (`/` in the branch name becomes `-`; for example `t3-readme-deploy-badges-sso-lite.kwgtacc1.workers.dev`). PR previews do not use a separate `sso-lite-preview` Worker. `wrangler.preview.toml` remains a manual preview config without cron; Workers Builds does not use it.
 
 ## vercel
 
