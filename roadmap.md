@@ -1,5 +1,22 @@
 # Roadmap, Svelte SPA port
 
+## Status
+
+Roadmap tracker: [#11](https://github.com/keroyokan-com/sso/issues/11). Feature PR: [#1](https://github.com/keroyokan-com/sso/pull/1).
+
+- [x] Phase 0 — Baseline
+- [x] Phase 1 — Scaffold
+- [x] Phase 2 — Shell (menu alignment follow-up: [#2](https://github.com/keroyokan-com/sso/issues/2))
+- [x] Phase 3 — Dashboard (search follow-up: [#4](https://github.com/keroyokan-com/sso/issues/4))
+- [x] Phase 4 — Settings drawer (i18n: [#6](https://github.com/keroyokan-com/sso/issues/6); drawer animation: [#5](https://github.com/keroyokan-com/sso/issues/5))
+- [x] Phase 5 — Images (Google icon bug: [#3](https://github.com/keroyokan-com/sso/issues/3))
+- [x] Search quality module (14 tests)
+- [ ] Phase 6 — Motion ([#5](https://github.com/keroyokan-com/sso/issues/5))
+- [ ] Phase 7 — Modes and API ([#7](https://github.com/keroyokan-com/sso/issues/7))
+- [ ] Phase 8 — QA, accessibility, performance ([#8](https://github.com/keroyokan-com/sso/issues/8))
+- [ ] Phase 9 — Deploy the SPA ([#9](https://github.com/keroyokan-com/sso/issues/9))
+- [ ] Phase 10 — Deploy badges and GitHub-connected hosting ([#10](https://github.com/keroyokan-com/sso/issues/10))
+
 ## Goal
 
 Keep the current SSO Lite dashboard but give it a true SPA feel: no full document reloads, instant settings, sortable sections, optimized images, and the same light/dark monochrome design.
@@ -52,6 +69,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Reuse `styles.css` tokens; split component styles.
 - Theme boot script before paint (no flash).
 - Done 2026-11-10: Svelte shell at `/next/` with header, name editing, theme, search shortcuts, menu popover, footer link state, and toasts; 68 Playwright checks plus an independent 390/1280 pass.
+- [ ] Desktop header menu alignment: open under the hamburger, not at the viewport edge ([#2](https://github.com/keroyokan-com/sso/issues/2)).
 
 ### 3. Dashboard components
 
@@ -63,6 +81,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - rank exact/prefix/compact matches above fuzzy matches across title, desc, host, and keywords.
   - tests: `mehlisa`, `me li sa`, and `magang` all surface MELISA; exact names still rank first; keep the no-results state.
 - Search module landed 2026-11-10: `app/src/lib/search.mjs` + 14 Node tests (`npm run test:search`); wire it into the dashboard in this phase.
+- [ ] Search follow-up: `MAG`/`maga`/`mbkm` should surface MELISA; add alias-prefix matching and catalog keywords ([#4](https://github.com/keroyokan-com/sso/issues/4)).
 - Done 2026-11-10: dashboard at `/next/` (guest/link modes, folders, favorites, accordion, search, image srcsets, folder dialog); search module wired; Lighthouse mobile CLS 0, A11y/BP 100.
 - Folder cards/row with horizontal scroll, snap, and the dynamic feathered edges (start/mid/end).
 - Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
@@ -82,6 +101,8 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Add an EN/ID language switch (drawer and/or header), persist sso.lang, translate UI/FAQ/connect/settings.
 - Acceptance: opening settings is a same-document paint, no network navigation.
 - Done 2026-11-10: in-app settings drawer (reorder, show/hide, reset, pointer + keyboard, live apply, focus trap); EN/ID switch still pending.
+- [ ] Drawer opening animation with `vaul-svelte`; evaluate side drawer vs bottom sheet ([#5](https://github.com/keroyokan-com/sso/issues/5)).
+- [ ] EN/ID language switch, persist `sso.lang` ([#6](https://github.com/keroyokan-com/sso/issues/6)).
 
 ### 5. Images
 
@@ -92,12 +113,16 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Keep SVG logo/guide; preload only the font and above-fold icons.
 - Measure icon bytes before/after.
 - Done 2026-11-10 on the vanilla app: 156 derivatives (39 icons × 48/96 × WebP/AVIF), 274,411 B total vs 398,917 B PNG; Lighthouse total byte weight 518 → 249 KiB. Home LCP/CLS still dominated by the banner text and skeleton swap.
+- [ ] Fix black bars in Drive/Meet/Classroom icons; regenerate the 48/96 derivatives ([#3](https://github.com/keroyokan-com/sso/issues/3)).
 
 ### 6. Motion
 
 - Keep folder open/close fly + spring; ensure reduced-motion fallback.
 - Use Svelte transitions for drawer/settings only where Motion isn’t needed.
 - No layout thrash on section reorder.
+- Current gap: the Svelte folder dialog opens/closes instantly; the vanilla fly/spring is not ported yet.
+- Add the settings drawer opening animation with `vaul-svelte` (coordinate with phase 4) ([#5](https://github.com/keroyokan-com/sso/issues/5)).
+- Reduced-motion fallback; keep CLS at 0.
 
 ### 7. Modes and API
 
