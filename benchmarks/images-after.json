@@ -1,0 +1,343 @@
+{
+  "source": "public/app-icons/*.png",
+  "iconCount": 39,
+  "originalBytes": 398917,
+  "variants": {
+    "48": {
+      "webp": {
+        "files": 39,
+        "bytes": 47994
+      },
+      "avif": {
+        "files": 39,
+        "bytes": 42454
+      }
+    },
+    "96": {
+      "webp": {
+        "files": 39,
+        "bytes": 102880
+      },
+      "avif": {
+        "files": 39,
+        "bytes": 81083
+      }
+    }
+  },
+  "totalVariantBytes": 274411,
+  "reductionPercent": 31.21,
+  "files": [
+    {
+      "file": "apps-lib.unesa.ac.id.png",
+      "originalBytes": 7638,
+      "webp48": 1168,
+      "avif48": 1021,
+      "webp96": 2344,
+      "avif96": 1938
+    },
+    {
+      "file": "bebaslab.unesa.ac.id.png",
+      "originalBytes": 10211,
+      "webp48": 1094,
+      "avif48": 1022,
+      "webp96": 2486,
+      "avif96": 2069
+    },
+    {
+      "file": "classroom.google.com.png",
+      "originalBytes": 4718,
+      "webp48": 774,
+      "avif48": 808,
+      "webp96": 1134,
+      "avif96": 1104
+    },
+    {
+      "file": "dashboard.unesa.ac.id.png",
+      "originalBytes": 7634,
+      "webp48": 1174,
+      "avif48": 1088,
+      "webp96": 2352,
+      "avif96": 2004
+    },
+    {
+      "file": "digilib.unesa.ac.id.png",
+      "originalBytes": 12011,
+      "webp48": 1058,
+      "avif48": 1034,
+      "webp96": 2242,
+      "avif96": 1947
+    },
+    {
+      "file": "drive.google.com.png",
+      "originalBytes": 4516,
+      "webp48": 1562,
+      "avif48": 1258,
+      "webp96": 2118,
+      "avif96": 1717
+    },
+    {
+      "file": "e-audit.unesa.ac.id.png",
+      "originalBytes": 14278,
+      "webp48": 1358,
+      "avif48": 1201,
+      "webp96": 3112,
+      "avif96": 2445
+    },
+    {
+      "file": "e-layanan.unesa.ac.id.png",
+      "originalBytes": 9073,
+      "webp48": 1096,
+      "avif48": 1115,
+      "webp96": 2222,
+      "avif96": 1969
+    },
+    {
+      "file": "edunesamall.unesa.ac.id.png",
+      "originalBytes": 8142,
+      "webp48": 662,
+      "avif48": 743,
+      "webp96": 1624,
+      "avif96": 1404
+    },
+    {
+      "file": "internetaccess.unesa.ac.id.png",
+      "originalBytes": 7713,
+      "webp48": 984,
+      "avif48": 958,
+      "webp96": 2240,
+      "avif96": 1733
+    },
+    {
+      "file": "iopac.unesa.ac.id.png",
+      "originalBytes": 13753,
+      "webp48": 1112,
+      "avif48": 1024,
+      "webp96": 2472,
+      "avif96": 1969
+    },
+    {
+      "file": "jdih.unesa.ac.id.png",
+      "originalBytes": 4439,
+      "webp48": 1272,
+      "avif48": 862,
+      "webp96": 3496,
+      "avif96": 3307
+    },
+    {
+      "file": "journal.unesa.ac.id.png",
+      "originalBytes": 7600,
+      "webp48": 1046,
+      "avif48": 992,
+      "webp96": 2194,
+      "avif96": 1769
+    },
+    {
+      "file": "konseling.unesa.ac.id.png",
+      "originalBytes": 11695,
+      "webp48": 1214,
+      "avif48": 1080,
+      "webp96": 2808,
+      "avif96": 2247
+    },
+    {
+      "file": "lsp.unesa.ac.id.png",
+      "originalBytes": 10157,
+      "webp48": 2692,
+      "avif48": 1909,
+      "webp96": 5324,
+      "avif96": 3167
+    },
+    {
+      "file": "mail.google.com.png",
+      "originalBytes": 3801,
+      "webp48": 866,
+      "avif48": 844,
+      "webp96": 1312,
+      "avif96": 1192
+    },
+    {
+      "file": "meet.google.com.png",
+      "originalBytes": 2376,
+      "webp48": 1118,
+      "avif48": 982,
+      "webp96": 1330,
+      "avif96": 1282
+    },
+    {
+      "file": "melisa.unesa.ac.id.png",
+      "originalBytes": 16152,
+      "webp48": 1316,
+      "avif48": 1135,
+      "webp96": 3080,
+      "avif96": 2372
+    },
+    {
+      "file": "neoyudisium.unesa.ac.id.png",
+      "originalBytes": 19377,
+      "webp48": 2022,
+      "avif48": 1356,
+      "webp96": 4946,
+      "avif96": 2482
+    },
+    {
+      "file": "pemira.unesa.ac.id.png",
+      "originalBytes": 12423,
+      "webp48": 1250,
+      "avif48": 1048,
+      "webp96": 2766,
+      "avif96": 2098
+    },
+    {
+      "file": "pkkmb.unesa.ac.id.png",
+      "originalBytes": 16173,
+      "webp48": 2168,
+      "avif48": 1535,
+      "webp96": 4676,
+      "avif96": 2896
+    },
+    {
+      "file": "pusbatep.unesa.ac.id.png",
+      "originalBytes": 11993,
+      "webp48": 1094,
+      "avif48": 1035,
+      "webp96": 2342,
+      "avif96": 1963
+    },
+    {
+      "file": "siani.unesa.ac.id.png",
+      "originalBytes": 7401,
+      "webp48": 1020,
+      "avif48": 988,
+      "webp96": 1958,
+      "avif96": 1739
+    },
+    {
+      "file": "sijuna.unesa.ac.id.png",
+      "originalBytes": 9424,
+      "webp48": 1058,
+      "avif48": 1023,
+      "webp96": 2352,
+      "avif96": 1992
+    },
+    {
+      "file": "simarko.unesa.ac.id.png",
+      "originalBytes": 7835,
+      "webp48": 934,
+      "avif48": 993,
+      "webp96": 2078,
+      "avif96": 1798
+    },
+    {
+      "file": "simlppm.unesa.ac.id.png",
+      "originalBytes": 9115,
+      "webp48": 1116,
+      "avif48": 1025,
+      "webp96": 2398,
+      "avif96": 1981
+    },
+    {
+      "file": "simpelmawa.unesa.ac.id.png",
+      "originalBytes": 11213,
+      "webp48": 1048,
+      "avif48": 1004,
+      "webp96": 2326,
+      "avif96": 1936
+    },
+    {
+      "file": "simpkm.unesa.ac.id.png",
+      "originalBytes": 12508,
+      "webp48": 1204,
+      "avif48": 1083,
+      "webp96": 2786,
+      "avif96": 2218
+    },
+    {
+      "file": "simpmw.unesa.ac.id.png",
+      "originalBytes": 12680,
+      "webp48": 1242,
+      "avif48": 1116,
+      "webp96": 2958,
+      "avif96": 2280
+    },
+    {
+      "file": "simpromas.unesa.ac.id.png",
+      "originalBytes": 10474,
+      "webp48": 1044,
+      "avif48": 996,
+      "webp96": 2286,
+      "avif96": 1993
+    },
+    {
+      "file": "sindig.unesa.ac.id.png",
+      "originalBytes": 17503,
+      "webp48": 1440,
+      "avif48": 1246,
+      "webp96": 3416,
+      "avif96": 2602
+    },
+    {
+      "file": "siolos.unesa.ac.id.png",
+      "originalBytes": 10177,
+      "webp48": 1084,
+      "avif48": 1073,
+      "webp96": 2462,
+      "avif96": 2188
+    },
+    {
+      "file": "sipena2.unesa.ac.id.png",
+      "originalBytes": 16633,
+      "webp48": 2296,
+      "avif48": 1694,
+      "webp96": 5126,
+      "avif96": 3123
+    },
+    {
+      "file": "siyapa.unesa.ac.id.png",
+      "originalBytes": 10160,
+      "webp48": 974,
+      "avif48": 973,
+      "webp96": 2040,
+      "avif96": 1834
+    },
+    {
+      "file": "tracerstudy.unesa.ac.id.png",
+      "originalBytes": 9679,
+      "webp48": 1018,
+      "avif48": 1019,
+      "webp96": 2168,
+      "avif96": 2086
+    },
+    {
+      "file": "ukt.unesa.ac.id.png",
+      "originalBytes": 8160,
+      "webp48": 1056,
+      "avif48": 1050,
+      "webp96": 2346,
+      "avif96": 2023
+    },
+    {
+      "file": "umc.unesa.ac.id.png",
+      "originalBytes": 10389,
+      "webp48": 1106,
+      "avif48": 1054,
+      "webp96": 2544,
+      "avif96": 2084
+    },
+    {
+      "file": "unesa.me.png",
+      "originalBytes": 7264,
+      "webp48": 1044,
+      "avif48": 988,
+      "webp96": 2260,
+      "avif96": 1770
+    },
+    {
+      "file": "vmsul.unesa.ac.id.png",
+      "originalBytes": 12429,
+      "webp48": 1210,
+      "avif48": 1079,
+      "webp96": 2756,
+      "avif96": 2362
+    }
+  ]
+}

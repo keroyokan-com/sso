@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "npm run build && node server.js",
-    "build": "npm run build:client && npm run build:spa",
+    "build": "npm run build:images && npm run build:client && npm run build:spa",
+    "build:images": "node scripts/build-images.js",
     "build:client": "esbuild src/app.js --bundle --format=iife --target=es2020 --minify --outfile=public/app.js",
     "build:spa": "vite build",
     "dev:spa": "vite --host 127.0.0.1 --port 4174",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "esbuild": "^0.28.2",
+    "sharp": "^0.35.5",
     "svelte": "^5.57.3",
     "vite": "^8.3.7"
   }
