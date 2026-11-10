@@ -38,6 +38,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Record Lighthouse (mobile) for `/`, `/connect`, `/settings`.
 - Record current bundle sizes and icon payload.
 - Capture screenshots of every section at 390px, 768px, 1280px.
+- Baseline recorded 2026-11-10: [`benchmarks/baseline.md`](benchmarks/baseline.md). Home mobile: Performance 75, LCP 2.72 s, CLS 0.45; `app.js` 103.7 KiB; icons 389.6 KiB.
 
 ### 1. Scaffold
 
@@ -64,6 +65,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
 - Layanan kampus accordion (4 visible, Lihat semua/tampilkan lebih sedikit) and favorites.
 - Guest/link/cookie modes and the per-app link store.
+- Fix the baseline home CLS 0.45 from the skeleton-to-content swap in `#sectionHost`; keep placeholder geometry stable when `/catalog.json` resolves.
 
 ### 4. Settings drawer (no reload)
 
