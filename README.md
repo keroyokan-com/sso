@@ -9,6 +9,12 @@ A small, private, self-hostable launcher for UNESA's SSO dashboard. Not an offic
 - Reorder or hide sections, light or dark
 - Guest, link, and cookie modes
 
+## urls
+
+- `/` - Svelte app
+- `/legacy/` - vanilla app
+- `/next/` - redirects to `/`
+
 ## three ways in
 
 - **Guest** - open the app and use the service roots. Nothing to connect.

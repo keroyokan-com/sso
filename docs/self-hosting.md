@@ -2,7 +2,7 @@
 
 # Self-hosting SSO Lite
 
-SSO Lite is static files plus an optional small server. Guest and link modes need only the static app; cookie mode needs a server that can drive a browser.
+SSO Lite is static files plus an optional small server. The Svelte app is served at `/`, the vanilla app at `/legacy/`, and `/next/` redirects to `/`. Guest and link modes need only the static app; cookie mode needs a server that can drive a browser.
 
 ## local setup
 
@@ -13,7 +13,7 @@ npm install
 npm start
 ```
 
-`npm start` builds the client and starts the local server at <http://localhost:4173>. Cookie mode uses Playwright with your installed Chrome. The server binds to `127.0.0.1`; set `PORT` to change the port.
+`npm start` builds the client and starts the local server at <http://localhost:4173>. The Svelte app is at `/`, the vanilla app at `/legacy/`, and `/next/` redirects to `/`. Cookie mode uses Playwright with your installed Chrome. The server binds to `127.0.0.1`; set `PORT` to change the port.
 
 Local session data lives in `data/` (gitignored):
 
@@ -25,9 +25,11 @@ Local session data lives in `data/` (gitignored):
 
 The deployed app is a Worker with static assets, Workers KV, and a cron trigger. `wrangler.toml` defines:
 
-- `ASSETS` - `public/`
+- `ASSETS` - `public/`, with the Svelte app at the root and the vanilla app at `/legacy/`
 - `SSO_KV` - sessions, keys prefixed `s:`, 60-day TTL, deleted on logout
 - cron `*/40 * * * *` - refreshes cached sessions
+
+The Worker redirects `/next/` to `/` before handing requests to `ASSETS`.
 
 Deploy from your machine:
 
@@ -54,7 +56,7 @@ Workers Builds can deploy from GitHub:
 
 Vercel hosts the static app only: guest and link modes, plus connect, settings, and FAQ. Cookie mode needs the Worker or the local Node server, so the scrape API is not available on a static deployment.
 
-Use build command `npm run build` and output directory `public`.
+Use build command `npm run build` and output directory `public`. The Svelte app is generated at the root; the vanilla app stays at `/legacy/`.
 
 ## data and privacy
 
@@ -75,8 +77,8 @@ Use build command `npm run build` and output directory `public`.
 ## repository map
 
 ```text
-app/               Svelte 5 SPA source, built to public/next/
-public/            static app, legacy client, FAQ, catalog, icons, fonts, logo
+app/               Svelte 5 SPA source, built to public/ (served at /)
+public/            built Svelte app at the root, vanilla app at legacy/, FAQ, catalog, icons, fonts, logo
 src/app.js         legacy client source; esbuild -> public/app.js
 lib/sso.js         local Playwright session + dashboard scraper
 worker/            Cloudflare Worker + scraper

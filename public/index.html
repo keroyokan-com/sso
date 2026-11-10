@@ -16,109 +16,20 @@ try {
 } catch (e) {}
 </script>
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
+  <script type="module" crossorigin src="/assets/index-DVEX773B.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DKxucelN.css">
 </head>
 <body>
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.2 4.2"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.6v2M12 19.4v2M2.6 12h2M19.4 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 13.4A8.1 8.1 0 1 1 10.6 4a6.6 6.6 0 0 0 9.4 9.4z"/></symbol>
-  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.8l2.5 5.1 5.6.8-4 3.9.9 5.6-5-2.6-5 2.6.9-5.6-4-3.9 5.6-.8z"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/></symbol>
   <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.7 7.7 0 0 0-2.6-1.5L14 2.5h-4L9.6 5a7.7 7.7 0 0 0-2.6 1.5l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.7 7.7 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.7 7.7 0 0 0 2.6-1.5l2.4 1 2-3.4z"/></symbol>
   <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.3 1-1.3 1.9"/><path d="M12 16.5v.1"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M9 7h8v8"/></symbol>
 </svg>
-
-<header class="top">
-  <div class="top-inner">
-    <a class="brand" href="/" aria-label="SSO Lite">
-      <span class="brand-logo" aria-hidden="true"></span>
-    </a>
-    <div class="top-actions">
-      <a id="emailLabel" class="email" href="/connect.html" title="Kelola akun" hidden></a>
-      <button id="searchBtn" class="icon-btn" type="button" aria-label="Cari layanan" title="Cari">
-        <svg><use href="#i-search"/></svg>
-      </button>
-      <button id="menuBtn" class="icon-btn" type="button" aria-label="Menu" popovertarget="headerMenu">
-        <svg><use href="#i-menu"/></svg>
-      </button>
-      <button id="themeBtn" class="icon-btn" type="button" aria-label="Ganti tema">
-        <svg class="sun"><use href="#i-sun"/></svg>
-        <svg class="moon"><use href="#i-moon"/></svg>
-      </button>
-
-    </div>
-  </div>
-</header>
-
-<div id="headerMenu" class="header-menu" popover>
-  <a class="menu-item" href="/faq.html">
-    <svg><use href="#i-help"/></svg>
-    <span>FAQ</span>
-  </a>
-  <a class="menu-item" href="/settings.html">
-    <svg><use href="#i-settings"/></svg>
-    <span>Setelan</span>
-  </a>
-</div>
-
-<main class="wrap">
-  <section class="intro">
-    <h1 id="greeting">Halo.</h1>
-    <p class="date" id="dateLine"></p>
-  </section>
-
-  <div class="search" id="searchWrap">
-    <svg class="search-icon"><use href="#i-search"/></svg>
-    <input id="search" type="search" placeholder="Cari layanan…" autocomplete="off" spellcheck="false" aria-label="Cari layanan">
-    <button id="clearBtn" class="clear" type="button" aria-label="Hapus pencarian" hidden>
-      <svg><use href="#i-x"/></svg>
-    </button>
-    <kbd id="searchHint">/</kbd>
-  </div>
-
-  <div id="bannerHost" class="banner-host"></div>
-  <div id="sectionHost" class="section-host">
-    <div id="folderHost" class="folder-host" data-section="folders"></div>
-    <div id="favoritesHost" class="grid-host" data-section="favorites"></div>
-    <div id="campusHost" class="grid-host" data-section="campus" aria-live="polite"></div>
-    <div id="googleHost" class="grid-host" data-section="google"></div>
-    <div id="infoHost" class="info-host" data-section="info"></div>
-  </div>
-
-  <footer class="foot">
-    <div class="foot-left">
-      <span id="footStatus" class="foot-status"><span class="dot"></span><span id="footStatusText">Memuat…</span></span>
-      <span class="sep">·</span>
-      <span id="syncText">Belum tersinkron</span>
-    </div>
-    <button id="refreshBtn" class="ghost-btn" type="button">
-      <svg><use href="#i-refresh"/></svg>
-      <span id="refreshLabel">Refresh</span>
-    </button>
-  </footer>
-</main>
-
-<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-
-<template id="cardTpl">
-  <div class="tile">
-    <a class="app" target="_blank" rel="noopener">
-      <span class="app-icon"></span>
-      <span class="app-meta">
-        <span class="app-title"></span>
-        <span class="app-desc"></span>
-      </span>
-    </a>
-    <button class="star" type="button">
-      <svg><use href="#i-star"/></svg>
-    </button>
-  </div>
-</template>
-
-<script src="/app.js" defer></script>
+<div id="app" data-vaul-drawer-wrapper></div>
 </body>
 </html>

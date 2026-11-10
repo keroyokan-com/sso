@@ -79,6 +79,15 @@ const server = http.createServer(async (req, res) => {
   const pathname = decodeURIComponent(url.pathname);
 
   try {
+    if (pathname === '/next' || pathname.startsWith('/next/')) {
+      const rest = pathname.slice('/next'.length);
+      return redirect(res, (rest.startsWith('/') ? rest : '/' + rest) + url.search);
+    }
+
+    if (pathname === '/legacy') {
+      return redirect(res, '/legacy/' + url.search);
+    }
+
     if (pathname === '/api/state' && req.method === 'GET') {
       return sendJson(res, 200, sso.getState());
     }
