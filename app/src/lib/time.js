@@ -1,5 +1,5 @@
-export function relativeTime(ts) {
-  const diff = Math.max(0, Date.now() - Number(ts || 0));
+export function relativeTime(ts, now = Date.now()) {
+  const diff = Math.max(0, now - Number(ts || 0));
   const min = Math.floor(diff / 60000);
   if (min < 1) return 'baru saja';
   if (min < 60) return `${min} mnt lalu`;

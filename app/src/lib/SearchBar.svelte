@@ -1,8 +1,8 @@
 <script>
-  let query = $state('');
+  let { value = $bindable('') } = $props();
   let inputEl = $state();
 
-  const hasQuery = $derived(query.length > 0);
+  const hasQuery = $derived(value.length > 0);
 
   export function focus() {
     inputEl?.focus();
@@ -10,7 +10,7 @@
   }
 
   function clear() {
-    query = '';
+    value = '';
     focus();
   }
 
@@ -32,7 +32,7 @@
     }
 
     if (event.key === 'Escape' && document.activeElement === inputEl) {
-      query = '';
+      value = '';
       inputEl.blur();
     }
   }
@@ -45,7 +45,7 @@
   <input
     id="search"
     bind:this={inputEl}
-    bind:value={query}
+    bind:value={value}
     type="search"
     placeholder="Cari layanan…"
     autocomplete="off"
