@@ -63,6 +63,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
   - rank exact/prefix/compact matches above fuzzy matches across title, desc, host, and keywords.
   - tests: `mehlisa`, `me li sa`, and `magang` all surface MELISA; exact names still rank first; keep the no-results state.
 - Search module landed 2026-11-10: `app/src/lib/search.mjs` + 14 Node tests (`npm run test:search`); wire it into the dashboard in this phase.
+- Done 2026-11-10: dashboard at `/next/` (guest/link modes, folders, favorites, accordion, search, image srcsets, folder dialog); search module wired; Lighthouse mobile CLS 0, A11y/BP 100.
 - Folder cards/row with horizontal scroll, snap, and the dynamic feathered edges (start/mid/end).
 - Section hosts/order/hidden state: Kategori, Favorit, Layanan kampus, Google, Info UNESA.
 - Layanan kampus accordion (4 visible, Lihat semua/tampilkan lebih sedikit) and favorites.
@@ -80,6 +81,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Remove the full-page settings navigation; keep a redirect for old links.
 - Add an EN/ID language switch (drawer and/or header), persist sso.lang, translate UI/FAQ/connect/settings.
 - Acceptance: opening settings is a same-document paint, no network navigation.
+- Done 2026-11-10: in-app settings drawer (reorder, show/hide, reset, pointer + keyboard, live apply, focus trap); EN/ID switch still pending.
 
 ### 5. Images
 
