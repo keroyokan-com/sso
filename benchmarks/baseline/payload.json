@@ -1,0 +1,289 @@
+{
+  "measuredAt": "2026-11-10T10:30:34.057Z",
+  "note": "Raw on-disk bytes. The local server sends files uncompressed; gzip/brotli columns are hypothetical transfer sizes.",
+  "serverUncompressed": true,
+  "groups": {
+    "appJs": {
+      "file": "app.js",
+      "bytes": 106211,
+      "gzipBytes": 37598,
+      "brotliBytes": 34209
+    },
+    "stylesCss": {
+      "file": "styles.css",
+      "bytes": 28209,
+      "gzipBytes": 5580,
+      "brotliBytes": 4859
+    },
+    "fonts": {
+      "count": 2,
+      "bytes": 31843,
+      "gzipBytes": 29400,
+      "files": [
+        {
+          "file": "fonts/plus-jakarta-sans-latin.woff2",
+          "bytes": 27348,
+          "gzipBytes": 27376,
+          "brotliBytes": 27349
+        },
+        {
+          "file": "fonts/OFL.txt",
+          "bytes": 4495,
+          "gzipBytes": 2024,
+          "brotliBytes": 1443
+        }
+      ]
+    },
+    "appIcons": {
+      "count": 39,
+      "bytes": 398917,
+      "gzipBytes": 399696,
+      "files": [
+        {
+          "file": "app-icons/neoyudisium.unesa.ac.id.png",
+          "bytes": 19377,
+          "gzipBytes": 19405,
+          "brotliBytes": 19369
+        },
+        {
+          "file": "app-icons/sindig.unesa.ac.id.png",
+          "bytes": 17503,
+          "gzipBytes": 17531,
+          "brotliBytes": 17507
+        },
+        {
+          "file": "app-icons/sipena2.unesa.ac.id.png",
+          "bytes": 16633,
+          "gzipBytes": 16661,
+          "brotliBytes": 16616
+        },
+        {
+          "file": "app-icons/pkkmb.unesa.ac.id.png",
+          "bytes": 16173,
+          "gzipBytes": 16196,
+          "brotliBytes": 16172
+        },
+        {
+          "file": "app-icons/melisa.unesa.ac.id.png",
+          "bytes": 16152,
+          "gzipBytes": 16175,
+          "brotliBytes": 16150
+        },
+        {
+          "file": "app-icons/e-audit.unesa.ac.id.png",
+          "bytes": 14278,
+          "gzipBytes": 14301,
+          "brotliBytes": 14274
+        },
+        {
+          "file": "app-icons/iopac.unesa.ac.id.png",
+          "bytes": 13753,
+          "gzipBytes": 13776,
+          "brotliBytes": 13746
+        },
+        {
+          "file": "app-icons/simpmw.unesa.ac.id.png",
+          "bytes": 12680,
+          "gzipBytes": 12703,
+          "brotliBytes": 12684
+        },
+        {
+          "file": "app-icons/simpkm.unesa.ac.id.png",
+          "bytes": 12508,
+          "gzipBytes": 12531,
+          "brotliBytes": 12512
+        },
+        {
+          "file": "app-icons/vmsul.unesa.ac.id.png",
+          "bytes": 12429,
+          "gzipBytes": 12452,
+          "brotliBytes": 12433
+        },
+        {
+          "file": "app-icons/pemira.unesa.ac.id.png",
+          "bytes": 12423,
+          "gzipBytes": 12446,
+          "brotliBytes": 12427
+        },
+        {
+          "file": "app-icons/digilib.unesa.ac.id.png",
+          "bytes": 12011,
+          "gzipBytes": 12034,
+          "brotliBytes": 12015
+        },
+        {
+          "file": "app-icons/pusbatep.unesa.ac.id.png",
+          "bytes": 11993,
+          "gzipBytes": 12016,
+          "brotliBytes": 11997
+        },
+        {
+          "file": "app-icons/konseling.unesa.ac.id.png",
+          "bytes": 11695,
+          "gzipBytes": 11718,
+          "brotliBytes": 11697
+        },
+        {
+          "file": "app-icons/simpelmawa.unesa.ac.id.png",
+          "bytes": 11213,
+          "gzipBytes": 11236,
+          "brotliBytes": 11217
+        },
+        {
+          "file": "app-icons/simpromas.unesa.ac.id.png",
+          "bytes": 10474,
+          "gzipBytes": 10497,
+          "brotliBytes": 10478
+        },
+        {
+          "file": "app-icons/umc.unesa.ac.id.png",
+          "bytes": 10389,
+          "gzipBytes": 10412,
+          "brotliBytes": 10393
+        },
+        {
+          "file": "app-icons/bebaslab.unesa.ac.id.png",
+          "bytes": 10211,
+          "gzipBytes": 10234,
+          "brotliBytes": 10215
+        },
+        {
+          "file": "app-icons/siolos.unesa.ac.id.png",
+          "bytes": 10177,
+          "gzipBytes": 10200,
+          "brotliBytes": 10181
+        },
+        {
+          "file": "app-icons/siyapa.unesa.ac.id.png",
+          "bytes": 10160,
+          "gzipBytes": 10183,
+          "brotliBytes": 10164
+        },
+        {
+          "file": "app-icons/lsp.unesa.ac.id.png",
+          "bytes": 10157,
+          "gzipBytes": 10180,
+          "brotliBytes": 10161
+        },
+        {
+          "file": "app-icons/tracerstudy.unesa.ac.id.png",
+          "bytes": 9679,
+          "gzipBytes": 9702,
+          "brotliBytes": 9683
+        },
+        {
+          "file": "app-icons/sijuna.unesa.ac.id.png",
+          "bytes": 9424,
+          "gzipBytes": 9447,
+          "brotliBytes": 9428
+        },
+        {
+          "file": "app-icons/simlppm.unesa.ac.id.png",
+          "bytes": 9115,
+          "gzipBytes": 9138,
+          "brotliBytes": 9119
+        },
+        {
+          "file": "app-icons/e-layanan.unesa.ac.id.png",
+          "bytes": 9073,
+          "gzipBytes": 9096,
+          "brotliBytes": 9077
+        },
+        {
+          "file": "app-icons/ukt.unesa.ac.id.png",
+          "bytes": 8160,
+          "gzipBytes": 8183,
+          "brotliBytes": 8164
+        },
+        {
+          "file": "app-icons/edunesamall.unesa.ac.id.png",
+          "bytes": 8142,
+          "gzipBytes": 8165,
+          "brotliBytes": 8146
+        },
+        {
+          "file": "app-icons/simarko.unesa.ac.id.png",
+          "bytes": 7835,
+          "gzipBytes": 7858,
+          "brotliBytes": 7839
+        },
+        {
+          "file": "app-icons/internetaccess.unesa.ac.id.png",
+          "bytes": 7713,
+          "gzipBytes": 7736,
+          "brotliBytes": 7717
+        },
+        {
+          "file": "app-icons/apps-lib.unesa.ac.id.png",
+          "bytes": 7638,
+          "gzipBytes": 7661,
+          "brotliBytes": 7642
+        },
+        {
+          "file": "app-icons/dashboard.unesa.ac.id.png",
+          "bytes": 7634,
+          "gzipBytes": 7657,
+          "brotliBytes": 7638
+        },
+        {
+          "file": "app-icons/journal.unesa.ac.id.png",
+          "bytes": 7600,
+          "gzipBytes": 7623,
+          "brotliBytes": 7604
+        },
+        {
+          "file": "app-icons/siani.unesa.ac.id.png",
+          "bytes": 7401,
+          "gzipBytes": 7424,
+          "brotliBytes": 7405
+        },
+        {
+          "file": "app-icons/unesa.me.png",
+          "bytes": 7264,
+          "gzipBytes": 7287,
+          "brotliBytes": 7268
+        },
+        {
+          "file": "app-icons/classroom.google.com.png",
+          "bytes": 4718,
+          "gzipBytes": 4741,
+          "brotliBytes": 4722
+        },
+        {
+          "file": "app-icons/drive.google.com.png",
+          "bytes": 4516,
+          "gzipBytes": 4539,
+          "brotliBytes": 4520
+        },
+        {
+          "file": "app-icons/jdih.unesa.ac.id.png",
+          "bytes": 4439,
+          "gzipBytes": 4339,
+          "brotliBytes": 3888
+        },
+        {
+          "file": "app-icons/mail.google.com.png",
+          "bytes": 3801,
+          "gzipBytes": 3814,
+          "brotliBytes": 3773
+        },
+        {
+          "file": "app-icons/meet.google.com.png",
+          "bytes": 2376,
+          "gzipBytes": 2399,
+          "brotliBytes": 2380
+        }
+      ]
+    },
+    "coreTotal": {
+      "count": 43,
+      "bytes": 565180,
+      "gzipBytes": 472274
+    },
+    "allPublic": {
+      "count": 52,
+      "bytes": 632954,
+      "gzipBytes": 494430
+    }
+  }
+}

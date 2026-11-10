@@ -1,0 +1,121 @@
+[
+  {
+    "viewport": "390x844",
+    "stage": "home-guest-favorites",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "390x844",
+    "stage": "home-campus-expanded",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "390x844",
+    "stage": "home-folder-overlay",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "390x844",
+    "stage": "connect",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "390x844",
+    "stage": "settings",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "390x844",
+    "stage": "home-link-mode",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "768x1024",
+    "stage": "home-guest-favorites",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "768x1024",
+    "stage": "home-campus-expanded",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "768x1024",
+    "stage": "home-folder-overlay",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "768x1024",
+    "stage": "connect",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "768x1024",
+    "stage": "settings",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1280x800",
+    "stage": "home-guest-favorites",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1280x800",
+    "stage": "home-campus-expanded",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1280x800",
+    "stage": "home-folder-overlay",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1280x800",
+    "stage": "connect",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1280x800",
+    "stage": "settings",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1280x800",
+    "stage": "home-link-mode",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "failedRequests": []
+  }
+]
