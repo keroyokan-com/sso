@@ -79,6 +79,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+#app {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
 ::selection {
   background: var(--accent);
   color: var(--on-accent);

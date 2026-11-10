@@ -154,6 +154,7 @@
   direction="right"
   autoFocus={true}
   dismissible={true}
+  shouldScaleBackground={true}
 >
   <Drawer.Portal>
     <Drawer.Overlay class="settings-overlay" />
