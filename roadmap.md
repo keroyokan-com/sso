@@ -12,7 +12,7 @@ Roadmap tracker: [#11](https://github.com/keroyokan-com/sso/issues/11). Feature 
 - [x] Phase 5 — Images (Google icon bug: [#3](https://github.com/keroyokan-com/sso/issues/3))
 - [x] Search quality module (14 tests)
 - [x] Phase 6 — Motion ([#5](https://github.com/keroyokan-com/sso/issues/5); swipe bug: [#16](https://github.com/keroyokan-com/sso/issues/16))
-- [ ] Phase 7 — Modes and API ([#7](https://github.com/keroyokan-com/sso/issues/7); connect onboarding: [#17](https://github.com/keroyokan-com/sso/issues/17))
+- [ ] Phase 7 — Modes and API ([#7](https://github.com/keroyokan-com/sso/issues/7); connect onboarding: [#17](https://github.com/keroyokan-com/sso/issues/17); tabs: [#25](https://github.com/keroyokan-com/sso/issues/25))
 - [ ] Phase 8 — QA, accessibility, performance ([#8](https://github.com/keroyokan-com/sso/issues/8))
 - [ ] Phase 9 — Deploy the SPA ([#9](https://github.com/keroyokan-com/sso/issues/9))
 - [ ] Phase 10 — Deploy badges and GitHub-connected hosting ([#10](https://github.com/keroyokan-com/sso/issues/10); README/docs: [#18](https://github.com/keroyokan-com/sso/issues/18))
@@ -133,6 +133,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Keep cookie/local flows working; local `npm start` unchanged.
 - Ensure the SPA works when `/api/state` fails (guest/catalog).
 - [ ] Redesign `/connect` as a stepper; simplify `link-guide.svg` to the page palette, focus on Copy link address + SIDIA, and cut repetitive copy ([#17](https://github.com/keroyokan-com/sso/issues/17)).
+- [ ] Connect approach tabs with platform-aware instructions: Link/Cookie folder tabs, mobile/desktop step copy, cookie form in its tab ([#25](https://github.com/keroyokan-com/sso/issues/25)).
 
 ### 8. QA
 

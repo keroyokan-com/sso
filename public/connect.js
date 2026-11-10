@@ -16,10 +16,20 @@ const submitBtn = document.getElementById('submitBtn');
 const statusEl = document.getElementById('status');
 const localBox = document.getElementById('localBox');
 const localLogin = document.getElementById('localLogin');
+const tablist = document.querySelector('.approach-tabs');
+const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+const platformSwitch = document.getElementById('platformSwitch');
+const platformOptions = Array.from(platformSwitch.querySelectorAll('[role="radio"]'));
+const platformPanel = document.getElementById('panelLink');
+const stepAction = document.getElementById('stepAction');
 
 let state = null;
 let linkBusy = false;
+let platformLocked = false;
+const coarsePointer = matchMedia('(pointer: coarse)');
 
+setupTabs();
+setupPlatform();
 boot();
 
 async function boot() {
@@ -49,6 +59,96 @@ async function boot() {
   if (!entries.length && state && state.mode === 'local') {
     localBox.hidden = false;
   }
+}
+
+function setupTabs() {
+  tablist.addEventListener('click', (event) => {
+    const tab = event.target.closest('[role="tab"]');
+    if (tab) selectTab(tab);
+  });
+
+  tablist.addEventListener('keydown', (event) => {
+    const tab = event.target.closest('[role="tab"]');
+    if (!tab) return;
+
+    const index = tabs.indexOf(tab);
+    let next = null;
+    if (event.key === 'ArrowRight') next = tabs[(index + 1) % tabs.length];
+    else if (event.key === 'ArrowLeft') next = tabs[(index - 1 + tabs.length) % tabs.length];
+    else if (event.key === 'Home') next = tabs[0];
+    else if (event.key === 'End') next = tabs[tabs.length - 1];
+    if (!next) return;
+
+    event.preventDefault();
+    selectTab(next, true);
+  });
+}
+
+function selectTab(tab, focus = false) {
+  for (const item of tabs) {
+    const selected = item === tab;
+    item.setAttribute('aria-selected', String(selected));
+    item.tabIndex = selected ? 0 : -1;
+    const panel = document.getElementById(item.getAttribute('aria-controls'));
+    if (panel) panel.hidden = !selected;
+  }
+  if (focus) tab.focus();
+}
+
+function setupPlatform() {
+  platformSwitch.addEventListener('click', (event) => {
+    const option = event.target.closest('[role="radio"]');
+    if (option) setPlatform(option.dataset.platform, { lock: true });
+  });
+
+  platformSwitch.addEventListener('keydown', (event) => {
+    const option = event.target.closest('[role="radio"]');
+    if (!option) return;
+
+    const index = platformOptions.indexOf(option);
+    let next = null;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      next = platformOptions[(index + 1) % platformOptions.length];
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      next = platformOptions[(index - 1 + platformOptions.length) % platformOptions.length];
+    } else if (event.key === 'Home') {
+      next = platformOptions[0];
+    } else if (event.key === 'End') {
+      next = platformOptions[platformOptions.length - 1];
+    }
+    if (!next) return;
+
+    event.preventDefault();
+    setPlatform(next.dataset.platform, { lock: true, focus: true });
+  });
+
+  coarsePointer.addEventListener?.('change', () => {
+    if (!platformLocked) setPlatform(detectPlatform());
+  });
+
+  window.addEventListener('resize', () => {
+    if (!platformLocked) setPlatform(detectPlatform());
+  });
+
+  setPlatform(detectPlatform());
+}
+
+function detectPlatform() {
+  return coarsePointer.matches || window.innerWidth <= 720 ? 'mobile' : 'desktop';
+}
+
+function setPlatform(name, { lock = false, focus = false } = {}) {
+  if (lock) platformLocked = true;
+
+  for (const option of platformOptions) {
+    const selected = option.dataset.platform === name;
+    option.setAttribute('aria-checked', String(selected));
+    option.tabIndex = selected ? 0 : -1;
+    if (selected && focus) option.focus();
+  }
+
+  stepAction.textContent = name === 'mobile' ? 'Tekan lama' : 'Klik kanan';
+  platformPanel.dataset.platform = name;
 }
 
 function readLinksStore() {
