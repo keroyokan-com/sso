@@ -202,9 +202,6 @@
       <div class="settings-head">
         <div class="settings-heading">
           <Drawer.Title class="settings-title">Setelan</Drawer.Title>
-          <Drawer.Description class="settings-desc">
-            Atur urutan dan tampilan bagian beranda.
-          </Drawer.Description>
         </div>
         <button class="icon-btn" type="button" aria-label="Tutup setelan" title="Tutup" onclick={close}>
           <svg><use href="#i-x" /></svg>
@@ -213,7 +210,7 @@
 
       <div class="settings-body">
         <p class="settings-hint">
-          Tarik gagang untuk mengurutkan. Fokuskan gagang lalu tekan <kbd>Alt</kbd> + panah atas atau bawah.
+          Tarik untuk mengurutkan. Keyboard: <kbd>Alt</kbd> + panah.
         </p>
 
         <ul class="settings-list" bind:this={listEl}>
@@ -227,19 +224,13 @@
                 onpointerdown={(event) => onDragStart(row.id, event)}
                 onkeydown={(event) => onHandleKeydown(row.id, event)}
               >
-                <svg viewBox="0 0 16 16" aria-hidden="true">
-                  <circle cx="6" cy="4" r="1.2" fill="currentColor" />
-                  <circle cx="10" cy="4" r="1.2" fill="currentColor" />
-                  <circle cx="6" cy="8" r="1.2" fill="currentColor" />
-                  <circle cx="10" cy="8" r="1.2" fill="currentColor" />
-                  <circle cx="6" cy="12" r="1.2" fill="currentColor" />
-                  <circle cx="10" cy="12" r="1.2" fill="currentColor" />
+                <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">
+                  <path d="M104,60A12,12,0,1,1,92,48,12,12,0,0,1,104,60Zm60,12a12,12,0,1,0-12-12A12,12,0,0,0,164,72ZM92,116a12,12,0,1,0,12,12A12,12,0,0,0,92,116Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,116ZM92,184a12,12,0,1,0,12,12A12,12,0,0,0,92,184Zm72,0a12,12,0,1,0,12,12A12,12,0,0,0,164,184Z" />
                 </svg>
               </button>
 
               <span class="settings-copy">
                 <span class="settings-name">{row.def.name}</span>
-                <span class="settings-desc">{row.def.desc}</span>
               </span>
 
               <label class="switch">
@@ -309,13 +300,6 @@
     font-size: 19px;
     font-weight: 650;
     letter-spacing: -0.02em;
-  }
-
-  .settings-heading :global(.settings-desc) {
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 12.5px;
-    line-height: 1.5;
   }
 
   .settings-body {
@@ -410,11 +394,6 @@
     font-size: 14px;
     font-weight: 600;
     letter-spacing: -0.01em;
-  }
-
-  .settings-row .settings-desc {
-    font-size: 11.5px;
-    color: var(--faint);
   }
 
   .switch {
