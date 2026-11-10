@@ -8,7 +8,7 @@ Roadmap tracker: [#11](https://github.com/keroyokan-com/sso/issues/11). Feature 
 - [x] Phase 1 — Scaffold
 - [x] Phase 2 — Shell (menu alignment follow-up: [#2](https://github.com/keroyokan-com/sso/issues/2))
 - [x] Phase 3 — Dashboard (search follow-up: [#4](https://github.com/keroyokan-com/sso/issues/4); accordion bug: [#15](https://github.com/keroyokan-com/sso/issues/15))
-- [x] Phase 4 — Settings drawer (i18n: [#6](https://github.com/keroyokan-com/sso/issues/6); drawer animation: [#5](https://github.com/keroyokan-com/sso/issues/5))
+- [x] Phase 4 — Settings drawer (i18n: [#6](https://github.com/keroyokan-com/sso/issues/6); drawer animation: [#5](https://github.com/keroyokan-com/sso/issues/5); dnd-kit sort: [#22](https://github.com/keroyokan-com/sso/issues/22))
 - [x] Phase 5 — Images (Google icon bug: [#3](https://github.com/keroyokan-com/sso/issues/3))
 - [x] Search quality module (14 tests)
 - [x] Phase 6 — Motion ([#5](https://github.com/keroyokan-com/sso/issues/5); swipe bug: [#16](https://github.com/keroyokan-com/sso/issues/16))
@@ -36,7 +36,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 ## Target stack
 
 - **Svelte 5 + Vite SPA** (no SvelteKit/SSR).
-- **SortableJS** for settings reordering (smallest dependency) or the existing zero-dependency pointer sort. `dnd-kit-svelte` only if we decide keyboard-heavy a11y DnD is worth the extra weight.
+- **`@dnd-kit-svelte/core` + `@dnd-kit-svelte/sortable`** for the settings sortable (Svelte 5, v0.0.11); drag overlay ghost, dashed placeholder, keyboard sensor, reduced motion. Chosen over SortableJS/zero-dep for the dnd-kit interaction.
 - **Motion** stays for folder overlay animation.
 - **sharp** (build-only) for image derivatives: 48/96px WebP + AVIF, plus `srcset`/`sizes`.
 - Existing backend unchanged: `server.js` + `lib/sso.js` local, `worker/index.js` + KV remote, same `/api/state`, `/api/connect`, `/go`, cron.
@@ -104,6 +104,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Done 2026-11-10: in-app settings drawer (reorder, show/hide, reset, pointer + keyboard, live apply, focus trap); EN/ID switch still pending.
 - [x] Drawer opening animation with `vaul-svelte`; evaluate side drawer vs bottom sheet ([#5](https://github.com/keroyokan-com/sso/issues/5)).
 - [ ] EN/ID language switch, persist `sso.lang` ([#6](https://github.com/keroyokan-com/sso/issues/6)).
+- [ ] Drag/sort polish with `@dnd-kit-svelte/core` + `@dnd-kit-svelte/sortable`: drag overlay ghost, dashed "Pindah: <name>" placeholder, list animation, keyboard sensor, Vaul-safe ([#22](https://github.com/keroyokan-com/sso/issues/22)).
 
 ### 5. Images
 
@@ -175,6 +176,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Image payload is reduced vs current PNG-only set.
 - All existing flows (link per app, guest, cookie, folder overlay) pass.
 - EN/ID switch persists and applies to app/FAQ/connect/settings copy.
+- Settings drag shows a floating ghost and dashed placeholder, with keyboard support and reduced-motion fallback.
 - README shows the Deploy to Cloudflare and Deploy to Vercel badges directly below the title.
 
 ## Dependencies to evaluate at implementation time
