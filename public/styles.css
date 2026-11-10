@@ -6,6 +6,31 @@
   src: url("/fonts/plus-jakarta-sans-latin.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Phosphor";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/fonts/phosphor-regular.woff2") format("woff2");
+}
+
+.ph {
+  font-family: "Phosphor" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ph-dots-six-vertical::before {
+  content: "\eae2";
+}
+
 :root {
   --bg: #ffffff;
   --surface: #f4f4f4;
