@@ -2,6 +2,7 @@ import { readJson, writeJson } from './storage.js';
 import { readStoredLinks, refreshLinks } from './links.svelte.js';
 import { appsFromCatalog, googleFromCatalog } from './dashboard-data.js';
 import { showToast } from './toast.svelte.js';
+import { t, translateError } from './i18n.svelte.js';
 
 const FAV_KEY = 'sso.favs';
 const CATALOG_KEY = 'sso.catalog';
@@ -175,10 +176,10 @@ function finishLoad(state) {
   if (forcedExpired) {
     forcedExpired = false;
     if (dashboard.mode === 'guest') {
-      showToast('Sesi habis — sambungkan ulang dulu.');
+      showToast(t('toast.sessionExpired'));
     } else if (!dashboard.error && (dashboard.mode === 'link' || !dashboard.authenticated)) {
       markExpired();
-      showToast('Sesi habis — sambungkan ulang dulu.');
+      showToast(t('toast.sessionExpired'));
     }
   }
 
@@ -209,8 +210,8 @@ function startPolling() {
     if (Date.now() - startedAt > POLL_MAX_MS) {
       stopPolling();
       dashboard.connecting = false;
-      dashboard.error = 'Waktu login habis. Coba lagi.';
-      showToast('Waktu login habis. Coba lagi.');
+      dashboard.error = t('toast.loginTimeout');
+      showToast(t('toast.loginTimeout'));
       return;
     }
 
@@ -223,8 +224,8 @@ function startPolling() {
 
     if (wasConnecting && !next.connecting) {
       stopPolling();
-      if (next.authenticated) showToast('Terhubung. Sesi aktif.');
-      else if (next.error) showToast(next.error);
+      if (next.authenticated) showToast(t('toast.connected'));
+      else if (next.error) showToast(translateError(next.error));
     }
   }, POLL_MS);
 }
@@ -313,7 +314,7 @@ async function load() {
     }
 
     dashboard.ready = true;
-    showToast('Gagal memuat katalog layanan.');
+    showToast(t('toast.catalogFailed'));
     finishLoad(state);
     return;
   }
@@ -335,7 +336,7 @@ async function load() {
     }
 
     applyLocal(state);
-    showToast('Katalog layanan tidak tersedia.');
+    showToast(t('toast.catalogUnavailable'));
     finishLoad(state);
     return;
   }
@@ -355,7 +356,7 @@ async function load() {
   if (lastState) applyLocal(lastState, { expired: stateExpired(lastState) });
 
   dashboard.ready = true;
-  showToast('Tidak bisa menghubungi server lokal.');
+  showToast(t('toast.localUnreachable'));
   finishLoad(lastState);
 }
 
@@ -409,7 +410,9 @@ export function toggleFavorite(app) {
   dashboard.favs = [...favs];
   writeJson(FAV_KEY, dashboard.favs);
   showToast(
-    wasFav ? `${app.title} dihapus dari favorit.` : `${app.title} ditambahkan ke favorit.`
+    wasFav
+      ? t('toast.favoriteRemoved', { title: app.title })
+      : t('toast.favoriteAdded', { title: app.title })
   );
 }
 
@@ -425,7 +428,7 @@ export async function connectDashboard() {
 
   const { ok, data } = await requestJson('/api/connect', { method: 'POST' });
   if (ok && data && data.ok) {
-    showToast('Menunggu login di jendela Chrome.');
+    showToast(t('toast.waitingLogin'));
     startPolling();
     return;
   }
@@ -438,7 +441,7 @@ export function cancelConnect() {
   if (!dashboard.connecting) return;
   stopPolling();
   dashboard.connecting = false;
-  showToast('Login dibatalkan.');
+  showToast(t('toast.loginCanceled'));
 }
 
 export async function refreshDashboard() {
@@ -463,9 +466,9 @@ export async function refreshDashboard() {
       applyLocal(data.state, { expired: stateExpired(data.state) });
       if (data.state.ready === false) scheduleReadyCheck();
     }
-    if (data?.ok) showToast('Layanan diperbarui.');
-    else if (data) showToast(data.error || 'Sesi perlu disambungkan ulang.');
-    else showToast('Gagal memperbarui layanan.');
+    if (data?.ok) showToast(t('toast.servicesUpdated'));
+    else if (data) showToast(translateError(data.error) || t('toast.sessionNeedsReconnect'));
+    else showToast(t('toast.refreshFailed'));
   } finally {
     refreshing = false;
     dashboard.refreshing = false;

@@ -2,6 +2,110 @@
 
 const LINK_KEY = 'sso.link';
 const LINKS_KEY = 'sso.links';
+const LANG_KEY = 'sso.lang';
+
+const STRINGS = {
+  id: {
+    tabsLabel: 'Cara menghubungkan',
+    platformLabel: 'Jenis perangkat',
+    linkFormLabel: 'Hubungkan via link',
+    cookieFormLabel: 'Hubungkan via cookie',
+    actionClick: 'Klik kanan',
+    actionTouch: 'Tekan lama',
+    currentLink: '{email} · link aktif',
+    accountFallback: 'Akun UNESA',
+    linkInvalid:
+      'Link tidak valid. Copy link dari salah satu aplikasi di dashboard SSO, bukan URL dashboard-nya.',
+    linkSaving: 'Menyimpan {count} link.',
+    linkSaved: '{count} link tersimpan. Mengalihkan.',
+    cookieEmpty: 'Cookie masih kosong.',
+    connecting: 'Menghubungkan.',
+    connected: 'Terhubung. Mengalihkan.',
+    connectFailed: 'Gagal menghubungkan.',
+    connectRetry: 'Gagal menghubungkan. Coba lagi.',
+    disconnectConfirm: 'Putuskan akun dari SSO Lite?',
+    disconnecting: 'Memutuskan.',
+    disconnectFailed: 'Gagal memutuskan akun.',
+    waitingLogin: 'Menunggu login di jendela Chrome.',
+    loginStartFailed: 'Gagal memulai login.',
+    loginTimeout: 'Waktu login habis. Coba lagi.',
+    invalidBody: 'Body tidak valid.',
+    serverCookieEmpty: 'Cookie kosong.',
+    cookieSession: 'Cookie harus berisi laravel_session.',
+    readDashboard: 'Gagal membaca dashboard. Coba lagi.',
+    notConnected: 'Belum terhubung.',
+    cookieInvalidExpired: 'Cookie tidak valid atau sesi sudah habis.',
+    cookieInvalid: 'Cookie tidak valid.',
+    loginFailed: 'Login gagal',
+    serverError: 'Server error',
+  },
+  en: {
+    tabsLabel: 'How to connect',
+    platformLabel: 'Device type',
+    linkFormLabel: 'Connect via link',
+    cookieFormLabel: 'Connect via cookie',
+    actionClick: 'Right-click',
+    actionTouch: 'Long press',
+    currentLink: '{email} · link active',
+    accountFallback: 'UNESA account',
+    linkInvalid:
+      'Invalid link. Copy the link from one of the apps on the SSO dashboard, not the dashboard URL.',
+    linkSaving: 'Saving {count} link.',
+    linkSaved: '{count} link saved. Redirecting.',
+    cookieEmpty: 'Cookie is empty.',
+    connecting: 'Connecting.',
+    connected: 'Connected. Redirecting.',
+    connectFailed: 'Failed to connect.',
+    connectRetry: 'Failed to connect. Try again.',
+    disconnectConfirm: 'Disconnect the account from SSO Lite?',
+    disconnecting: 'Disconnecting.',
+    disconnectFailed: 'Failed to disconnect the account.',
+    waitingLogin: 'Waiting for login in the Chrome window.',
+    loginStartFailed: 'Failed to start login.',
+    loginTimeout: 'Login timed out. Try again.',
+    invalidBody: 'Invalid request body.',
+    serverCookieEmpty: 'Cookie is empty.',
+    cookieSession: 'Cookie must contain laravel_session.',
+    readDashboard: 'Failed to read the dashboard. Try again.',
+    notConnected: 'Not connected yet.',
+    cookieInvalidExpired: 'Cookie is invalid or the session has ended.',
+    cookieInvalid: 'Cookie is invalid.',
+    loginFailed: 'Login failed',
+    serverError: 'Server error',
+  },
+};
+
+function getLang() {
+  return document.documentElement.lang === 'en' ? 'en' : 'id';
+}
+
+function t(key, vars) {
+  let text = STRINGS[getLang()][key] || STRINGS.id[key] || key;
+  if (vars) {
+    text = text.replace(/\{(\w+)\}/g, (match, name) =>
+      vars[name] === undefined ? match : String(vars[name])
+    );
+  }
+  return text;
+}
+
+const SERVER_ERROR_KEYS = {
+  'Body tidak valid.': 'invalidBody',
+  'Cookie kosong.': 'serverCookieEmpty',
+  'Cookie harus berisi laravel_session.': 'cookieSession',
+  'Gagal membaca dashboard. Coba lagi.': 'readDashboard',
+  'Belum terhubung.': 'notConnected',
+  'Cookie tidak valid atau sesi sudah habis.': 'cookieInvalidExpired',
+  'Cookie tidak valid.': 'cookieInvalid',
+  'Login gagal': 'loginFailed',
+  'Server error': 'serverError',
+};
+
+function translateError(message) {
+  if (!message) return '';
+  const key = SERVER_ERROR_KEYS[String(message).trim()];
+  return key ? t(key) : String(message);
+}
 
 const current = document.getElementById('current');
 const currentWho = document.getElementById('currentWho');
@@ -26,10 +130,39 @@ const stepAction = document.getElementById('stepAction');
 let state = null;
 let linkBusy = false;
 let platformLocked = false;
+let currentAccount = null;
 const coarsePointer = matchMedia('(pointer: coarse)');
+
+function renderCurrentWho() {
+  if (!currentAccount) return;
+  if (currentAccount.kind === 'link') {
+    currentWho.textContent = t('currentLink', { email: currentAccount.email });
+    return;
+  }
+  const identity = [currentAccount.name, currentAccount.email].filter(Boolean).join(' · ');
+  currentWho.textContent = identity || t('accountFallback');
+}
+
+function applyLanguage() {
+  document.documentElement.lang = getLang();
+  tablist.setAttribute('aria-label', t('tabsLabel'));
+  platformSwitch.setAttribute('aria-label', t('platformLabel'));
+  linkForm.setAttribute('aria-label', t('linkFormLabel'));
+  cookieForm.setAttribute('aria-label', t('cookieFormLabel'));
+  setPlatform(platformPanel.dataset.platform || detectPlatform());
+  renderCurrentWho();
+}
 
 setupTabs();
 setupPlatform();
+applyLanguage();
+
+window.addEventListener('storage', (event) => {
+  if (event.key !== LANG_KEY) return;
+  document.documentElement.lang = event.newValue === 'en' ? 'en' : 'id';
+  applyLanguage();
+});
+
 boot();
 
 async function boot() {
@@ -39,7 +172,8 @@ async function boot() {
   if (entries.length) {
     current.hidden = false;
     const email = store.email || entries[0][1].email || '';
-    currentWho.textContent = `${email} · link aktif`;
+    currentAccount = { kind: 'link', email };
+    renderCurrentWho();
     disconnectBtn.hidden = false;
   }
 
@@ -52,7 +186,8 @@ async function boot() {
 
   if (!entries.length && state && state.authenticated) {
     current.hidden = false;
-    currentWho.textContent = [state.name, state.email].filter(Boolean).join(' · ') || 'Akun UNESA';
+    currentAccount = { kind: 'account', name: state.name, email: state.email };
+    renderCurrentWho();
     disconnectBtn.hidden = state.mode !== 'edge';
   }
 
@@ -147,7 +282,7 @@ function setPlatform(name, { lock = false, focus = false } = {}) {
     if (selected && focus) option.focus();
   }
 
-  stepAction.textContent = name === 'mobile' ? 'Tekan lama' : 'Klik kanan';
+  stepAction.textContent = t(name === 'mobile' ? 'actionTouch' : 'actionClick');
   platformPanel.dataset.platform = name;
 }
 
@@ -255,11 +390,11 @@ linkForm.addEventListener('submit', (event) => {
 
   const parsed = parseSSOLinks(linkInput.value);
   if (!parsed.length) {
-    setLinkStatus('Link tidak valid. Copy link dari salah satu aplikasi di dashboard SSO, bukan URL dashboard-nya.', true);
+    setLinkStatus(t('linkInvalid'), true);
     return;
   }
 
-  setLinkBusy(true, `Menyimpan ${parsed.length} link.`);
+  setLinkBusy(true, t('linkSaving', { count: parsed.length }));
   const store = readLinksStore();
   for (const link of parsed) {
     store.links[link.host] = {
@@ -271,7 +406,7 @@ linkForm.addEventListener('submit', (event) => {
   }
   store.email = store.email || parsed[0].email;
   saveLinksStore(store);
-  setLinkStatus(`${parsed.length} link tersimpan. Mengalihkan.`);
+  setLinkStatus(t('linkSaved', { count: parsed.length }));
   location.href = '/';
 });
 
@@ -279,11 +414,11 @@ cookieForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const cookie = cookieInput.value.trim();
   if (!cookie) {
-    setStatus('Cookie masih kosong.', true);
+    setStatus(t('cookieEmpty'), true);
     return;
   }
 
-  setBusy(true, 'Menghubungkan.');
+  setBusy(true, t('connecting'));
 
   try {
     const res = await fetch('/api/connect', {
@@ -295,22 +430,22 @@ cookieForm.addEventListener('submit', async (event) => {
 
     if (data.ok) {
       clearLinks();
-      setStatus('Terhubung. Mengalihkan.');
+      setStatus(t('connected'));
       location.href = '/';
       return;
     }
 
-    setStatus(data.error || 'Gagal menghubungkan.', true);
+    setStatus(translateError(data.error) || t('connectFailed'), true);
   } catch {
-    setStatus('Gagal menghubungkan. Coba lagi.', true);
+    setStatus(t('connectRetry'), true);
   } finally {
     setBusy(false);
   }
 });
 
 disconnectBtn.addEventListener('click', async () => {
-  if (!confirm('Putuskan akun dari SSO Lite?')) return;
-  setBusy(true, 'Memutuskan.');
+  if (!confirm(t('disconnectConfirm'))) return;
+  setBusy(true, t('disconnecting'));
 
   try {
     const store = readLinksStore();
@@ -328,19 +463,19 @@ disconnectBtn.addEventListener('click', async () => {
     await fetch('/api/logout', { method: 'POST' });
     location.href = '/';
   } catch {
-    setStatus('Gagal memutuskan akun.', true);
+    setStatus(t('disconnectFailed'), true);
     setBusy(false);
   }
 });
 
 localLogin.addEventListener('click', async () => {
   clearLinks();
-  setBusy(true, 'Menunggu login di jendela Chrome.');
+  setBusy(true, t('waitingLogin'));
 
   try {
     await fetch('/api/connect', { method: 'POST' });
   } catch {
-    setStatus('Gagal memulai login.', true);
+    setStatus(t('loginStartFailed'), true);
     setBusy(false);
     return;
   }
@@ -349,7 +484,7 @@ localLogin.addEventListener('click', async () => {
   const timer = setInterval(async () => {
     if (Date.now() - started > 8 * 60 * 1000) {
       clearInterval(timer);
-      setStatus('Waktu login habis. Coba lagi.', true);
+      setStatus(t('loginTimeout'), true);
       setBusy(false);
       return;
     }
@@ -362,7 +497,7 @@ localLogin.addEventListener('click', async () => {
         location.href = '/';
       } else if (!next.connecting && next.error) {
         clearInterval(timer);
-        setStatus(next.error, true);
+        setStatus(translateError(next.error), true);
         setBusy(false);
       }
     } catch {

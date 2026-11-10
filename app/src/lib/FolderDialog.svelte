@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { animate } from 'motion';
   import AppIcon from './AppIcon.svelte';
+  import { t, tn } from './i18n.svelte.js';
 
   let { folder, trigger = null, onclose } = $props();
 
@@ -358,7 +359,7 @@
     <button
       class="folder-close"
       type="button"
-      aria-label="Tutup folder"
+      aria-label={t('folder.close')}
       bind:this={closeBtn}
       onclick={requestClose}
     >
@@ -366,7 +367,9 @@
     </button>
     <div class="folder-overlay-head">
       <h2 id="folderOverlayTitle">{folder.name}</h2>
-      <p class="folder-overlay-count">{folder.apps.length} layanan</p>
+      <p class="folder-overlay-count">
+        {tn('folder.services', folder.apps.length, { count: folder.apps.length })}
+      </p>
     </div>
     <div class="folder-open-grid">
       {#each folder.apps as app (app.id)}

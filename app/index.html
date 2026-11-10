@@ -13,6 +13,8 @@ try {
   if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.dataset.theme = 'dark';
   }
+  var savedLang = localStorage.getItem('sso.lang');
+  document.documentElement.lang = savedLang === 'en' ? 'en' : 'id';
 } catch (e) {}
 </script>
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>

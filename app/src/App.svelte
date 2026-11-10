@@ -19,6 +19,7 @@
   import { buildFolders } from './lib/dashboard-data.js';
   import { settingsState } from './lib/settingsStore.svelte.js';
   import { searchApps } from './lib/search.mjs';
+  import { getLang, t, translateError } from './lib/i18n.svelte.js';
   import { showToast } from './lib/toast.svelte.js';
 
   let searchBar;
@@ -33,7 +34,8 @@
     sections = { order: [...settingsState.order], hidden: [...settingsState.hidden] };
   });
 
-  const byTitle = (a, b) => a.title.localeCompare(b.title, 'id', { sensitivity: 'base' });
+  const byTitle = (a, b) =>
+    a.title.localeCompare(b.title, getLang() === 'en' ? 'en' : 'id', { sensitivity: 'base' });
   const query = $derived(dashboard.query.trim());
   const campusAll = $derived([...dashboard.apps].sort(byTitle));
   const googleAll = $derived([...dashboard.google]);
@@ -97,7 +99,7 @@
   function onCardClick(event) {
     if (!dashboard.authenticated && dashboard.mode !== 'guest') {
       event.preventDefault();
-      showToast('Sambungkan akun dulu.');
+      showToast(t('banner.connectFirst'));
       document.querySelector('#bannerHost')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }
@@ -186,45 +188,52 @@
       <div class="banner">
         <span class="spinner" aria-hidden="true"></span>
         <span class="grow">
-          <strong>Menunggu login di jendela Chrome.</strong>
-          Selesaikan login Google, halaman ini lanjut sendiri.
+          <strong>{t('banner.connectingTitle')}</strong>
+          {t('banner.connectingBody')}
         </span>
-        <button class="btn" type="button" onclick={cancelConnect}>Batal</button>
+        <button class="btn" type="button" onclick={cancelConnect}>{t('banner.cancel')}</button>
       </div>
     {:else if dashboard.expired}
       <div class="banner">
         <span class="dot amber" aria-hidden="true"></span>
         <span class="grow">
           {#if dashboard.mode === 'link'}
-            <strong>Link kedaluwarsa.</strong>
-            Sambungkan ulang untuk membuka layanan.
+            <strong>{t('banner.expiredLinkTitle')}</strong>
+            {t('banner.reconnectBody')}
           {:else}
-            <strong>Sesi habis.</strong>
-            Sambungkan ulang untuk membuka layanan.
+            <strong>{t('banner.expiredSessionTitle')}</strong>
+            {t('banner.reconnectBody')}
           {/if}
         </span>
-        <button class="btn" type="button" onclick={connectDashboard}>Sambungkan</button>
+        <button class="btn" type="button" onclick={connectDashboard}>
+          {t('banner.connect')}
+        </button>
       </div>
     {:else if dashboard.mode === 'guest'}
       <div class="banner">
         <span class="dot" aria-hidden="true"></span>
         <span class="grow">
-          <strong>Mode tamu.</strong>
-          Tautkan akun untuk membuka layanan dengan sekali klik.
+          <strong>{t('banner.guestTitle')}</strong>
+          {t('banner.guestBody')}
         </span>
-        <a class="btn" href="/connect.html">Hubungkan</a>
+        <a class="btn" href="/connect.html">{t('banner.linkAccount')}</a>
       </div>
     {:else if dashboard.error}
       <div class="banner">
         <span class="dot red" aria-hidden="true"></span>
-        <span class="grow"><strong>Login gagal.</strong> {dashboard.error}</span>
-        <button class="btn" type="button" onclick={connectDashboard}>Coba lagi</button>
+        <span class="grow"><strong>{t('banner.loginFailed')}</strong> {translateError(dashboard.error)}</span>
+        <button class="btn" type="button" onclick={connectDashboard}>{t('banner.retry')}</button>
       </div>
     {:else if !dashboard.authenticated && hasApps}
       <div class="banner">
         <span class="dot amber" aria-hidden="true"></span>
-        <span class="grow"><strong>Sesi habis.</strong> Sambungkan ulang untuk membuka layanan.</span>
-        <button class="btn" type="button" onclick={connectDashboard}>Sambungkan</button>
+        <span class="grow">
+          <strong>{t('banner.expiredSessionTitle')}</strong>
+          {t('banner.reconnectBody')}
+        </span>
+        <button class="btn" type="button" onclick={connectDashboard}>
+          {t('banner.connect')}
+        </button>
       </div>
     {/if}
   </div>
@@ -239,10 +248,10 @@
     {:else if showEmpty}
       <div class="empty">
         <div class="empty-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        <h2>Hubungkan akun UNESA</h2>
-        <p>Login sekali lewat Google. Setelah itu sesi dijaga otomatis di latar belakang.</p>
-        <a class="btn primary" href="/connect.html">Hubungkan akun</a>
-        <p class="fine">Butuh cookie dari sesi UNESA-mu. Panduan lengkap ada di halaman berikutnya.</p>
+        <h2>{t('empty.title')}</h2>
+        <p>{t('empty.body')}</p>
+        <a class="btn primary" href="/connect.html">{t('empty.button')}</a>
+        <p class="fine">{t('empty.fine')}</p>
       </div>
     {:else}
       {#if showFolders && !sections.hidden.includes('folders')}
@@ -262,7 +271,7 @@
           style:order={sections.order.indexOf('favorites')}
         >
           <AppSection
-            title="Favorit"
+            title={t('section.favorites')}
             apps={favoriteApps}
             favorites={dashboard.favs}
             onstar={toggleFavorite}
@@ -280,11 +289,11 @@
         >
           {#if noResults}
             <div class="no-results">
-              Tidak ada layanan yang cocok dengan <strong>{query}</strong>.
+              {t('empty.noResultsPrefix')} <strong>{query}</strong>{t('empty.noResultsSuffix')}
             </div>
           {:else}
             <AppSection
-              title="Layanan kampus"
+              title={t('section.campus')}
               apps={query ? visibleCampus : restCampus}
               favorites={dashboard.favs}
               accordion={!query}
@@ -305,7 +314,7 @@
           style:order={sections.order.indexOf('google')}
         >
           <AppSection
-            title="Google"
+            title={t('section.google')}
             apps={query ? visibleGoogle : restGoogle}
             favorites={dashboard.favs}
             onstar={toggleFavorite}
@@ -322,7 +331,7 @@
         >
           <section class="section info-section">
             <div class="section-head">
-              <h2>Info UNESA</h2>
+              <h2>{t('section.info')}</h2>
             </div>
             <div class="info-list">
               {#each dashboard.info as item (item.title)}

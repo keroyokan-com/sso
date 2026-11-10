@@ -1,5 +1,6 @@
 <script>
   import { tick } from 'svelte';
+  import { getLang, t } from './i18n.svelte.js';
   import { readText, writeText, removeText } from './storage.js';
   import { showToast } from './toast.svelte.js';
 
@@ -11,15 +12,18 @@
   let inputEl = $state();
 
   const hasName = $derived(name.trim().length > 0);
-  const displayName = $derived(hasName ? name.trim() : 'nama kamu');
+  const displayName = $derived(hasName ? name.trim() : t('greeting.fallbackName'));
 
-  const rawDate = new Intl.DateTimeFormat('id-ID', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date());
-  const dateLabel = rawDate.charAt(0).toUpperCase() + rawDate.slice(1);
+  const dateLabel = $derived.by(() => {
+    const locale = getLang() === 'en' ? 'en-GB' : 'id-ID';
+    const rawDate = new Intl.DateTimeFormat(locale, {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date());
+    return rawDate.charAt(0).toUpperCase() + rawDate.slice(1);
+  });
 
   async function openEditor() {
     draft = name;
@@ -37,7 +41,7 @@
     name = next;
     if (next) writeText(NAME_KEY, next);
     else removeText(NAME_KEY);
-    showToast('Nama disimpan.');
+    showToast(t('greeting.nameSaved'));
   }
 
   function cancel() {
@@ -57,16 +61,16 @@
 </script>
 
 <section class="intro">
-  <h1 id="greeting">Halo, {#if editing}<input
+  <h1 id="greeting">{t('greeting.hello')}, {#if editing}<input
         id="nameInput"
         class="name-input"
         bind:this={inputEl}
         bind:value={draft}
-        placeholder="nama kamu"
+        placeholder={t('greeting.fallbackName')}
         maxlength="40"
         autocomplete="off"
         spellcheck="false"
-        aria-label="Nama tampilan"
+        aria-label={t('greeting.nameAria')}
         onkeydown={onInputKeydown}
         onblur={commit}
       />{:else}<button
@@ -74,8 +78,8 @@
         class="name-btn"
         class:is-empty={!hasName}
         type="button"
-        title={hasName ? 'Ubah nama' : 'Atur nama tampilan'}
-        aria-label={hasName ? 'Ubah nama tampilan' : 'Atur nama tampilan'}
+        title={hasName ? t('greeting.changeName') : t('greeting.setName')}
+        aria-label={hasName ? t('greeting.changeNameAria') : t('greeting.setName')}
         onclick={openEditor}
       >{displayName}</button>{/if}.</h1>
   <p class="date">{dateLabel}</p>

@@ -28,6 +28,7 @@
     toggleHidden,
   } from './settingsStore.svelte.js';
   import SettingsSortableRow from './SettingsSortableRow.svelte';
+  import { getLang, setLang, t } from './i18n.svelte.js';
 
   let activeId = $state(null);
   let announcement = $state('');
@@ -48,14 +49,13 @@
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
-  const screenReaderInstructions = {
-    draggable:
-      'Untuk mengangkat, tekan Space atau Enter. Gunakan panah untuk memindah, Space untuk lepas, Esc untuk batal.',
-  };
+  const screenReaderInstructions = $derived({
+    draggable: t('settings.srInstructions'),
+  });
 
   function sectionName(id) {
     const def = SECTION_DEFS.find((entry) => entry.id === id);
-    return def?.name || String(id);
+    return def ? t(def.key) : String(id);
   }
 
   function sectionPosition(id) {
@@ -64,18 +64,26 @@
 
   const announcements = {
     onDragStart({ active }) {
-      return `${sectionName(active.id)} diangkat. Gunakan panah untuk memindah, Space untuk lepas, Esc untuk batal.`;
+      return t('settings.announceLift', { name: sectionName(active.id) });
     },
     onDragOver({ active, over }) {
-      if (!over) return `${sectionName(active.id)} di luar daftar.`;
-      return `${sectionName(active.id)} berada di posisi ${sectionPosition(over.id)} dari ${rows.length}.`;
+      if (!over) return t('settings.announceOutside', { name: sectionName(active.id) });
+      return t('settings.announceOver', {
+        name: sectionName(active.id),
+        position: sectionPosition(over.id),
+        total: rows.length,
+      });
     },
     onDragEnd({ active, over }) {
-      if (!over) return `${sectionName(active.id)} dilepas.`;
-      return `${sectionName(active.id)} dipindah ke posisi ${sectionPosition(active.id)} dari ${rows.length}.`;
+      if (!over) return t('settings.announceDropped', { name: sectionName(active.id) });
+      return t('settings.announceMoved', {
+        name: sectionName(active.id),
+        position: sectionPosition(active.id),
+        total: rows.length,
+      });
     },
     onDragCancel({ active }) {
-      return `Pemindahan ${sectionName(active.id)} dibatalkan.`;
+      return t('settings.announceCancel', { name: sectionName(active.id) });
     },
   };
 
@@ -144,14 +152,15 @@
 
   function onToggle(id) {
     toggleHidden(id);
-    const def = SECTION_DEFS.find((entry) => entry.id === id);
     const hidden = settingsState.hidden.includes(id);
-    announcement = `${def?.name || id} ${hidden ? 'disembunyikan' : 'ditampilkan'}.`;
+    announcement = hidden
+      ? t('settings.announceHidden', { name: sectionName(id) })
+      : t('settings.announceShown', { name: sectionName(id) });
   }
 
   function onReset() {
     reset();
-    announcement = 'Urutan dan tampilan bagian diatur ulang.';
+    announcement = t('settings.announceReset');
   }
 
   $effect(() => {
@@ -195,17 +204,50 @@
     >
       <div class="settings-head">
         <div class="settings-heading">
-          <Drawer.Title class="settings-title">Setelan</Drawer.Title>
+          <Drawer.Title class="settings-title">{t('settings.title')}</Drawer.Title>
         </div>
-        <button class="icon-btn" type="button" aria-label="Tutup setelan" title="Tutup" onclick={close}>
+        <button
+          class="icon-btn"
+          type="button"
+          aria-label={t('settings.close')}
+          title={t('settings.closeTitle')}
+          onclick={close}
+        >
           <svg><use href="#i-x" /></svg>
         </button>
       </div>
 
       <div class="settings-body">
+        <div class="settings-language">
+          <div class="settings-language-row">
+            <span class="settings-language-label">{t('settings.language')}</span>
+            <div class="lang-switch" role="group" aria-label={t('settings.language')}>
+              <button
+                type="button"
+                aria-pressed={getLang() === 'id'}
+                aria-label={t('settings.languageId')}
+                class:active={getLang() === 'id'}
+                onclick={() => setLang('id')}
+              >
+                ID
+              </button>
+              <button
+                type="button"
+                aria-pressed={getLang() === 'en'}
+                aria-label={t('settings.languageEn')}
+                class:active={getLang() === 'en'}
+                onclick={() => setLang('en')}
+              >
+                EN
+              </button>
+            </div>
+          </div>
+          <p class="settings-hint">{t('settings.languageHint')}</p>
+        </div>
+
         <p class="settings-hint">
-          Tarik pegangan untuk mengurutkan. Keyboard: <kbd>Space</kbd> atau <kbd>Enter</kbd> angkat,
-          panah pindah, <kbd>Esc</kbd> batal.
+          {t('settings.hint')} <kbd>Space</kbd> {t('settings.or')} <kbd>Enter</kbd>
+          {t('settings.lift')}, {t('settings.move')}, <kbd>Esc</kbd> {t('settings.cancel')}.
         </p>
 
         <DndContext
@@ -221,6 +263,7 @@
               {#each rows as row (row.id)}
                 <SettingsSortableRow
                   {row}
+                  name={sectionName(row.id)}
                   sections={rowIds}
                   hidden={settingsState.hidden.includes(row.id)}
                   {reducedMotion}
@@ -242,7 +285,7 @@
                     <i class="ph ph-dots-six-vertical"></i>
                   </span>
                   <span class="ghost-copy">
-                    <span class="ghost-name">{activeRow.def.name}</span>
+                    <span class="ghost-name">{sectionName(activeRow.id)}</span>
                   </span>
                   <span class="ghost-switch" class:on={!settingsState.hidden.includes(activeRow.id)}>
                     <span class="ghost-track"></span>
@@ -257,8 +300,8 @@
       </div>
 
       <div class="settings-foot">
-        <button class="btn" type="button" onclick={onReset}>Atur ulang</button>
-        <button class="btn primary" type="button" onclick={close}>Selesai</button>
+        <button class="btn" type="button" onclick={onReset}>{t('settings.reset')}</button>
+        <button class="btn primary" type="button" onclick={close}>{t('settings.done')}</button>
       </div>
     </Drawer.Content>
   </Drawer.Portal>
@@ -332,6 +375,67 @@
     font-family: inherit;
     font-size: 11.5px;
     font-weight: 600;
+  }
+
+  .settings-language {
+    margin-bottom: 16px;
+  }
+
+  .settings-language-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--surface-2);
+  }
+
+  .settings-language-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 9px;
+    background: var(--bg);
+  }
+
+  .lang-switch button {
+    min-width: 40px;
+    height: 28px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    font: 600 12px/1 var(--font);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .lang-switch button:hover {
+    color: var(--text);
+  }
+
+  .lang-switch button.active {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .lang-switch button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .settings-language .settings-hint {
+    margin: 8px 2px 0;
   }
 
   .settings-list {

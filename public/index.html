@@ -13,11 +13,13 @@ try {
   if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.dataset.theme = 'dark';
   }
+  var savedLang = localStorage.getItem('sso.lang');
+  document.documentElement.lang = savedLang === 'en' ? 'en' : 'id';
 } catch (e) {}
 </script>
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <script type="module" crossorigin src="/assets/index-DVEX773B.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DKxucelN.css">
+  <script type="module" crossorigin src="/assets/index-Dp-RzIOv.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Dax2Ata6.css">
 </head>
 <body>
 <svg class="sprite" aria-hidden="true">

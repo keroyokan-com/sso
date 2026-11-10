@@ -1,4 +1,6 @@
 <script>
+  import { t } from './i18n.svelte.js';
+
   let { value = $bindable('') } = $props();
   let inputEl = $state();
 
@@ -47,16 +49,16 @@
     bind:this={inputEl}
     bind:value={value}
     type="search"
-    placeholder="Cari layanan…"
+    placeholder={t('search.placeholder')}
     autocomplete="off"
     spellcheck="false"
-    aria-label="Cari layanan"
+    aria-label={t('search.label')}
   >
   <button
     id="clearBtn"
     class="clear"
     type="button"
-    aria-label="Hapus pencarian"
+    aria-label={t('search.clear')}
     hidden={!hasQuery}
     onclick={clear}
   >

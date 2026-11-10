@@ -1,7 +1,9 @@
+import { t } from './i18n.svelte.js';
+
 export const FOLDER_DEFS = [
   {
     id: 'kuliah',
-    name: 'Kuliah & kelulusan',
+    nameKey: 'folder.kuliah',
     color: '#2563eb',
     hosts: [
       'sindig.unesa.ac.id',
@@ -15,7 +17,7 @@ export const FOLDER_DEFS = [
   },
   {
     id: 'kegiatan',
-    name: 'Kegiatan & karier',
+    nameKey: 'folder.kegiatan',
     color: '#7452e8',
     hosts: [
       'sipena2.unesa.ac.id',
@@ -30,7 +32,7 @@ export const FOLDER_DEFS = [
   },
   {
     id: 'riset',
-    name: 'Riset & pustaka',
+    nameKey: 'folder.riset',
     color: '#0f8a79',
     hosts: [
       'simlppm.unesa.ac.id',
@@ -46,7 +48,7 @@ export const FOLDER_DEFS = [
   },
   {
     id: 'layanan',
-    name: 'Layanan kampus',
+    nameKey: 'folder.layanan',
     color: '#a86a12',
     hosts: [
       'ukt.unesa.ac.id',
@@ -64,7 +66,7 @@ export const FOLDER_DEFS = [
   },
   {
     id: 'google',
-    name: 'Google',
+    nameKey: 'folder.google',
     color: '#3a404a',
     google: true,
   },
@@ -110,7 +112,7 @@ export function buildFolders(apps, google) {
       ? google.slice()
       : def.hosts.map((host) => byHost.get(host)).filter(Boolean);
     folderApps.forEach((app) => assigned.add(app.id));
-    return { ...def, apps: folderApps };
+    return { ...def, name: t(def.nameKey), apps: folderApps };
   });
 
   const rest = apps.filter((app) => !assigned.has(app.id));

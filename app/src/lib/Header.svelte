@@ -2,6 +2,7 @@
   import { dashboard } from './dashboard.svelte.js';
   import { openSettings } from './settingsStore.svelte.js';
   import SettingsDrawer from './SettingsDrawer.svelte';
+  import { t } from './i18n.svelte.js';
   import { toggleTheme } from './theme.js';
   import { showToast } from './toast.svelte.js';
 
@@ -13,7 +14,7 @@
 
   function onTheme() {
     const theme = toggleTheme();
-    showToast(theme === 'dark' ? 'Mode gelap aktif.' : 'Mode terang aktif.');
+    showToast(theme === 'dark' ? t('theme.dark') : t('theme.light'));
   }
 
   function onSettings() {
@@ -29,15 +30,37 @@
     </a>
     <div class="top-actions">
       {#if dashboard.email}
-        <a id="emailLabel" class="email" href="/connect.html" title="Kelola akun">{dashboard.email}</a>
+        <a id="emailLabel" class="email" href="/connect.html" title={t('header.manageAccount')}>
+          {dashboard.email}
+        </a>
       {/if}
-      <button id="searchBtn" class="icon-btn" type="button" aria-label="Cari layanan" title="Cari" onclick={onsearch}>
+      <button
+        id="searchBtn"
+        class="icon-btn"
+        type="button"
+        aria-label={t('header.search')}
+        title={t('header.searchTitle')}
+        onclick={onsearch}
+      >
         <svg><use href="#i-search" /></svg>
       </button>
-      <button id="menuBtn" class="icon-btn" type="button" aria-label="Menu" popovertarget="headerMenu" bind:this={menuBtn}>
+      <button
+        id="menuBtn"
+        class="icon-btn"
+        type="button"
+        aria-label={t('header.menu')}
+        popovertarget="headerMenu"
+        bind:this={menuBtn}
+      >
         <svg><use href="#i-menu" /></svg>
       </button>
-      <button id="themeBtn" class="icon-btn" type="button" aria-label="Ganti tema" onclick={onTheme}>
+      <button
+        id="themeBtn"
+        class="icon-btn"
+        type="button"
+        aria-label={t('header.theme')}
+        onclick={onTheme}
+      >
         <svg class="sun"><use href="#i-sun" /></svg>
         <svg class="moon"><use href="#i-moon" /></svg>
       </button>
@@ -52,7 +75,7 @@
   </a>
   <button class="menu-item" type="button" aria-haspopup="dialog" onclick={onSettings}>
     <svg><use href="#i-settings" /></svg>
-    <span>Setelan</span>
+    <span>{t('header.settings')}</span>
   </button>
 </div>
 
