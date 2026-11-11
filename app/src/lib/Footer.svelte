@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { dashboard, refreshDashboard } from './dashboard.svelte.js';
+  import { t } from './i18n.svelte.js';
   import { relativeTime } from './time.js';
 
   let now = $state(Date.now());
@@ -13,13 +14,13 @@
   });
 
   const statusText = $derived.by(() => {
-    if (dashboard.connecting) return 'Menghubungkan…';
-    if (!dashboard.ready) return 'Memuat…';
-    if (dashboard.expired) return 'Sesi habis';
-    if (dashboard.mode === 'link') return 'Link aktif';
-    if (dashboard.mode === 'guest') return 'Mode tamu';
-    if (dashboard.authenticated) return 'Sesi aktif';
-    return 'Sesi belum tersambung';
+    if (dashboard.connecting) return t('footer.connecting');
+    if (!dashboard.ready) return t('footer.loading');
+    if (dashboard.expired) return t('footer.expired');
+    if (dashboard.mode === 'link') return t('footer.linkActive');
+    if (dashboard.mode === 'guest') return t('footer.guest');
+    if (dashboard.authenticated) return t('footer.active');
+    return t('footer.disconnected');
   });
 
   const needsAttention = $derived(
@@ -32,22 +33,21 @@
   const syncText = $derived.by(() => {
     if (dashboard.expired) return '';
     if (dashboard.mode === 'link' && dashboard.updatedAt) {
-      return `Link · ${relativeTime(dashboard.updatedAt, now)}`;
+      return t('footer.linkTime', { time: relativeTime(dashboard.updatedAt, now) });
     }
     if (dashboard.mode === 'guest') return '';
-    if (dashboard.updatedAt) return `Tersinkron ${relativeTime(dashboard.updatedAt, now)}`;
-    return 'Belum tersinkron';
+    if (dashboard.updatedAt) {
+      return t('footer.synced', { time: relativeTime(dashboard.updatedAt, now) });
+    }
+    return t('footer.notSynced');
   });
 
-  const actionLabel = $derived(
-    dashboard.expired
-      ? 'Sambungkan'
-      : dashboard.mode === 'link'
-        ? 'Ganti link'
-        : dashboard.mode === 'guest'
-          ? 'Hubungkan'
-          : 'Refresh'
-  );
+  const actionLabel = $derived.by(() => {
+    if (dashboard.expired) return t('footer.connect');
+    if (dashboard.mode === 'link') return t('footer.changeLink');
+    if (dashboard.mode === 'guest') return t('footer.connect');
+    return t('footer.refresh');
+  });
 </script>
 
 <footer class="foot">

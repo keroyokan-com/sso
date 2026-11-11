@@ -4,11 +4,11 @@ export const SECTION_KEY = 'sso.sections';
 export const SECTION_EVENT = 'sso:sections';
 
 export const SECTION_DEFS = [
-  { id: 'folders', name: 'Kategori' },
-  { id: 'favorites', name: 'Favorit' },
-  { id: 'campus', name: 'Layanan kampus' },
-  { id: 'google', name: 'Google' },
-  { id: 'info', name: 'Info UNESA' },
+  { id: 'folders', key: 'section.folders' },
+  { id: 'favorites', key: 'section.favorites' },
+  { id: 'campus', key: 'section.campus' },
+  { id: 'google', key: 'section.google' },
+  { id: 'info', key: 'section.info' },
 ];
 
 const DEFAULT_ORDER = SECTION_DEFS.map((def) => def.id);

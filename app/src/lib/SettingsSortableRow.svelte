@@ -1,7 +1,8 @@
 <script>
   import { useSortable } from '@dnd-kit-svelte/sortable';
+  import { t } from './i18n.svelte.js';
 
-  let { row, sections, hidden, reducedMotion, onToggle } = $props();
+  let { row, name, sections, hidden, reducedMotion, onToggle } = $props();
 
   const sortable = useSortable({
     id: () => row.id,
@@ -53,7 +54,7 @@
     <button
       class="drag-handle"
       type="button"
-      aria-label="Tarik untuk mengurutkan {row.def.name}"
+      aria-label={t('settings.dragAria', { name })}
       use:bindGrip
       {...sortable.attributes.current}
       {...(sortable.listeners.current ?? {})}
@@ -62,14 +63,14 @@
     </button>
 
     <span class="settings-copy">
-      <span class="settings-name">{row.def.name}</span>
+      <span class="settings-name">{name}</span>
     </span>
 
     <label class="switch">
       <input
         type="checkbox"
         checked={!hidden}
-        aria-label="Tampilkan {row.def.name}"
+        aria-label={t('settings.toggleAria', { name })}
         onchange={() => onToggle(row.id)}
       />
       <span class="switch-track" aria-hidden="true"></span>
@@ -77,7 +78,7 @@
   </span>
 
   {#if sortable.isDragging.current}
-    <span class="placeholder-label">Pindah: {row.def.name}</span>
+    <span class="placeholder-label">{t('settings.moveLabel', { name })}</span>
   {/if}
 </li>
 

@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import AppIcon from './AppIcon.svelte';
+  import { t, tn } from './i18n.svelte.js';
 
   let { folders, onopen } = $props();
 
@@ -47,8 +48,8 @@
 
 <section class="section folder-section">
   <div class="section-head">
-    <h2>Kategori</h2>
-    <span class="count">{folders.length} folder</span>
+    <h2>{t('section.folders')}</h2>
+    <span class="count">{tn('folders.count', folders.length, { count: folders.length })}</span>
   </div>
   <div class="folder-scroll" bind:this={scrollEl}>
     <div class="folder-row" bind:this={rowEl}>
@@ -65,7 +66,10 @@
           type="button"
           data-folder={folder.id}
           aria-haspopup="dialog"
-          aria-label={`Buka folder ${folder.name}, ${folder.apps.length} layanan`}
+          aria-label={tn('folders.open', folder.apps.length, {
+            name: folder.name,
+            count: folder.apps.length,
+          })}
           onclick={(event) => onopen(folder, event.currentTarget)}
         >
           <div class="folder-preview">

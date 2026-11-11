@@ -1,11 +1,15 @@
 <script>
   import AppIcon from './AppIcon.svelte';
+  import { t } from './i18n.svelte.js';
 
   let { app, favorite = false, ontoggle = () => {}, onclick = () => {} } = $props();
 
   const href = $derived(app.link || app.url || '/go/' + encodeURIComponent(app.id));
   const ariaLabel = $derived(
-    `${app.title}${app.desc ? ' — ' + app.desc : ''} — buka di tab baru`
+    t('card.aria', {
+      title: app.title,
+      desc: app.desc ? ` - ${app.desc}` : '',
+    })
   );
 
   function onStar(event) {
@@ -41,7 +45,9 @@
     data-id={app.id}
     data-title={app.title}
     aria-pressed={favorite}
-    aria-label={favorite ? `Hapus ${app.title} dari favorit` : `Favoritkan ${app.title}`}
+    aria-label={favorite
+      ? t('card.removeFavorite', { title: app.title })
+      : t('card.addFavorite', { title: app.title })}
     onclick={onStar}
   >
     <svg><use href="#i-star" /></svg>

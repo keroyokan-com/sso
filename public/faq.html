@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex">
-<title>FAQ — sso by keroyokan</title>
+<title>FAQ - sso by keroyokan</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0b0b'/%3E%3Crect x='8' y='8' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='18' y='8' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='8' y='18' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3Crect x='18' y='18' width='6' height='6' rx='1.5' fill='%23fff'/%3E%3C/svg%3E">
 <script>
 try {
@@ -13,11 +13,23 @@ try {
   if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.dataset.theme = 'dark';
   }
+  var savedLang = localStorage.getItem('sso.lang');
+  document.documentElement.lang = savedLang === 'en' ? 'en' : 'id';
+  window.addEventListener('storage', function (event) {
+    if (event.key === 'sso.lang') {
+      document.documentElement.lang = event.newValue === 'en' ? 'en' : 'id';
+    }
+  });
 } catch (e) {}
 </script>
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
 <style>
+  html[lang="id"] .lang-en,
+  html[lang="en"] .lang-id {
+    display: none !important;
+  }
+
   .faq-page {
     max-width: 680px;
     margin: 0 auto;
@@ -74,7 +86,7 @@ try {
   }
 
   .faq-item[open] summary::after {
-    content: "−";
+    content: "-";
   }
 
   .faq-item p {
@@ -108,7 +120,7 @@ try {
     <a class="brand" href="/" aria-label="SSO Lite">
       <span class="brand-logo" aria-hidden="true"></span>
     </a>
-    <a class="ghost-btn" href="/">Kembali</a>
+    <a class="ghost-btn" href="/"><span class="lang-id">Kembali</span><span class="lang-en">Back</span></a>
   </div>
 </header>
 
@@ -116,53 +128,124 @@ try {
   <h1>FAQ</h1>
   <div class="faq-list">
     <details class="faq-item">
-      <summary>Apa itu sso by keroyokan?</summary>
-      <p>Launcher ringan untuk layanan UNESA. Fokusnya cuma satu: buka layanan kampus dengan cepat.</p>
+      <summary>
+        <span class="lang-id">Apa itu sso by keroyokan?</span>
+        <span class="lang-en">What is sso by keroyokan?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Launcher ringan untuk layanan UNESA. Fokusnya cuma satu: buka layanan kampus dengan cepat.</span>
+        <span class="lang-en">A small launcher for UNESA services. One focus: open campus services fast.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Apakah ini resmi dari UNESA?</summary>
-      <p>Tidak. Ini proyek independen, tidak berafiliasi dengan UNESA.</p>
+      <summary>
+        <span class="lang-id">Apakah ini resmi dari UNESA?</span>
+        <span class="lang-en">Is this official from UNESA?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Tidak. Ini proyek independen, tidak berafiliasi dengan UNESA.</span>
+        <span class="lang-en">No. This is an independent project, not affiliated with UNESA.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Apakah data saya disimpan di server?</summary>
-      <p>Tidak. Link dan token disimpan di browser kamu (localStorage). Cookie hanya dipakai kalau kamu memilih mode cookie, dan disimpan di server yang kamu jalankan sendiri.</p>
+      <summary>
+        <span class="lang-id">Apakah data saya disimpan di server?</span>
+        <span class="lang-en">Is my data stored on a server?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Tidak. Link dan token disimpan di browser kamu (localStorage). Cookie hanya dipakai kalau kamu memilih mode cookie, dan disimpan di server yang kamu jalankan sendiri.</span>
+        <span class="lang-en">No. Links and tokens stay in your browser (localStorage). Cookies are only used if you pick cookie mode, and they stay on the server you run yourself.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Kenapa harus tempel link SSO?</summary>
-      <p>Dashboard SSO memberi satu token global per render untuk semua layanan. Satu link yang masih baru bisa membuka banyak layanan sekaligus; tidak perlu copy link per aplikasi.</p>
+      <summary>
+        <span class="lang-id">Kenapa harus tempel link SSO?</span>
+        <span class="lang-en">Why paste an SSO link?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Dashboard SSO memberi satu token global per render untuk semua layanan. Satu link yang masih baru bisa membuka banyak layanan sekaligus; tidak perlu copy link per aplikasi.</span>
+        <span class="lang-en">The SSO dashboard gives one global token per render for all services. One fresh link can open many services at once; no need to copy a link per app.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Kenapa link cepat kedaluwarsa?</summary>
-      <p>Token SSO berumur pendek. Kalau ada layanan yang minta login lagi, buka dashboard SSO, copy satu link baru, lalu tempel di halaman Hubungkan. Satu link baru cukup untuk semua.</p>
+      <summary>
+        <span class="lang-id">Kenapa link cepat kedaluwarsa?</span>
+        <span class="lang-en">Why do links expire so fast?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Token SSO berumur pendek. Kalau ada layanan yang minta login lagi, buka dashboard SSO, copy satu link baru, lalu tempel di halaman Hubungkan. Satu link baru cukup untuk semua.</span>
+        <span class="lang-en">SSO tokens are short-lived. If a service asks you to log in again, open the SSO dashboard, copy a new link, and paste it on the Connect page. One new link is enough for all.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Bisa self-host?</summary>
-      <p>Bisa. Itu salah satu tujuan proyek ini. Repo berisi Worker, server lokal, dan panduan deploy. Kalau tidak percaya instance hosted, jalankan sendiri.</p>
+      <summary>
+        <span class="lang-id">Bisa self-host?</span>
+        <span class="lang-en">Can I self-host?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Bisa. Itu salah satu tujuan proyek ini. Worker, server lokal, dan panduan deploy ada di <a href="https://github.com/keroyokan-com/sso" target="_blank" rel="noopener">repo GitHub</a>. Kalau tidak percaya instance hosted, jalankan sendiri.</span>
+        <span class="lang-en">Yes. That is one of the goals of this project. The Worker, local server, and deploy guide are in the <a href="https://github.com/keroyokan-com/sso" target="_blank" rel="noopener">GitHub repo</a>. If you don't trust a hosted instance, run your own.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Bagaimana cara deploy ke Cloudflare atau Vercel?</summary>
-      <p>Lihat dokumentasi deploy button: <a href="https://developers.cloudflare.com/workers/platform/deploy-buttons/" target="_blank" rel="noopener">Cloudflare Workers</a> dan <a href="https://vercel.com/docs/deploy-button" target="_blank" rel="noopener">Vercel</a>. Tombol deploy akan ditambahkan ke README saat port Svelte siap.</p>
+      <summary>
+        <span class="lang-id">Bagaimana cara deploy ke Cloudflare atau Vercel?</span>
+        <span class="lang-en">How do I deploy to Cloudflare or Vercel?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Lihat badge Deploy to Cloudflare dan Deploy to Vercel di <a href="https://github.com/keroyokan-com/sso" target="_blank" rel="noopener">README</a>, plus panduan self-host.</span>
+        <span class="lang-en">See the Deploy to Cloudflare and Deploy to Vercel badges in the <a href="https://github.com/keroyokan-com/sso" target="_blank" rel="noopener">README</a>, plus the self-host guide.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Apakah gratis?</summary>
-      <p>Ya, dan open source selamanya.</p>
+      <summary>
+        <span class="lang-id">Apakah gratis?</span>
+        <span class="lang-en">Is it free?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Ya, dan open source selamanya.</span>
+        <span class="lang-en">Yes, and open source forever.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Bagaimana cara menghapus data saya?</summary>
-      <p>Buka halaman Hubungkan lalu gunakan tombol Putuskan akun, atau hapus data situs lewat pengaturan browser. Semua state ada di perangkat kamu.</p>
+      <summary>
+        <span class="lang-id">Di mana kode sumbernya?</span>
+        <span class="lang-en">Where is the source code?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Kode ada di <a href="https://github.com/keroyokan-com/sso" target="_blank" rel="noopener">GitHub</a>. Bug, ide, dan diskusi lewat <a href="https://github.com/keroyokan-com/sso/issues" target="_blank" rel="noopener">issues</a>.</span>
+        <span class="lang-en">The code is on <a href="https://github.com/keroyokan-com/sso" target="_blank" rel="noopener">GitHub</a>. Bugs, ideas, and discussion go through <a href="https://github.com/keroyokan-com/sso/issues" target="_blank" rel="noopener">issues</a>.</span>
+      </p>
     </details>
 
     <details class="faq-item">
-      <summary>Ada bug atau ide?</summary>
-      <p>Buka issue di repo proyek. Sertakan langkah reproduksi dan versi yang kamu pakai.</p>
+      <summary>
+        <span class="lang-id">Bagaimana cara menghapus data saya?</span>
+        <span class="lang-en">How do I delete my data?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Buka halaman Hubungkan lalu gunakan tombol Putuskan akun, atau hapus data situs lewat pengaturan browser. Semua state ada di perangkat kamu.</span>
+        <span class="lang-en">Open the Connect page and use Disconnect account, or clear site data in your browser settings. All state is on your device.</span>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>
+        <span class="lang-id">Ada bug atau ide?</span>
+        <span class="lang-en">Found a bug or have an idea?</span>
+      </summary>
+      <p>
+        <span class="lang-id">Buka <a href="https://github.com/keroyokan-com/sso/issues" target="_blank" rel="noopener">issue di GitHub</a>. Sertakan langkah reproduksi dan versi yang kamu pakai.</span>
+        <span class="lang-en">Open an <a href="https://github.com/keroyokan-com/sso/issues" target="_blank" rel="noopener">issue on GitHub</a>. Include reproduction steps and the version you use.</span>
+      </p>
     </details>
   </div>
 </main>

@@ -1,5 +1,6 @@
 <script>
   import AppCard from './AppCard.svelte';
+  import { t, tn } from './i18n.svelte.js';
 
   let {
     title,
@@ -29,7 +30,9 @@
           aria-controls="campus-tiles"
           onclick={ontoggle}
         >
-          {expanded ? 'Tampilkan lebih sedikit' : `Lihat semua ${apps.length} layanan`}
+          {expanded
+            ? t('section.showLess')
+            : tn('section.showAll', apps.length, { count: apps.length })}
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path
               d="M4 6l4 4 4-4"

@@ -13,11 +13,23 @@ try {
   if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.dataset.theme = 'dark';
   }
+  var savedLang = localStorage.getItem('sso.lang');
+  document.documentElement.lang = savedLang === 'en' ? 'en' : 'id';
+  window.addEventListener('storage', function (event) {
+    if (event.key === 'sso.lang') {
+      document.documentElement.lang = event.newValue === 'en' ? 'en' : 'id';
+    }
+  });
 } catch (e) {}
 </script>
 <link rel="preload" href="/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
 <style>
+  html[lang="id"] .lang-en,
+  html[lang="en"] .lang-id {
+    display: none !important;
+  }
+
   .connect-page {
     max-width: 640px;
     margin: 0 auto;
@@ -460,20 +472,20 @@ try {
     <a class="brand" href="/" aria-label="SSO Lite">
       <span class="brand-logo" aria-hidden="true"></span>
     </a>
-    <a class="ghost-btn" href="/">Kembali</a>
+    <a class="ghost-btn" href="/"><span class="lang-id">Kembali</span><span class="lang-en">Back</span></a>
   </div>
 </header>
 
 <main class="connect-page">
-  <h1>Hubungkan akun</h1>
+  <h1><span class="lang-id">Hubungkan akun</span><span class="lang-en">Connect account</span></h1>
 
   <div id="current" class="panel" hidden>
     <div class="current-row">
       <div>
-        <h2>Terhubung</h2>
+        <h2><span class="lang-id">Terhubung</span><span class="lang-en">Connected</span></h2>
         <p class="current-who" id="currentWho"></p>
       </div>
-      <button id="disconnectBtn" class="btn" type="button" hidden>Putuskan akun</button>
+      <button id="disconnectBtn" class="btn" type="button" hidden><span class="lang-id">Putuskan akun</span><span class="lang-en">Disconnect account</span></button>
     </div>
   </div>
 
@@ -481,7 +493,7 @@ try {
     <div class="approach-tabs" role="tablist" aria-label="Cara menghubungkan">
       <button class="approach-tab" type="button" role="tab" id="tabLink" aria-selected="true" aria-controls="panelLink" tabindex="0">
         <span class="tab-icons" aria-hidden="true"><i class="ph ph-desktop"></i><i class="ph ph-device-mobile"></i></span>
-        <span>Link <span class="tab-hint">(disarankan)</span></span>
+        <span><span class="lang-id">Link <span class="tab-hint">(disarankan)</span></span><span class="lang-en">Link <span class="tab-hint">(recommended)</span></span></span>
       </button>
       <button class="approach-tab" type="button" role="tab" id="tabCookie" aria-selected="false" aria-controls="panelCookie" tabindex="-1">
         <span class="tab-icons" aria-hidden="true"><i class="ph ph-desktop"></i></span>
@@ -494,7 +506,7 @@ try {
         <div class="platform-switch" id="platformSwitch" role="radiogroup" aria-label="Jenis perangkat">
           <button class="platform-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-platform="mobile">
             <i class="ph ph-device-mobile" aria-hidden="true"></i>
-            <span>Ponsel</span>
+            <span><span class="lang-id">Ponsel</span><span class="lang-en">Phone</span></span>
           </button>
           <button class="platform-option" type="button" role="radio" aria-checked="true" tabindex="0" data-platform="desktop">
             <i class="ph ph-desktop" aria-hidden="true"></i>
@@ -508,13 +520,18 @@ try {
           <li>
             <span class="step-num" aria-hidden="true">1</span>
             <div class="step-main">
-              <p>Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">dashboard SSO</a>.</p>
+              <p>
+                <span class="lang-id">Buka <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">dashboard SSO</a>.</span>
+                <span class="lang-en">Open the <a href="https://sso.unesa.ac.id/dashboard" target="_blank" rel="noopener">SSO dashboard</a>.</span>
+              </p>
             </div>
           </li>
           <li>
             <span class="step-num" aria-hidden="true">2</span>
             <div class="step-main">
-              <p><span id="stepAction">Klik kanan</span> SIDIA, pilih <strong>Copy link address</strong>.</p>
+              <p>
+                <span id="stepAction">Klik kanan</span><span class="lang-id"> SIDIA, pilih <strong>Copy link address</strong>.</span><span class="lang-en"> SIDIA and choose <strong>Copy link address</strong>.</span>
+              </p>
               <figure class="link-guide" aria-hidden="true">
                 <svg viewBox="0 0 320 150" xmlns="http://www.w3.org/2000/svg" focusable="false">
                   <rect class="guide-bg" x="0.5" y="0.5" width="319" height="149" rx="15.5"/>
@@ -540,10 +557,10 @@ try {
           <li>
             <span class="step-num" aria-hidden="true">3</span>
             <div class="step-main">
-              <label for="linkInput">Tempel link</label>
+              <label for="linkInput"><span class="lang-id">Tempel link</span><span class="lang-en">Paste link</span></label>
               <textarea id="linkInput" rows="3" placeholder="https://sindig.unesa.ac.id/..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
               <div class="form-row">
-                <button class="btn primary" type="submit" id="linkSubmit">Hubungkan</button>
+                <button class="btn primary" type="submit" id="linkSubmit"><span class="lang-id">Hubungkan</span><span class="lang-en">Connect</span></button>
                 <span class="status" id="linkStatus" role="status"></span>
               </div>
             </div>
@@ -555,11 +572,11 @@ try {
     <section class="panel approach-panel" id="panelCookie" role="tabpanel" aria-labelledby="tabCookie" hidden>
       <form id="cookieForm" novalidate aria-label="Hubungkan via cookie">
         <p class="hint cookie-hint">DevTools → Network → dashboard (document) → Request Headers → cookie.</p>
-        <p class="hint cookie-mobile-note">Khusus desktop: ambil cookie lewat DevTools di browser desktop.</p>
+        <p class="hint cookie-mobile-note"><span class="lang-id">Khusus desktop: ambil cookie lewat DevTools di browser desktop.</span><span class="lang-en">Desktop only: get the cookie via DevTools in a desktop browser.</span></p>
         <label for="cookieInput">Cookie header</label>
         <textarea id="cookieInput" rows="4" placeholder="laravel_session=...; XSRF-TOKEN=..." autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
         <div class="form-row">
-          <button class="btn primary" type="submit" id="submitBtn">Hubungkan</button>
+          <button class="btn primary" type="submit" id="submitBtn"><span class="lang-id">Hubungkan</span><span class="lang-en">Connect</span></button>
           <span class="status" id="status" role="status"></span>
         </div>
       </form>
@@ -567,12 +584,12 @@ try {
   </div>
 
   <div id="localBox" class="panel" hidden>
-    <h2>Mode lokal</h2>
-    <p class="muted">Buka jendela Chrome untuk login otomatis (khusus server lokal).</p>
-    <button class="btn" type="button" id="localLogin">Buka jendela login</button>
+    <h2><span class="lang-id">Mode lokal</span><span class="lang-en">Local mode</span></h2>
+    <p class="muted"><span class="lang-id">Buka jendela Chrome untuk login otomatis (khusus server lokal).</span><span class="lang-en">Open a Chrome window to log in automatically (local server only).</span></p>
+    <button class="btn" type="button" id="localLogin"><span class="lang-id">Buka jendela login</span><span class="lang-en">Open login window</span></button>
   </div>
 
-  <p class="privacy">Link disimpan di browser ini; cookie hanya dipakai untuk daftar layanan. Bukan layanan resmi UNESA.</p>
+  <p class="privacy"><span class="lang-id">Link disimpan di browser ini; cookie hanya dipakai untuk daftar layanan. Bukan layanan resmi UNESA.</span><span class="lang-en">Links stay in this browser; cookies are only used to load the service list. Not an official UNESA service.</span></p>
 </main>
 
 <script src="/connect.js" defer></script>
