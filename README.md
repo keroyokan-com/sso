@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/sso-logo.svg" alt="sso by keroyokan" width="200"></p>
+
 # sso by keroyokan
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/keroyokan-com/sso)

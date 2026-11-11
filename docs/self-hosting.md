@@ -1,4 +1,4 @@
-![sso](../public/sso-logo.svg)
+![sso](sso-logo.svg)
 
 # Self-hosting SSO Lite
 

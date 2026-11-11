@@ -133,15 +133,16 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 - Keep cookie/local flows working; local `npm start` unchanged.
 - Ensure the SPA works when `/api/state` fails (guest/catalog).
 - [x] Modes and API parity: per-app link store, guest catalog cache, cookie/local `/api/state` and `/api/refresh`, connecting poll, expired banner, local `/go/` links ([#7](https://github.com/keroyokan-com/sso/issues/7)).
-- [ ] Redesign `/connect` as a stepper; simplify `link-guide.svg` to the page palette, focus on Copy link address + SIDIA, and cut repetitive copy ([#17](https://github.com/keroyokan-com/sso/issues/17)).
-- [ ] Connect approach tabs with platform-aware instructions: Link/Cookie folder tabs, mobile/desktop step copy, cookie form in its tab ([#25](https://github.com/keroyokan-com/sso/issues/25)).
+- [x] Redesign `/connect` as a stepper; simplify `link-guide.svg` to the page palette, focus on Copy link address + SIDIA, and cut repetitive copy ([#17](https://github.com/keroyokan-com/sso/issues/17)).
+- [x] Connect approach tabs with platform-aware instructions: Link/Cookie folder tabs, mobile/desktop step copy, cookie form in its tab ([#25](https://github.com/keroyokan-com/sso/issues/25)).
 
 ### 8. QA
 
-- Playwright: dashboard, folder overlay, search, favorite, accordion, settings reorder/hide/reset, link mode, guest mode.
-- Visual checks at 390/768/1280; dark/light.
-- Lighthouse budget: no full-page navigation for settings; LCP < 1.5s on fast 4G; CLS ~0.
-- Keyboard/screen-reader pass for settings drag (SortableJS fallback buttons if needed).
+- [x] Playwright: dashboard, folder overlay, search, favorite, accordion, settings reorder/hide/reset, link mode, guest mode.
+- [x] Visual checks at 390/768/1280; dark/light.
+- [x] Lighthouse budget: no full-page navigation for settings; LCP < 1.5s on fast 4G; CLS ~0.
+- [x] Keyboard/screen-reader pass for settings drag (SortableJS fallback buttons if needed).
+- Done 2026-11-11: `npm run test:qa` (13 checks) plus axe; `.github/workflows/qa.yml`; visual checks at 390/768/1280 light/dark; Lighthouse mobile slow 4G Perf 92, A11y/BP/SEO 100, CLS 0, LCP 2.66s; fast 4G LCP 1.30s (target met); desktop Perf 100, LCP 0.50s. Details in [`benchmarks/qa.md`](benchmarks/qa.md).
 
 ### 9. Deploy
 
@@ -155,7 +156,7 @@ The current settings page is a separate HTML document, so opening it reloads CSS
 
 - Landed 2026-11-11: official Deploy to Cloudflare and Deploy with Vercel buttons in the README; `vercel.json` for the static SPA (`npm run build`, output `public`); self-hosting docs for the `sso-lite` Workers Builds connection (`main`, `npm ci && npm run build`, `npx wrangler deploy`, PR previews) and the Vercel static SPA; fresh desktop/mobile screenshots in `docs/screenshots/`.
 - Vercel project `sso` is deployed at <https://sso-kappa-eight.vercel.app>. Deploys on push still need the one-time Vercel GitHub App consent in the project settings.
-- Remaining manual step for #10: the GitHub repo is private, so the one-click Deploy to Cloudflare and Deploy with Vercel buttons are not usable by fresh forks until the repo is made public. The Vercel GitHub connection also needs the one-time Vercel GitHub App consent.
+- The repo is public, so both one-click deploy buttons work for fresh forks. The Vercel project still needs the one-time Vercel GitHub App consent for push deploys; the Deploy with Vercel button works without it.
 - Keep the public repo at <https://github.com/keroyokan-com/sso> on `main`; it is the template source.
 - Connect the existing Cloudflare Worker (`sso-lite`) to the repo with Workers Builds:
   - install the Cloudflare GitHub App on the repo,

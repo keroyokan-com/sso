@@ -12,6 +12,7 @@
     "build:spa": "node scripts/clean-spa.js && vite build",
     "dev:spa": "vite --host 127.0.0.1 --port 4174",
     "test:search": "node --test app/src/lib/search.test.mjs",
+    "test:qa": "node tests/qa.mjs",
     "deploy": "npm run build && npx wrangler deploy",
     "deploy:preview": "npm run build && npx wrangler deploy --config wrangler.preview.toml"
   },
@@ -26,6 +27,7 @@
     "vaul-svelte": "^1.0.0-next.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "esbuild": "^0.28.2",
     "sharp": "^0.35.5",

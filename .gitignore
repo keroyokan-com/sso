@@ -4,6 +4,7 @@ data/
 .impeccable/
 .npm/
 .wrangler/
+.vercel/
 .dev.vars
 design-review/
 *.log
