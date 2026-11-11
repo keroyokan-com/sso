@@ -29,6 +29,9 @@ A small, private, self-hostable launcher for UNESA's SSO dashboard. Not an offic
 ## docs
 
 - [Self-hosting](docs/self-hosting.md)
+- [Releasing](docs/releasing.md)
+- [Changelog](CHANGELOG.md)
+- [Releases](https://github.com/keroyokan-com/sso/releases)
 - [Roadmap](roadmap.md)
 - [FAQ](public/faq.html)
 - [Source](https://github.com/keroyokan-com/sso)
