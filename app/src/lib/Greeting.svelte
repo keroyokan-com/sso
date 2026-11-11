@@ -79,7 +79,9 @@
         class:is-empty={!hasName}
         type="button"
         title={hasName ? t('greeting.changeName') : t('greeting.setName')}
-        aria-label={hasName ? t('greeting.changeNameAria') : t('greeting.setName')}
+        aria-label={hasName
+          ? t('greeting.changeNameAria', { name: displayName })
+          : t('greeting.setNameAria', { name: displayName })}
         onclick={openEditor}
       >{displayName}</button>{/if}.</h1>
   <p class="date">{dateLabel}</p>

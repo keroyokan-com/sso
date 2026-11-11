@@ -225,7 +225,7 @@
               <button
                 type="button"
                 aria-pressed={getLang() === 'id'}
-                aria-label={t('settings.languageId')}
+                aria-label={`ID - ${t('settings.languageId')}`}
                 class:active={getLang() === 'id'}
                 onclick={() => setLang('id')}
               >
@@ -234,7 +234,7 @@
               <button
                 type="button"
                 aria-pressed={getLang() === 'en'}
-                aria-label={t('settings.languageEn')}
+                aria-label={`EN - ${t('settings.languageEn')}`}
                 class:active={getLang() === 'en'}
                 onclick={() => setLang('en')}
               >
