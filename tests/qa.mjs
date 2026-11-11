@@ -55,9 +55,10 @@ async function startServer() {
 
 async function stopServer() {
   if (!server) return;
-  server.kill();
-  await Promise.race([once(server, 'exit'), sleep(3000)]);
+  const child = server;
   server = null;
+  child.kill('SIGKILL');
+  await Promise.race([once(child, 'exit'), sleep(1000)]);
 }
 
 async function newPage(browser, options = {}) {
@@ -635,7 +636,7 @@ async function main() {
     )
   );
 
-  if (failures) process.exit(1);
+  process.exit(failures ? 1 : 0);
 }
 
 main().catch((error) => {
